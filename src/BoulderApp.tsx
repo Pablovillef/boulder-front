@@ -1,11 +1,16 @@
 /* eslint-disable prettier/prettier */
+
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import {View, Text} from 'react-native';
+import { Navigator } from './presentation/navigator/Navigator';
 
 export const BoulderApp = () => {
   return (
-    <View>
-      <Text>Hola mundo</Text>
-    </View>
+
+    <NavigationContainer>
+      <Navigator />
+    </NavigationContainer>
+
   );
 };
