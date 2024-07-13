@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {TextInput, StyleSheet, TextInputProps} from 'react-native';
+import { TextInput, StyleSheet, TextInputProps } from 'react-native';
 
-const Input: React.FC<TextInputProps> = props => {
+const Input: React.FC<TextInputProps> = (props) => {
   return <TextInput style={styles.input} {...props} />;
 };
 

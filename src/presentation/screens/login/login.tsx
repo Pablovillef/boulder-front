@@ -1,12 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import styles from '../../styles/styles';
 
-
-const LoginScreen: React.FC = () => {
+const Login: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SIGN INTO YOUR ACCOUNT</Text>
@@ -31,4 +29,30 @@ const LoginScreen: React.FC = () => {
   );
 };
 
-export default LoginScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  forgot: {
+    color: '#000',
+    marginBottom: 20,
+  },
+  signInButton: {
+    backgroundColor: '#B9FF00',
+  },
+  signInText: {},
+  registerButton: {
+    backgroundColor: '#FF6C00',
+  },
+  registerText: {},
+});
+
+export default Login;
