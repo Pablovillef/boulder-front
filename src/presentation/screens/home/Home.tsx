@@ -1,8 +1,26 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import axios from 'axios';
+import { HomeScreenNavigationProp } from '../../interfaces/types';
 
-const Home = () => {
+
+interface HomeProps {
+  navigation: HomeScreenNavigationProp;
+}
+
+const Home: React.FC<HomeProps> = ({ navigation }) => {
+
+  const fetchBoulderData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/mock/boulder/info');
+      const boulderData = response.data;
+      navigation.navigate('Boulders', { boulderData });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -17,7 +35,7 @@ const Home = () => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Subir video</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.configButton}>
+      <TouchableOpacity style={styles.configButton} onPress={fetchBoulderData}>
         <Text style={styles.buttonText}>Ver todo</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.scanButton}>
