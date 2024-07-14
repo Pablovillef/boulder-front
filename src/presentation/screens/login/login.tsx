@@ -3,8 +3,20 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../interfaces/types';
+
+type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 const Login: React.FC = () => {
+
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+
+  const handleSignIn = () => {
+    navigation.navigate('Home');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SIGN INTO YOUR ACCOUNT</Text>
@@ -17,7 +29,7 @@ const Login: React.FC = () => {
         title="SIGN IN"
         style={styles.signInButton}
         textStyle={styles.signInText}
-        onPress={() => {}}
+        onPress={handleSignIn}
       />
       <Button
         title="REGISTER"
