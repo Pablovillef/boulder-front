@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
   Boulders: {boulderData: BoulderData};
+  NewUser: undefined;
 };
 
 // Tipos para las props de navegación

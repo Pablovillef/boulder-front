@@ -17,6 +17,10 @@ const Login: React.FC = () => {
     navigation.navigate('Home');
   };
 
+  const handleRegister = () => {
+    navigation.navigate('NewUser');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SIGN INTO YOUR ACCOUNT</Text>
@@ -35,7 +39,7 @@ const Login: React.FC = () => {
         title="REGISTER"
         style={styles.registerButton}
         textStyle={styles.registerText}
-        onPress={() => {}}
+        onPress={handleRegister}
       />
     </View>
   );

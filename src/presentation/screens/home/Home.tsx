@@ -13,7 +13,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 
   const fetchBoulderData = async () => {
     try {
-      const response = await axios.get('http://192.168.7.232:8080/api/v1/mock/boulder/info');
+      const response = await axios.get('http://192.168.7.178:8080/api/v1/mock/boulder/info');
       const boulderData = response.data;
       navigation.navigate('Boulders', { boulderData });
     } catch (error) {
