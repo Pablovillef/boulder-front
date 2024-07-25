@@ -21,6 +21,10 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     }
   };
 
+  const handleCamera = () => {
+    navigation.navigate('ScanQr');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -38,7 +42,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
       <TouchableOpacity style={styles.configButton} onPress={fetchBoulderData}>
         <Text style={styles.buttonText}>Ver todo</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.scanButton}>
+      <TouchableOpacity style={styles.scanButton} onPress={handleCamera}>
         <Text style={styles.scanButtonText}>SCAN QR</Text>
       </TouchableOpacity>
     </View>
