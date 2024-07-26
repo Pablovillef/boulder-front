@@ -9,6 +9,7 @@ export type RootStackParamList = {
   Boulders: {boulderData: BoulderData};
   NewUser: undefined;
   ScanQr: undefined;
+  DetallesVia: undefined;
 };
 
 // Tipos para las props de navegación
