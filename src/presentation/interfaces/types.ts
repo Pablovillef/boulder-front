@@ -25,6 +25,8 @@ export type BouldersScreenNavigationProp = StackNavigationProp<
 >;
 export type BouldersScreenRouteProp = RouteProp<RootStackParamList, 'Boulders'>;
 
+export type ScanQrScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ScanQr'>;
+
 // Definimos los tipos para los datos
 export interface Video {
   title: string;
