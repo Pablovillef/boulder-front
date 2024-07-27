@@ -7,6 +7,7 @@ import Boulders from '../screens/boulders/Boulders';
 import NewUser from '../screens/newUser/NewUser';
 import { RootStackParamList } from '../interfaces/types';
 import ScanQr from '../screens/scanQR/ScanQr';
+import DetallesVia from '../screens/detallesVia/DetallesVia';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -21,6 +22,7 @@ export const Navigator = () => {
         <Stack.Screen name="NewUser" component={NewUser} />
         <Stack.Screen name="Boulders" component={Boulders} />
         <Stack.Screen name="ScanQr" component={ScanQr} />
+        <Stack.Screen name="DetallesVia" component={DetallesVia} />
       </Stack.Navigator>
 
   );

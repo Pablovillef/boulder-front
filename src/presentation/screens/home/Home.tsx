@@ -25,6 +25,10 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     navigation.navigate('ScanQr');
   };
 
+  const handleDetallesVia = () => {
+    navigation.navigate('DetallesVia');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -33,8 +37,8 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Añadir Rocódromo</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Añadir Vía</Text>
+      <TouchableOpacity style={styles.button} onPress={handleDetallesVia}>
+        <Text style={styles.buttonText}>Ver Vía</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Subir video</Text>

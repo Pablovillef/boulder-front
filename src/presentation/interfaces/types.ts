@@ -9,6 +9,7 @@ export type RootStackParamList = {
   Boulders: {boulderData: BoulderData};
   NewUser: undefined;
   ScanQr: undefined;
+  DetallesVia: undefined;
 };
 
 // Tipos para las props de navegación
@@ -23,6 +24,8 @@ export type BouldersScreenNavigationProp = StackNavigationProp<
   'Boulders'
 >;
 export type BouldersScreenRouteProp = RouteProp<RootStackParamList, 'Boulders'>;
+
+export type ScanQrScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ScanQr'>;
 
 // Definimos los tipos para los datos
 export interface Video {
