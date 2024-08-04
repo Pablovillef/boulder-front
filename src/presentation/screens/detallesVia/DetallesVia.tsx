@@ -14,7 +14,7 @@ const HeaderInfo = ({ viaData }: { viaData: any }) => {
         <View style={styles.headerContainer}>
             <View style={styles.headerBox}>
                 <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
-                <Text style={styles.headerText}>{viaData.boulder.adress}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.address}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
@@ -22,10 +22,10 @@ const HeaderInfo = ({ viaData }: { viaData: any }) => {
             </View>
             <View style={styles.infoBox}>
                 <Text style={styles.infoTitle}>{viaData.name}</Text>
-                <Text style={styles.infoText}>{viaData.typeRoute}</Text>
-                <Text style={styles.infoText}>{viaData.num_nivel}</Text>
-                <Text style={styles.infoText}>{viaData.presa}</Text>
-                <Text style={styles.infoText}>{viaData.creationDate}</Text>
+                <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
+                <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
+                <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
+                <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
             </View>
         </View>
     );
@@ -74,11 +74,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f8f8f8',
+        marginBottom: 50,
+        // Para insertar botones de atras, etc
     },
     flatListContent: {
+        marginTop: 90,
         paddingTop: 180,
+        paddingBottom: 100,
     },
     headerContainer: {
+        marginTop: 20,
         width: '100%',
         padding: 10,
         backgroundColor: '#fff',
