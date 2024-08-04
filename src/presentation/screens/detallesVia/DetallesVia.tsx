@@ -1,78 +1,48 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Video from 'react-native-video';
+import { RootStackParamList } from '../../interfaces/types';
 
-const HeaderInfo = () => {
+
+type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
+
+const HeaderInfo = ({ viaData }: { viaData: any }) => {
     return (
         <View style={styles.headerContainer}>
             <View style={styles.headerBox}>
-                <Text style={styles.headerTitle}>Rocódromos Fernando</Text>
-                <Text style={styles.headerText}>Calle San Fernando S/N</Text>
-                <Text style={styles.headerText}>Teléfono: 942 000 000</Text>
+                <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.adress}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
+
             </View>
             <View style={styles.infoBox}>
-                <Text style={styles.infoTitle}>Vía 2</Text>
-                <Text style={styles.infoText}>Color: Azul</Text>
-                <Text style={styles.infoText}>Dificultad: Principiante</Text>
-                <Text style={styles.infoText}>Fecha de creación: 20/20/2020</Text>
+                <Text style={styles.infoTitle}>{viaData.name}</Text>
+                <Text style={styles.infoText}>{viaData.typeRoute}</Text>
+                <Text style={styles.infoText}>{viaData.num_nivel}</Text>
+                <Text style={styles.infoText}>{viaData.presa}</Text>
+                <Text style={styles.infoText}>{viaData.creationDate}</Text>
             </View>
         </View>
     );
 };
 
 const DetallesVia = () => {
+
     const [playingVideo, setPlayingVideo] = useState<number | null>(null);
 
-    const data = [
-        {
-            id: 1,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Uno',
-            time: '4',
-        },
-        {
-            id: 2,
-            name: 'https://www.w3schools.com/html/movie.mp4',
-            author: 'Jhon Dos',
-            time: '5',
-        },
-        {
-            id: 3,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 4,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 5,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 6,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 7,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-    ];
+    const route = useRoute<DetallesViaScreenRouteProp>();
+    const { viaData } = route.params;
+
+    const data = viaData.videos || [];
 
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderInfo />
+            <HeaderInfo viaData={viaData}/>
                 <FlatList
                     contentContainerStyle={styles.flatListContent}
                     data={data}
@@ -82,11 +52,11 @@ const DetallesVia = () => {
                             <View style={styles.itemContainer}>
                                 <TouchableOpacity onPress={() => setPlayingVideo(item.id)}>
                                     <Video
-                                        source={{uri: item.name}}
+                                        source={{uri: item.url}}
                                         style={styles.video}
                                         controls={true}
                                         paused={playingVideo !== item.id}
-                                        resizeMode="cover"
+                                        resizeMode="contain"
                                         onEnd={() => setPlayingVideo(null)}
                                     />
                                 </TouchableOpacity>

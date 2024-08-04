@@ -30,7 +30,7 @@ const NewUser: React.FC = () => {
         password,
     };
 
-    const apiURL = 'http://192.168.7.178:8080/api/v1/user/enrollment';
+    const apiURL = 'http://192.168.7.212:8080/api/v1/user/enrollment';
 
     try{
         const response = await axios.post(apiURL, formData);
