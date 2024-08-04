@@ -58,17 +58,24 @@
 
 
 - Get Vía: Para ver los datos de la via clickada, incluida su biblio de videos. Además, a través del QR, dependiendo del dato leído, haremos un getVia para mostrar sus datos y videos.
-    - GET http://localhost:8080/api/v1/boulder/{idBoulder}/route/{idRoute}
+    - GET http://localhost:8080/api/v1/boulder/{nameBoulder}/route/{idRoute}
 
     - JSON Response
       {
       "idRoute": 1,
       "qrRoute": "Rascamuros/1",
       "name": "Via 1",
-      "type": "BOULDER",
+      "typeRoute": "BOULDER",
       "num_nivel": 1,
       "presa": "Naranja",
       "creationDate": "2024-08-03T08:41:47.767+00:00",
+      "boulder": {
+      "name": "RascaMuros",
+      "address": "C/Santa Lucia, 22",
+      "locality": "Muriedas",
+      "mail": "RascaMuros@gmail.com",
+      "phone": "942 222 222"
+      },
       "videos": [
       {
       "id": 1,
