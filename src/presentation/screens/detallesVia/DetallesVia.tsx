@@ -3,8 +3,8 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import Video from 'react-native-video';
 import { RootStackParamList } from '../../interfaces/types';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
 
 type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
@@ -31,14 +31,44 @@ const HeaderInfo = ({ viaData }: { viaData: any }) => {
     );
 };
 
+/**
+ * Expresión regular que permite reconocer tanto URLs de Shorts como de videos, ambos en la plataforma de YT.
+ * @param url url que redirige al contenido de youtube.
+ * @returns match[1] video estándar de YouTube si existe
+ * @returns match[2] video short de YouTube si existe
+ * @returns null si no identifica ninguna de las opciones anteriores
+ */
+const extractVideoId = (url: string) => {
+    const match = url.match(
+        /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})|(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
+    );
+    return match ? (match[1] || match[2]) : null;
+};
+
 const DetallesVia = () => {
 
-    const [playingVideo, setPlayingVideo] = useState<number | null>(null);
+    const [playingVideo, setPlayingVideo] = useState<string  | number | null>(null);
 
     const route = useRoute<DetallesViaScreenRouteProp>();
     const { viaData } = route.params;
 
     const data = viaData.videos || [];
+
+    const renderVideo = (item: any) => {
+
+        const videoId = extractVideoId(item.url);
+        if(videoId){
+            return(
+                <YoutubePlayer
+                    height={200}
+                    play={playingVideo === item.url}
+                    videoId={videoId}
+                    onChangeState={(state) => state === 'ended' && setPlayingVideo(null)}
+                />
+            );
+        }
+    };
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -47,24 +77,15 @@ const DetallesVia = () => {
                     contentContainerStyle={styles.flatListContent}
                     data={data}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({item}) => {
-                        return (
-                            <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => setPlayingVideo(item.id)}>
-                                    <Video
-                                        source={{uri: item.url}}
-                                        style={styles.video}
-                                        controls={true}
-                                        paused={playingVideo !== item.id}
-                                        resizeMode="contain"
-                                        onEnd={() => setPlayingVideo(null)}
-                                    />
-                                </TouchableOpacity>
-                                <Text style={styles.author}>Autor: {item.author}</Text>
-                                <Text style={styles.time}>Tiempo: {item.time} minutos</Text>
-                            </View>
-                        );
-                    }}
+                    renderItem={({ item }) => (
+                        <View style={styles.itemContainer}>
+                            <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
+                                {renderVideo(item)}
+                            </TouchableOpacity>
+                            <Text style={styles.author}>Autor: {item.author}</Text>
+                            <Text style={styles.time}>Tiempo: {item.time} minutos</Text>
+                        </View>
+                    )}
                 />
         </SafeAreaView>
     );
@@ -83,7 +104,6 @@ const styles = StyleSheet.create({
         paddingBottom: 100,
     },
     headerContainer: {
-        marginTop: 20,
         width: '100%',
         padding: 10,
         backgroundColor: '#fff',
