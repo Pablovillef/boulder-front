@@ -82,8 +82,8 @@ const DetallesVia = () => {
                             <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
                                 {renderVideo(item)}
                             </TouchableOpacity>
-                            <Text style={styles.author}>Autor: {item.author}</Text>
-                            <Text style={styles.time}>Tiempo: {item.time} minutos</Text>
+                            <Text style={styles.author}>Autor: {item.user.name}</Text>
+                            <Text style={styles.time}>Tiempo: {item.duration} minutos</Text>
                         </View>
                     )}
                 />
