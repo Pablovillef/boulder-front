@@ -64,6 +64,9 @@ const DetallesVia = () => {
                     play={playingVideo === item.url}
                     videoId={videoId}
                     onChangeState={(state) => state === 'ended' && setPlayingVideo(null)}
+                    initialPlayerParams={{
+                        rel: false, // Disable related videos
+                    }}
                 />
             );
         }
