@@ -61,30 +61,35 @@
     - GET http://localhost:8080/api/v1/boulder/{nameBoulder}/route/{idRoute}
 
     - JSON Response
-      {
-      "idRoute": 1,
-      "qrRoute": "Rascamuros/1",
-      "name": "Via 1",
-      "typeRoute": "BOULDER",
-      "num_nivel": 1,
-      "presa": "Naranja",
-      "creationDate": "2024-08-03T08:41:47.767+00:00",
-      "boulder": {
-      "name": "RascaMuros",
-      "address": "C/Santa Lucia, 22",
-      "locality": "Muriedas",
-      "mail": "RascaMuros@gmail.com",
-      "phone": "942 222 222"
-      },
-      "videos": [
-      {
-      "id": 1,
-      "title": "MiVideo_1_Titulo",
-      "description": "Escalando via 1",
-      "url": "youtube.com"
-      }
-      ]
-      }
+{
+    "idRoute": 1,
+    "qrRoute": "Treparriscos/1",
+    "name": "Via 1",
+    "typeRoute": "WALL_ROUTE",
+    "num_nivel": 1,
+    "presa": "Naranja",
+    "creationDate": "2024-08-05T18:51:15.468+00:00",
+    "boulder": {
+        "name": "Treparriscos",
+        "address": "C/Santa Lucia, 22",
+        "locality": "Muriedas",
+        "mail": "Treparriscos@gmail.com",
+        "phone": "942 222 222"
+    },
+    "videos": [
+        {
+            "id": 1,
+            "title": "MiVideo_1_Titulo",
+            "description": "Escalando via 2",
+            "url": "https://www.youtube.com/watch?v=crx_UJPjlrs",
+            "duration": 4,
+            "user": {
+                "idUser": 1,
+                "name": "Pablo"
+            }
+        }
+    ]
+}
 
 
 - Get Usuario: Para ver los videos que ha subido un usuario. En la lista de videos puede hacer click en su nombre.
