@@ -6,10 +6,10 @@ import {RouteProp} from '@react-navigation/native';
 export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
-  Boulders: {boulderData: BoulderData};
+  Boulders: { boulderData: BoulderData };
   NewUser: undefined;
   ScanQr: undefined;
-  DetallesVia: undefined;
+  DetallesVia: { viaData: any };
 };
 
 // Tipos para las props de navegación

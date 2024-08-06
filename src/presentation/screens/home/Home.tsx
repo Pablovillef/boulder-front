@@ -13,7 +13,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 
   const fetchBoulderData = async () => {
     try {
-      const response = await axios.get('http://192.168.7.178:8080/api/v1/mock/boulder/info');
+      const response = await axios.get('http://192.168.7.212:8080/api/v1/mock/boulder/info');
       const boulderData = response.data;
       navigation.navigate('Boulders', { boulderData });
     } catch (error) {
@@ -25,9 +25,9 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     navigation.navigate('ScanQr');
   };
 
-  const handleDetallesVia = () => {
-    navigation.navigate('DetallesVia');
-  };
+  //const handleDetallesVia = () => {
+  //  navigation.navigate('DetallesVia');
+  //};
 
   return (
     <View style={styles.container}>
@@ -37,9 +37,9 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Añadir Rocódromo</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleDetallesVia}>
+      {/* <TouchableOpacity style={styles.button} onPress={handleDetallesVia}>
         <Text style={styles.buttonText}>Ver Vía</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Subir video</Text>
       </TouchableOpacity>

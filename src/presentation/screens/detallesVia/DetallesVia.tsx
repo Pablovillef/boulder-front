@@ -1,100 +1,94 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import Video from 'react-native-video';
+import { RootStackParamList } from '../../interfaces/types';
+import YoutubePlayer from 'react-native-youtube-iframe';
 
-const HeaderInfo = () => {
+
+type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
+
+const HeaderInfo = ({ viaData }: { viaData: any }) => {
     return (
         <View style={styles.headerContainer}>
             <View style={styles.headerBox}>
-                <Text style={styles.headerTitle}>Rocódromos Fernando</Text>
-                <Text style={styles.headerText}>Calle San Fernando S/N</Text>
-                <Text style={styles.headerText}>Teléfono: 942 000 000</Text>
+                <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.address}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
+
             </View>
             <View style={styles.infoBox}>
-                <Text style={styles.infoTitle}>Vía 2</Text>
-                <Text style={styles.infoText}>Color: Azul</Text>
-                <Text style={styles.infoText}>Dificultad: Principiante</Text>
-                <Text style={styles.infoText}>Fecha de creación: 20/20/2020</Text>
+                <Text style={styles.infoTitle}>{viaData.name}</Text>
+                <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
+                <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
+                <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
+                <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
             </View>
         </View>
     );
 };
 
-const DetallesVia = () => {
-    const [playingVideo, setPlayingVideo] = useState<number | null>(null);
+/**
+ * Expresión regular que permite reconocer tanto URLs de Shorts como de videos, ambos en la plataforma de YT.
+ * @param url url que redirige al contenido de youtube.
+ * @returns match[1] video estándar de YouTube si existe
+ * @returns match[2] video short de YouTube si existe
+ * @returns null si no identifica ninguna de las opciones anteriores
+ */
+const extractVideoId = (url: string) => {
+    const match = url.match(
+        /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})|(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
+    );
+    return match ? (match[1] || match[2]) : null;
+};
 
-    const data = [
-        {
-            id: 1,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Uno',
-            time: '4',
-        },
-        {
-            id: 2,
-            name: 'https://www.w3schools.com/html/movie.mp4',
-            author: 'Jhon Dos',
-            time: '5',
-        },
-        {
-            id: 3,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 4,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 5,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 6,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-        {
-            id: 7,
-            name: 'https://www.w3schools.com/html/mov_bbb.mp4',
-            author: 'Jhon Tres',
-            time: '6',
-        },
-    ];
+const DetallesVia = () => {
+
+    const [playingVideo, setPlayingVideo] = useState<string  | number | null>(null);
+
+    const route = useRoute<DetallesViaScreenRouteProp>();
+    const { viaData } = route.params;
+
+    const data = viaData.videos || [];
+
+    const renderVideo = (item: any) => {
+
+        const videoId = extractVideoId(item.url);
+        if(videoId){
+            return(
+                <YoutubePlayer
+                    height={200}
+                    play={playingVideo === item.url}
+                    videoId={videoId}
+                    onChangeState={(state) => state === 'ended' && setPlayingVideo(null)}
+                    initialPlayerParams={{
+                        rel: false, // Disable related videos
+                    }}
+                />
+            );
+        }
+    };
+
 
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderInfo />
+            <HeaderInfo viaData={viaData}/>
                 <FlatList
                     contentContainerStyle={styles.flatListContent}
                     data={data}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={({item}) => {
-                        return (
-                            <View style={styles.itemContainer}>
-                                <TouchableOpacity onPress={() => setPlayingVideo(item.id)}>
-                                    <Video
-                                        source={{uri: item.name}}
-                                        style={styles.video}
-                                        controls={true}
-                                        paused={playingVideo !== item.id}
-                                        resizeMode="cover"
-                                        onEnd={() => setPlayingVideo(null)}
-                                    />
-                                </TouchableOpacity>
-                                <Text style={styles.author}>Autor: {item.author}</Text>
-                                <Text style={styles.time}>Tiempo: {item.time} minutos</Text>
-                            </View>
-                        );
-                    }}
+                    renderItem={({ item }) => (
+                        <View style={styles.itemContainer}>
+                            <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
+                                {renderVideo(item)}
+                            </TouchableOpacity>
+                            <Text style={styles.author}>Autor: {item.user.name}</Text>
+                            <Text style={styles.time}>Tiempo: {item.duration} minutos</Text>
+                        </View>
+                    )}
                 />
         </SafeAreaView>
     );
@@ -104,9 +98,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f8f8f8',
+        marginBottom: 50,
+        // Para insertar botones de atras, etc
     },
     flatListContent: {
+        marginTop: 90,
         paddingTop: 180,
+        paddingBottom: 100,
     },
     headerContainer: {
         width: '100%',
