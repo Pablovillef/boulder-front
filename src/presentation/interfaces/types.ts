@@ -10,6 +10,7 @@ export type RootStackParamList = {
   NewUser: undefined;
   ScanQr: undefined;
   DetallesVia: { viaData: any };
+  Vias: { boulder: Boulder, routesData: Route[] };
 };
 
 // Tipos para las props de navegación
@@ -17,6 +18,8 @@ export type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, '
 export type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 export type BouldersScreenRouteProp = RouteProp<RootStackParamList, 'Boulders'>;
 export type ScanQrScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ScanQr'>;
+export type ViasScreenRouteProp = RouteProp<RootStackParamList, 'Vias'>;
+
 
 // Definimos los tipos para los datos
 export interface Video {
@@ -25,10 +28,12 @@ export interface Video {
 
 export interface Route {
   idRoute: number;
+  qrRoute: string;
   name: string;
-  difficulty: string;
-  color: string;
-  videos: Video[] | null;
+  typeRoute: string;
+  num_nivel: number;
+  presa: string;
+  creationDate: string;
 }
 
 export interface Boulder {

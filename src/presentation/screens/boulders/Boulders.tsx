@@ -1,42 +1,47 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { BouldersScreenRouteProp } from '../../interfaces/types';
-import { useRoute } from '@react-navigation/native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { BouldersScreenRouteProp, RootStackParamList } from '../../interfaces/types';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-/*
-      [
-      {
-      "idBoulder": 1,
-      "name": "RascaMuros",
-      "address": "C/Santa Lucia, 22",
-      "locality": "Muriedas",
-      "mail": "RascaMuros@gmail.com",
-      "phone": "942 222 222",
-      "phone2": null
-      }
-      ]
-*/
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'Vias'>;
 
 const Boulders: React.FC = () => {
 
     const boulder = useRoute<BouldersScreenRouteProp>();
+    const navigation = useNavigation<NavigationProp>();
+
     const { boulderData } = boulder.params;
+
+    const handlePress = async (boulder: any) => {
+        try {
+          const response = await axios.get(`http://192.168.7.212:8080/api/v1/boulder/${boulder.idBoulder}/routes`);
+          const routesData = response.data;
+          navigation.navigate('Vias', { boulder, routesData });
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
     return (
         <FlatList
             data={boulderData}
             keyExtractor={(item) => item.idBoulder.toString()}
             renderItem={({item}) => (
-                <View style={styles.boulderContainer}>
-                    <Text style={styles.boulderText}>Nombre: {item.name}</Text>
-                    <Text style={styles.boulderText}>Dirección: {item.address}</Text>
-                    <Text style={styles.boulderText}>Localidad: {item.locality}</Text>
-                    <Text style={styles.boulderText}>Email: {item.mail}</Text>
-                    <Text style={styles.boulderText}>Teléfono: {item.phone}</Text>
+                <TouchableOpacity onPress={() => handlePress(item)}>
+                    <View style={styles.boulderContainer}>
+                        <Text style={styles.boulderText}>Nombre: {item.name}</Text>
+                        <Text style={styles.boulderText}>Dirección: {item.address}</Text>
+                        <Text style={styles.boulderText}>Localidad: {item.locality}</Text>
+                        <Text style={styles.boulderText}>Email: {item.mail}</Text>
+                        <Text style={styles.boulderText}>Teléfono: {item.phone}</Text>
 
-                    {item.phone2 && <Text style={styles.boulderText}>Teléfono 2: {item.phone2}</Text>}
-                </View>
+                        {item.phone2 && <Text style={styles.boulderText}>Teléfono 2: {item.phone2}</Text>}
+                    </View>
+                </TouchableOpacity>
             )}
         />
     );

@@ -1,0 +1,69 @@
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {RootStackParamList} from '../../interfaces/types';
+
+type ViasScreenRouteProp = RouteProp<RootStackParamList, 'Vias'>;
+
+const Vias: React.FC = () => {
+  const route = useRoute<ViasScreenRouteProp>();
+  const {boulder, routesData} = route.params;
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Nombre: {boulder.name}</Text>
+        <Text style={styles.headerText}>Dirección: {boulder.address}</Text>
+        <Text style={styles.headerText}>Localidad: {boulder.locality}</Text>
+        <Text style={styles.headerText}>Email: {boulder.mail}</Text>
+        <Text style={styles.headerText}>Teléfono: {boulder.phone}</Text>
+        {boulder.phone2 && (
+          <Text style={styles.headerText}>Teléfono 2: {boulder.phone2}</Text>
+        )}
+      </View>
+      <FlatList
+        data={routesData}
+        keyExtractor={item => item.idRoute.toString()}
+        renderItem={({item}) => (
+          <View style={styles.routeContainer}>
+            <Text style={styles.routeText}>Nombre: {item.name}</Text>
+            <Text style={styles.routeText}>Tipo: {item.typeRoute}</Text>
+            <Text style={styles.routeText}>Nivel: {item.num_nivel}</Text>
+            <Text style={styles.routeText}>Presa: {item.presa}</Text>
+            <Text style={styles.routeText}>Fecha: {new Date(item.creationDate).toLocaleDateString()}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    header: {
+      padding: 10,
+      backgroundColor: '#f8f8f8',
+      borderBottomWidth: 1,
+      borderColor: '#ccc',
+    },
+    headerText: {
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    routeContainer: {
+      padding: 10,
+      marginVertical: 8,
+      marginHorizontal: 16,
+      borderRadius: 10,
+      borderColor: '#ccc',
+      borderWidth: 1,
+    },
+    routeText: {
+      fontSize: 16,
+    },
+  });
+
+export default Vias;
