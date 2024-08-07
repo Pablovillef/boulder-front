@@ -23,9 +23,19 @@ const Vias: React.FC = () => {
     }
   };
 
+  const handleBouldersPress = async () => {
+    try {
+        const response = await axios.get('http://192.168.7.212:8080/api/v1/boulders');
+        const boulderData = response.data;
+        navigation.navigate('Boulders', { boulderData });
+    } catch (error) {
+        console.error(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <TouchableOpacity style={styles.header} onPress={() => handleBouldersPress()}>
         <Text style={styles.headerText}>Nombre: {boulder.name}</Text>
         <Text style={styles.headerText}>Dirección: {boulder.address}</Text>
         <Text style={styles.headerText}>Localidad: {boulder.locality}</Text>
@@ -34,7 +44,7 @@ const Vias: React.FC = () => {
         {boulder.phone2 && (
           <Text style={styles.headerText}>Teléfono 2: {boulder.phone2}</Text>
         )}
-      </View>
+      </TouchableOpacity>
       <FlatList
         data={routesData}
         keyExtractor={item => item.idRoute.toString()}
