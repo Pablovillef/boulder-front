@@ -1,14 +1,27 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
-import {RootStackParamList} from '../../interfaces/types';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity  } from 'react-native';
+import { useRoute, useNavigation  } from '@react-navigation/native';
+import { RootStackParamList, Route, ViasScreenRouteProp } from '../../interfaces/types';
+import { StackNavigationProp } from '@react-navigation/stack';
+import axios from 'axios';
 
-type ViasScreenRouteProp = RouteProp<RootStackParamList, 'Vias'>;
+type NavigationProp = StackNavigationProp<RootStackParamList, 'DetallesVia'>;
 
 const Vias: React.FC = () => {
   const route = useRoute<ViasScreenRouteProp>();
   const {boulder, routesData} = route.params;
+  const navigation = useNavigation<NavigationProp>();
+
+  const handleRoutePress = async (route: Route) => {
+    try {
+      const response = await axios.get(`http://192.168.7.212:8080/api/v1/boulder/${boulder.name}/route/${route.idRoute}`);
+      const routeDetails = response.data;
+      navigation.navigate('DetallesVia', { viaData: routeDetails });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -26,6 +39,7 @@ const Vias: React.FC = () => {
         data={routesData}
         keyExtractor={item => item.idRoute.toString()}
         renderItem={({item}) => (
+        <TouchableOpacity onPress={() => handleRoutePress(item)}>
           <View style={styles.routeContainer}>
             <Text style={styles.routeText}>Nombre: {item.name}</Text>
             <Text style={styles.routeText}>Tipo: {item.typeRoute}</Text>
@@ -33,6 +47,7 @@ const Vias: React.FC = () => {
             <Text style={styles.routeText}>Presa: {item.presa}</Text>
             <Text style={styles.routeText}>Fecha: {new Date(item.creationDate).toLocaleDateString()}</Text>
           </View>
+        </TouchableOpacity>
         )}
       />
     </View>
