@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import axios from 'axios';
 import { HomeScreenNavigationProp } from '../../interfaces/types';
+import axios from 'axios';
 
 
 interface HomeProps {
@@ -13,7 +13,7 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
 
   const fetchBoulderData = async () => {
     try {
-      const response = await axios.get('http://192.168.7.212:8080/api/v1/mock/boulder/info');
+      const response = await axios.get('http://192.168.93.215:8080/api/v1/boulders');
       const boulderData = response.data;
       navigation.navigate('Boulders', { boulderData });
     } catch (error) {
@@ -25,10 +25,6 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     navigation.navigate('ScanQr');
   };
 
-  //const handleDetallesVia = () => {
-  //  navigation.navigate('DetallesVia');
-  //};
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -37,15 +33,15 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Añadir Rocódromo</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.button} onPress={handleDetallesVia}>
-        <Text style={styles.buttonText}>Ver Vía</Text>
-      </TouchableOpacity> */}
+      <TouchableOpacity style={styles.button} onPress={fetchBoulderData}>
+        <Text style={styles.buttonText}>Ver Rocódromos</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Subir video</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.configButton} onPress={fetchBoulderData}>
+      {/* <TouchableOpacity style={styles.configButton} onPress={fetchBoulderData}>
         <Text style={styles.buttonText}>Ver todo</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.scanButton} onPress={handleCamera}>
         <Text style={styles.scanButtonText}>SCAN QR</Text>
       </TouchableOpacity>

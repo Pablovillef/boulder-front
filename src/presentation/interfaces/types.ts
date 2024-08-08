@@ -6,26 +6,20 @@ import {RouteProp} from '@react-navigation/native';
 export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
-  Boulders: { boulderData: BoulderData };
+  Boulders: { boulderData: Boulder[] };
   NewUser: undefined;
   ScanQr: undefined;
   DetallesVia: { viaData: any };
+  Vias: { boulder: Boulder, routesData: Route[] };
 };
 
 // Tipos para las props de navegación
-export type HomeScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Home'
->;
+export type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 export type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
-
-export type BouldersScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Boulders'
->;
 export type BouldersScreenRouteProp = RouteProp<RootStackParamList, 'Boulders'>;
-
 export type ScanQrScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ScanQr'>;
+export type ViasScreenRouteProp = RouteProp<RootStackParamList, 'Vias'>;
+
 
 // Definimos los tipos para los datos
 export interface Video {
@@ -34,18 +28,20 @@ export interface Video {
 
 export interface Route {
   idRoute: number;
+  qrRoute: string;
   name: string;
-  difficulty: string;
-  color: string;
-  videos: Video[] | null;
+  typeRoute: string;
+  num_nivel: number;
+  presa: string;
+  creationDate: string;
 }
 
-export interface BoulderData {
+export interface Boulder {
   idBoulder: number;
   name: string;
   address: string;
+  locality: string;
   mail: string;
   phone: string;
-  phone2: string | null;
-  routes: Route[];
+  phone2?: string | null;
 }

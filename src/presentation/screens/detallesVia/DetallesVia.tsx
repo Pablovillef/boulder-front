@@ -1,32 +1,36 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
 import { RootStackParamList } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
+import axios from 'axios';
+import { StackNavigationProp } from '@react-navigation/stack';
+
 
 type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
+type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' | 'Vias'>;
 
-const HeaderInfo = ({ viaData }: { viaData: any }) => {
+const HeaderInfo = ({ viaData, handleBouldersPress, handleRoutesPress }: { viaData: any, handleBouldersPress: () => void, handleRoutesPress: () => void }) => {
     return (
         <View style={styles.headerContainer}>
-            <View style={styles.headerBox}>
+            <TouchableOpacity style={styles.headerBox} onPress={handleBouldersPress}>
                 <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.address}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
 
-            </View>
-            <View style={styles.infoBox}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.infoBox} onPress={handleRoutesPress}>
                 <Text style={styles.infoTitle}>{viaData.name}</Text>
                 <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
                 <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
                 <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
                 <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
-            </View>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -51,8 +55,29 @@ const DetallesVia = () => {
 
     const route = useRoute<DetallesViaScreenRouteProp>();
     const { viaData } = route.params;
-
+    const navigation = useNavigation<NavigationProp>();
     const data = viaData.videos || [];
+
+    const handleBouldersPress = async () => {
+        try {
+            const response = await axios.get('http://192.168.93.215:8080/api/v1/boulders');
+            const boulderData = response.data;
+            navigation.navigate('Boulders', { boulderData });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleRoutesPress = async () => {
+        try {
+            //Alert.alert('Debug', `viaData.boulder.id: ${viaData.boulder.idBoulder}`);
+            const response = await axios.get(`http://192.168.93.215:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
+            const routesData = response.data;
+            navigation.navigate('Vias', { boulder: viaData.boulder, routesData });
+        } catch (error) {
+            console.error(error);
+        }
+      };
 
     const renderVideo = (item: any) => {
 
@@ -75,7 +100,7 @@ const DetallesVia = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <HeaderInfo viaData={viaData}/>
+            <HeaderInfo viaData={viaData} handleBouldersPress={handleBouldersPress} handleRoutesPress={handleRoutesPress} />
                 <FlatList
                     contentContainerStyle={styles.flatListContent}
                     data={data}

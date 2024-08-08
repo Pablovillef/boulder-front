@@ -1,44 +1,64 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
-import { BouldersScreenRouteProp } from '../../interfaces/types';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { BouldersScreenRouteProp, RootStackParamList } from '../../interfaces/types';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-interface BouldersProps {
-    route: BouldersScreenRouteProp;
-}
 
-const Boulders: React.FC<BouldersProps> = ({ route }) => {
+type NavigationProp = StackNavigationProp<RootStackParamList, 'Vias'>;
 
-  const {boulderData} = route.params;
+const Boulders: React.FC = () => {
 
-  return (
-    <View>
-      <Text>Nombre: {boulderData.name}</Text>
-      <Text>Address: {boulderData.address}</Text>
-      <Text>Email: {boulderData.mail}</Text>
-      <Text>Phone: {boulderData.phone}</Text>
-      <Text>Nº Vias disponibles: {boulderData.routes.length}</Text>
-      <FlatList
-        data={boulderData.routes}
-        renderItem={({item}) => (
-          <View>
-            <Text>Nombre: {item.name}</Text>
-            <Text>Dificultad: {item.difficulty}</Text>
-            <Text>Color: {item.color}</Text>
-            <Text>Videos:</Text>
-            {item.videos ? (
-              item.videos.map((video, index) => (
-                <Text key={index}>{video.title}</Text>
-              ))
-            ) : (
-              <Text>No videos</Text>
+    const boulder = useRoute<BouldersScreenRouteProp>();
+    const navigation = useNavigation<NavigationProp>();
+
+    const { boulderData } = boulder.params;
+
+    const handlePress = async (boulder: any) => {
+        try {
+          const response = await axios.get(`http://192.168.93.215:8080/api/v1/boulder/${boulder.idBoulder}/routes`);
+          const routesData = response.data;
+          navigation.navigate('Vias', { boulder, routesData });
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+    return (
+        <FlatList
+            data={boulderData}
+            keyExtractor={(item) => item.idBoulder.toString()}
+            renderItem={({item}) => (
+                <TouchableOpacity onPress={() => handlePress(item)}>
+                    <View style={styles.boulderContainer}>
+                        <Text style={styles.boulderText}>Nombre: {item.name}</Text>
+                        <Text style={styles.boulderText}>Dirección: {item.address}</Text>
+                        <Text style={styles.boulderText}>Localidad: {item.locality}</Text>
+                        <Text style={styles.boulderText}>Email: {item.mail}</Text>
+                        <Text style={styles.boulderText}>Teléfono: {item.phone}</Text>
+
+                        {item.phone2 && <Text style={styles.boulderText}>Teléfono 2: {item.phone2}</Text>}
+                    </View>
+                </TouchableOpacity>
             )}
-          </View>
-        )}
-        keyExtractor={item => item.idRoute.toString()}
-      />
-    </View>
-  );
+        />
+    );
 };
+
+const styles = StyleSheet.create({
+    boulderContainer: {
+      padding: 10,
+      marginVertical: 8,
+      marginHorizontal: 16,
+      borderRadius: 10,
+      borderColor: '#ccc',
+      borderWidth: 1,
+    },
+    boulderText: {
+      fontSize: 16,
+    },
+  });
 
 export default Boulders;
