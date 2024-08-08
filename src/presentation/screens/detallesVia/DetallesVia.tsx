@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
 import { RootStackParamList } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
@@ -60,7 +60,7 @@ const DetallesVia = () => {
 
     const handleBouldersPress = async () => {
         try {
-            const response = await axios.get('http://192.168.7.212:8080/api/v1/boulders');
+            const response = await axios.get('http://192.168.93.215:8080/api/v1/boulders');
             const boulderData = response.data;
             navigation.navigate('Boulders', { boulderData });
         } catch (error) {
@@ -70,11 +70,12 @@ const DetallesVia = () => {
 
     const handleRoutesPress = async () => {
         try {
-          const response = await axios.get(`http://192.168.7.212:8080/api/v1/boulder/${viaData.boulder.id}/routes`);
-          const routesData = response.data;
-          navigation.navigate('Vias', { boulder: viaData.boulder, routesData });
+            //Alert.alert('Debug', `viaData.boulder.id: ${viaData.boulder.idBoulder}`);
+            const response = await axios.get(`http://192.168.93.215:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
+            const routesData = response.data;
+            navigation.navigate('Vias', { boulder: viaData.boulder, routesData });
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
       };
 

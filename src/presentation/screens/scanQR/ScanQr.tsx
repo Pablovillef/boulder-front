@@ -19,7 +19,7 @@ const ScanQr = () => {
     // 2º Peticion http get, con los datos del QR.
     try{
 
-      const response = await axios.get(`http://192.168.7.212:8080/api/v1/boulder/${name}/route/${id}`);
+      const response = await axios.get(`http://192.168.93.215:8080/api/v1/boulder/${name}/route/${id}`);
       const viaData = response.data;
 
       /*   viaData
