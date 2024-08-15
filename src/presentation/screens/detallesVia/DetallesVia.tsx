@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
+import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RootStackParamList } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
