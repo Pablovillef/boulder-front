@@ -1,20 +1,38 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../interfaces/types';
+import axios from 'axios';
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 const Login: React.FC = () => {
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
-  const handleSignIn = () => {
-    navigation.navigate('Home');
+  const handleSignIn = async () => {
+
+    try{
+
+      const response = await axios.post('http://192.168.93.215:8080/api/v1/auth/login', {
+        email,
+        password,
+      });
+
+      Alert.alert('Success', response.data.message);
+      navigation.navigate('Home');
+
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred. Please try again.');
+    }
+
   };
 
   const handleRegister = () => {
@@ -24,8 +42,8 @@ const Login: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>SIGN INTO YOUR ACCOUNT</Text>
-      <Input placeholder="Email" />
-      <Input placeholder="Password" secureTextEntry />
+      <Input placeholder="Email" value={email} onChangeText={setEmail} />
+      <Input placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
       <TouchableOpacity>
         <Text style={styles.forgot}>FORGOT YOUR PASSWORD?</Text>
       </TouchableOpacity>
