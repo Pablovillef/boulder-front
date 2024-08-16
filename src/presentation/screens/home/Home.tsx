@@ -1,19 +1,16 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { HomeScreenNavigationProp } from '../../interfaces/types';
+import { HomeProps } from '../../interfaces/types';
 import axios from 'axios';
 
+const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
-interface HomeProps {
-  navigation: HomeScreenNavigationProp;
-}
-
-const Home: React.FC<HomeProps> = ({ navigation }) => {
+  const { user } = route.params;
 
   const fetchBoulderData = async () => {
     try {
-      const response = await axios.get('http://192.168.93.215:8080/api/v1/boulders');
+      const response = await axios.get('http://192.168.62.215:8080/api/v1/boulders');
       const boulderData = response.data;
       navigation.navigate('Boulders', { boulderData });
     } catch (error) {
@@ -25,23 +22,32 @@ const Home: React.FC<HomeProps> = ({ navigation }) => {
     navigation.navigate('ScanQr');
   };
 
+  const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>HOME</Text>
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Añadir Rocódromo</Text>
-      </TouchableOpacity>
+      {isAdminOrWorker && (
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Añadir Rocódromo</Text>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity style={styles.button} onPress={fetchBoulderData}>
         <Text style={styles.buttonText}>Ver Rocódromos</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Subir video</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.configButton} onPress={fetchBoulderData}>
-        <Text style={styles.buttonText}>Ver todo</Text>
-      </TouchableOpacity> */}
+      {isAdminOrWorker && (
+        <>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Subir video</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.configButton}>
+          <Text style={styles.buttonText}>Ver todo</Text>
+        </TouchableOpacity>
+        </>
+      )}
       <TouchableOpacity style={styles.scanButton} onPress={handleCamera}>
         <Text style={styles.scanButtonText}>SCAN QR</Text>
       </TouchableOpacity>

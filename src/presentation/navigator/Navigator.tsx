@@ -2,7 +2,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../screens/home/Home';
-import Login from '../screens/login/Login';
+import Login from '../screens/login/login';
 import Boulders from '../screens/boulders/Boulders';
 import NewUser from '../screens/newUser/NewUser';
 import { RootStackParamList } from '../interfaces/types';

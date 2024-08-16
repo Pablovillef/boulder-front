@@ -4,11 +4,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../interfaces/types';
 import axios from 'axios';
-
-type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+import { LoginScreenNavigationProp } from '../../interfaces/types';
 
 const Login: React.FC = () => {
 
@@ -21,13 +18,14 @@ const Login: React.FC = () => {
 
     try{
 
-      const response = await axios.post('http://192.168.93.215:8080/api/v1/auth/login', {
+      const response = await axios.post('http://192.168.62.215:8080/api/v1/auth/login', {
         email,
         password,
       });
 
       Alert.alert('Success', response.data.message);
-      navigation.navigate('Home');
+      const userData = response.data;
+      navigation.navigate('Home', { user: userData });
 
     } catch (error) {
       Alert.alert('Error', 'An error occurred. Please try again.');
