@@ -20,7 +20,7 @@ const Vias: React.FC = () => {
     try {
       const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${boulder.name}/route/${route.idRoute}`);
       const routeDetails = response.data;
-      navigation.navigate('DetallesVia', { viaData: routeDetails });
+      navigation.navigate('DetallesVia', { viaData: routeDetails, user }); // Se incluye el user para restringir la navegabilidad desde Vias en funcion del rol
     } catch (error) {
       console.error(error);
     }

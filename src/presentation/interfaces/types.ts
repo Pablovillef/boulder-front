@@ -10,7 +10,7 @@ export type RootStackParamList = {
   NewUser: undefined;
   NewRoute: undefined;
   ScanQr: undefined;
-  DetallesVia: { viaData: any };
+  DetallesVia: { viaData: any, user?: UserHomeDTO }; // 'user' es opcional
   Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // 'user' es opcional
 };
 
