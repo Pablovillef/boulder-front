@@ -5,7 +5,7 @@ import {RouteProp} from '@react-navigation/native';
 // Definimos el tipo de los parámetros de las rutas de navegación
 export type RootStackParamList = {
   Login: undefined;
-  Home: undefined;
+  Home: { user: UserHomeDTO };
   Boulders: { boulderData: Boulder[] };
   NewUser: undefined;
   ScanQr: undefined;
@@ -19,6 +19,7 @@ export type HomeScreenRouteProp = RouteProp<RootStackParamList, 'Home'>;
 export type BouldersScreenRouteProp = RouteProp<RootStackParamList, 'Boulders'>;
 export type ScanQrScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ScanQr'>;
 export type ViasScreenRouteProp = RouteProp<RootStackParamList, 'Vias'>;
+export type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 
 // Definimos los tipos para los datos
@@ -44,4 +45,17 @@ export interface Boulder {
   mail: string;
   phone: string;
   phone2?: string | null;
+}
+
+export interface UserHomeDTO {
+  idUser: number;
+  name: string;
+  surname: string;
+  email: string;
+  role: 'ADMIN' | 'USER' | 'WORKER';
+}
+
+export interface HomeProps {
+  navigation: HomeScreenNavigationProp;
+  route: HomeScreenRouteProp;
 }

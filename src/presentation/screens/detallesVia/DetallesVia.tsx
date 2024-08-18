@@ -60,7 +60,7 @@ const DetallesVia = () => {
 
     const handleBouldersPress = async () => {
         try {
-            const response = await axios.get('http://192.168.93.215:8080/api/v1/boulders');
+            const response = await axios.get('http://192.168.62.215:8080/api/v1/boulders');
             const boulderData = response.data;
             navigation.navigate('Boulders', { boulderData });
         } catch (error) {
@@ -71,7 +71,7 @@ const DetallesVia = () => {
     const handleRoutesPress = async () => {
         try {
             //Alert.alert('Debug', `viaData.boulder.id: ${viaData.boulder.idBoulder}`);
-            const response = await axios.get(`http://192.168.93.215:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
+            const response = await axios.get(`http://192.168.62.215:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
             const routesData = response.data;
             navigation.navigate('Vias', { boulder: viaData.boulder, routesData });
         } catch (error) {
