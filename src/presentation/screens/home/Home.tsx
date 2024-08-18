@@ -26,7 +26,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
         console.log('Boulder:', boulder);
         console.log('boulderData.boulder:', boulderData);
 
-        navigation.navigate('Vias', { boulder, routesData: boulderData });
+        navigation.navigate('Vias', { boulder, routesData: boulderData, user }); // Se incluye user para restringir la navegabilidad desde Vias en funcion del rol
 
       } else {
         // Para otros roles, navega a la vista de Rocódromos

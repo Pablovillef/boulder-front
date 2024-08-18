@@ -10,7 +10,7 @@ type NavigationProp = StackNavigationProp<RootStackParamList, 'DetallesVia'>;
 
 const Vias: React.FC = () => {
   const route = useRoute<ViasScreenRouteProp>();
-  const {boulder, routesData} = route.params;
+  const {boulder, routesData, user} = route.params;
   const navigation = useNavigation<NavigationProp>();
 
   console.log('Boulder:', boulder);
@@ -27,12 +27,14 @@ const Vias: React.FC = () => {
   };
 
   const handleBouldersPress = async () => {
-    try {
+    if(user?.role !== 'WORKER'){
+      try {
         const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders');
         const boulderData = response.data;
         navigation.navigate('Boulders', { boulderData });
-    } catch (error) {
+      } catch (error) {
         console.error(error);
+      }
     }
   };
 

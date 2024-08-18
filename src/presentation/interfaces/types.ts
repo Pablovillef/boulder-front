@@ -11,7 +11,7 @@ export type RootStackParamList = {
   NewRoute: undefined;
   ScanQr: undefined;
   DetallesVia: { viaData: any };
-  Vias: { boulder: Boulder, routesData: Route[] };
+  Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // 'user' es opcional
 };
 
 // Tipos para las props de navegación
