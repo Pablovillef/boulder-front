@@ -13,8 +13,8 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
       // Si es worker, pasa directamente a la vista de las vias de su Rocodromo.
       const url = user.role === 'WORKER'
-      ? `http://192.168.7.174:8080/api/v1/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
-      : 'http://192.168.7.174:8080/api/v1/boulders'; // URL para otros roles
+      ? `http://192.168.62.215:8080/api/v1/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
+      : 'http://192.168.62.215:8080/api/v1/boulders'; // URL para otros roles
 
       const response = await axios.get(url);
       const boulderData = response.data;
@@ -39,7 +39,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
   };
 
   const handleCamera = () => {
-    navigation.navigate('ScanQr');
+    navigation.navigate('ScanQr', { user });
   };
 
   const handleLogout = () => {

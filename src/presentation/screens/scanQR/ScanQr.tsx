@@ -2,13 +2,15 @@
 import React from 'react';
 // import { RNCamera } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { useNavigation } from '@react-navigation/native';
-import { ScanQrScreenNavigationProp } from '../../interfaces/types';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { ScanQrScreenNavigationProp, ScanQrScreenRouteProp } from '../../interfaces/types';
 import axios from 'axios';
 
 const ScanQr = () => {
 
   const navigation = useNavigation<ScanQrScreenNavigationProp>();
+  const route = useRoute<ScanQrScreenRouteProp>();
+  const { user } = route.params;
 
   const handleQrReaded = async (e: any) => {
 
@@ -19,11 +21,11 @@ const ScanQr = () => {
     // 2º Peticion http get, con los datos del QR.
     try{
 
-      const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${name}/route/${id}`);
+      const response = await axios.get(`http://192.168.62.215:8080/api/v1/boulder/${name}/route/${id}`);
       const viaData = response.data;
 
       // 3º Ir al componente DetalleVia, pasandole los datos obtenidos de la petición como parámetros.
-      navigation.navigate('DetallesVia', {viaData});
+      navigation.navigate('DetallesVia', { viaData, user });
 
     }catch(error){
       console.error('Error obteniendo los datos de la via:', error);

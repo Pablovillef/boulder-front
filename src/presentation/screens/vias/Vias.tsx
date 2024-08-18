@@ -18,7 +18,7 @@ const Vias: React.FC = () => {
 
   const handleRoutePress = async (route: Route) => {
     try {
-      const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${boulder.name}/route/${route.idRoute}`);
+      const response = await axios.get(`http://192.168.62.215:8080/api/v1/boulder/${boulder.name}/route/${route.idRoute}`);
       const routeDetails = response.data;
       navigation.navigate('DetallesVia', { viaData: routeDetails, user }); // Se incluye el user para restringir la navegabilidad desde Vias en funcion del rol
     } catch (error) {
@@ -29,7 +29,7 @@ const Vias: React.FC = () => {
   const handleBouldersPress = async () => {
     if(user?.role !== 'WORKER'){
       try {
-        const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders');
+        const response = await axios.get('http://192.168.62.215:8080/api/v1/boulders');
         const boulderData = response.data;
         navigation.navigate('Boulders', { boulderData });
       } catch (error) {

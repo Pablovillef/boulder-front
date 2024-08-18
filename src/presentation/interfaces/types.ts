@@ -9,9 +9,9 @@ export type RootStackParamList = {
   Boulders: { boulderData: Boulder[] };
   NewUser: undefined;
   NewRoute: undefined;
-  ScanQr: undefined;
-  DetallesVia: { viaData: any, user?: UserHomeDTO }; // 'user' es opcional
-  Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // 'user' es opcional
+  ScanQr: { user: UserHomeDTO | null }; // `user` puede ser UserHomeDTO o null
+  DetallesVia: { viaData: any, user?: UserHomeDTO | null}; // 'user' es opcional
+  Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // `user` es opcionak
 };
 
 // Tipos para las props de navegación
@@ -21,6 +21,7 @@ export type BouldersScreenRouteProp = RouteProp<RootStackParamList, 'Boulders'>;
 export type ScanQrScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ScanQr'>;
 export type ViasScreenRouteProp = RouteProp<RootStackParamList, 'Vias'>;
 export type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+export type ScanQrScreenRouteProp = RouteProp<RootStackParamList, 'ScanQr'>;
 
 
 // Definimos los tipos para los datos

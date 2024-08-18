@@ -15,14 +15,14 @@ const Login: React.FC = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
   const handleCamera = () => {
-    navigation.navigate('ScanQr');
+    navigation.navigate('ScanQr', { user: null }); // No hay usuario todavía porque no se ha iniciado sesión
   };
 
   const handleSignIn = async () => {
 
     try{
 
-      const response = await axios.post('http://192.168.7.174:8080/api/v1/auth/login', {
+      const response = await axios.post('http://192.168.62.215:8080/api/v1/auth/login', {
         email,
         password,
       });
