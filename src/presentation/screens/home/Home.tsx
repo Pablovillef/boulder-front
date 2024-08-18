@@ -10,9 +10,23 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const fetchBoulderData = async () => {
     try {
-      const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders'); // TODO: Si es worker, pasa directamente a la vista de las vias de su Rocodromo. Meter en el back un atributo boulder en el usuario, si es worker.
+
+      // Si es worker, pasa directamente a la vista de las vias de su Rocodromo.
+      const url = user.role === 'WORKER'
+      ? `http://192.168.7.174:8080/api/v1/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
+      : 'http://192.168.7.174:8080/api/v1/boulders'; // URL para otros roles
+
+      const response = await axios.get(url);
       const boulderData = response.data;
-      navigation.navigate('Boulders', { boulderData });
+
+      if(user.role === 'WORKER'){
+        // Si es WORKER, navega directamente a las rutas de su rocódromo
+        navigation.navigate('Vias', { boulder: boulderData.boulder, routesData: boulderData.routes });
+      }else{
+        // Para otros roles, navega a la vista de Rocódromos
+        navigation.navigate('Boulders', { boulderData });
+      }
+
     } catch (error) {
       console.error(error);
     }
@@ -31,13 +45,26 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
   };
 
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
+  const isWorker = user.role === 'WORKER';
+  const isUser = user.role === 'USER';
+
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>HOME</Text>
-        {/* Subtitulo: Trabajador del rocodromo: user.getRocodromo */}
       </View>
+      {isWorker && (
+        <View style={styles.headerWorkerData}>
+          <Text style={styles.subtitle}>Trabajador del rocódromo: {user.boulder.name}</Text>
+          <Text style={styles.subtitle}>Usuario: {user.name}</Text>
+        </View>
+      )}
+      {isUser && (
+      <View style={styles.headerUserData}>
+        <Text style={styles.subtitle}>Usuario: {user.name}</Text>
+      </View>
+      )}
       <TouchableOpacity style={styles.button} onPress={fetchBoulderData}>
         <Text style={styles.buttonText}>
           {user.role === 'WORKER' ? 'Ver Rocódromo' : 'Ver Rocódromos'}
@@ -74,6 +101,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  headerWorkerData: {
+    marginTop: 5,
+    width: '100%',
+    backgroundColor: '#17bd93',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerUserData: {
+    marginTop: 5,
+    width: '100%',
+    backgroundColor: '#17bd93',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -101,6 +144,11 @@ const styles = StyleSheet.create({
   scanButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  subtitle: {
+    paddingTop: 20,
+    color: '#000',
+    marginBottom: 20,
   },
   logoutButton:{
     width: '80%',

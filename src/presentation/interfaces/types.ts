@@ -54,6 +54,7 @@ export interface UserHomeDTO {
   surname: string;
   email: string;
   role: 'ADMIN' | 'USER' | 'WORKER';
+  boulder: Boulder;
 }
 
 export interface HomeProps {
