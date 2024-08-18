@@ -60,6 +60,7 @@ const DetallesVia = () => {
 
     const handleBouldersPress = async () => {
         try {
+            // TODO: Si es invitado (TypeUser = null -> Desactivar esta navegacion)
             const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders');
             const boulderData = response.data;
             navigation.navigate('Boulders', { boulderData });
@@ -70,6 +71,7 @@ const DetallesVia = () => {
 
     const handleRoutesPress = async () => {
         try {
+            // TODO: Si es invitado (TypeUser = null -> Desactivar esta navegacion)
             //Alert.alert('Debug', `viaData.boulder.id: ${viaData.boulder.idBoulder}`);
             const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
             const routesData = response.data;
