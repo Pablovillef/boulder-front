@@ -18,7 +18,7 @@ const Boulders: React.FC = () => {
 
     const handlePress = async (boulder: any) => {
         try {
-          const response = await axios.get(`http://192.168.93.215:8080/api/v1/boulder/${boulder.idBoulder}/routes`);
+          const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${boulder.idBoulder}/routes`);
           const routesData = response.data;
           navigation.navigate('Vias', { boulder, routesData });
         } catch (error) {

@@ -10,7 +10,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const fetchBoulderData = async () => {
     try {
-      const response = await axios.get('http://192.168.62.215:8080/api/v1/boulders');
+      const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders');
       const boulderData = response.data;
       navigation.navigate('Boulders', { boulderData });
     } catch (error) {

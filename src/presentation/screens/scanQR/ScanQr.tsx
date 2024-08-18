@@ -19,35 +19,8 @@ const ScanQr = () => {
     // 2º Peticion http get, con los datos del QR.
     try{
 
-      const response = await axios.get(`http://192.168.62.215:8080/api/v1/boulder/${name}/route/${id}`);
+      const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${name}/route/${id}`);
       const viaData = response.data;
-
-      /*   viaData
-      {
-        "idRoute": 1,
-        "qrRoute": "Treparriscos/1",
-        "name": "Via 1",
-        "typeRoute": "BOULDER",
-        "num_nivel": 1,
-        "presa": "Naranja",
-        "creationDate": "2024-08-04T09:24:53.751+00:00",
-        "boulder": {
-         "name": "Treparriscos",
-         "address": "C/Santa Lucia, 22",
-         "locality": "Muriedas",
-         "mail": "Treparriscos@gmail.com",
-         "phone": "942 222 222"
-        },
-        "videos": [
-        {
-          "id": 1,
-          "title": "MiVideo_1_Titulo",
-          "description": "Escalando via 1",
-          "url": "youtube.com"
-        }
-        ]
-      }
-      */
 
       // 3º Ir al componente DetalleVia, pasandole los datos obtenidos de la petición como parámetros.
       navigation.navigate('DetallesVia', {viaData});
