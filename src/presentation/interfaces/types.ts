@@ -8,6 +8,7 @@ export type RootStackParamList = {
   Home: { user: UserHomeDTO };
   Boulders: { boulderData: Boulder[] };
   NewUser: undefined;
+  NewRoute: undefined;
   ScanQr: undefined;
   DetallesVia: { viaData: any };
   Vias: { boulder: Boulder, routesData: Route[] };

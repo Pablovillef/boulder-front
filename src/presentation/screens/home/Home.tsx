@@ -10,7 +10,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const fetchBoulderData = async () => {
     try {
-      const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders');
+      const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders'); // TODO: Si es worker, pasa directamente a la vista de las vias de su Rocodromo. Meter en el back un atributo boulder en el usuario, si es worker.
       const boulderData = response.data;
       navigation.navigate('Boulders', { boulderData });
     } catch (error) {
@@ -22,34 +22,38 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
     navigation.navigate('ScanQr');
   };
 
+  const handleLogout = () => {
+    navigation.navigate('Login');
+  };
+
+  const handleNewRoute = () => {
+    navigation.navigate('NewRoute');
+  };
+
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>HOME</Text>
+        {/* Subtitulo: Trabajador del rocodromo: user.getRocodromo */}
       </View>
-      {isAdminOrWorker && (
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Añadir Rocódromo</Text>
-        </TouchableOpacity>
-      )}
       <TouchableOpacity style={styles.button} onPress={fetchBoulderData}>
-        <Text style={styles.buttonText}>Ver Rocódromos</Text>
+        <Text style={styles.buttonText}>
+          {user.role === 'WORKER' ? 'Ver Rocódromo' : 'Ver Rocódromos'}
+        </Text>
       </TouchableOpacity>
       {isAdminOrWorker && (
-        <>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Subir video</Text>
+        <TouchableOpacity style={styles.button} onPress={handleNewRoute}>
+          <Text style={styles.buttonText}>Crear Vía</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.configButton}>
-          <Text style={styles.buttonText}>Ver todo</Text>
-        </TouchableOpacity>
-        </>
       )}
       <TouchableOpacity style={styles.scanButton} onPress={handleCamera}>
         <Text style={styles.scanButtonText}>SCAN QR</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logOutButtonText}>Cerrar Sesión</Text>
       </TouchableOpacity>
     </View>
   );
@@ -83,15 +87,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  configButton: {
-    width: '40%',
-    padding: 10,
-    margin: 10,
-    borderColor: '#000',
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   buttonText: {
     fontSize: 16,
   },
@@ -104,6 +99,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scanButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  logoutButton:{
+    width: '80%',
+    height: 60,
+    marginTop: 20,
+    backgroundColor: '#f55252',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logOutButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
   },

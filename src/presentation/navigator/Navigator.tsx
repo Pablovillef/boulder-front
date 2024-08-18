@@ -9,6 +9,7 @@ import { RootStackParamList } from '../interfaces/types';
 import ScanQr from '../screens/scanQR/ScanQr';
 import DetallesVia from '../screens/detallesVia/DetallesVia';
 import Vias from '../screens/vias/Vias';
+import NewRoute from '../screens/newRoute/NewRoute';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -25,6 +26,7 @@ export const Navigator = () => {
         <Stack.Screen name="ScanQr" component={ScanQr} />
         <Stack.Screen name="DetallesVia" component={DetallesVia} />
         <Stack.Screen name="Vias" component={Vias} />
+        <Stack.Screen name="NewRoute" component={NewRoute} />
       </Stack.Navigator>
 
   );
