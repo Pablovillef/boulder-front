@@ -77,7 +77,7 @@ const DetallesVia = () => {
             //Alert.alert('Debug', `viaData.boulder.id: ${viaData.boulder.idBoulder}`);
             const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
             const routesData = response.data;
-            navigation.navigate('Vias', { boulder: viaData.boulder, routesData });
+            navigation.navigate('Vias', { boulder: viaData.boulder, routesData, user });
         } catch (error) {
             console.error(error);
         }
