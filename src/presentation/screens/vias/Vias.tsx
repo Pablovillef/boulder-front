@@ -13,6 +13,9 @@ const Vias: React.FC = () => {
   const {boulder, routesData} = route.params;
   const navigation = useNavigation<NavigationProp>();
 
+  console.log('Boulder:', boulder);
+  console.log('RoutesData:', routesData);
+
   const handleRoutePress = async (route: Route) => {
     try {
       const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${boulder.name}/route/${route.idRoute}`);

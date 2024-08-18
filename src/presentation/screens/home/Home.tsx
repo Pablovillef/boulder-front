@@ -19,10 +19,16 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
       const response = await axios.get(url);
       const boulderData = response.data;
 
-      if(user.role === 'WORKER'){
-        // Si es WORKER, navega directamente a las rutas de su rocódromo
-        navigation.navigate('Vias', { boulder: boulderData.boulder, routesData: boulderData.routes });
-      }else{
+      if(user.role === 'WORKER'){ // Si es WORKER, navega directamente a las rutas de su rocódromo
+
+        const boulder = user.boulder; // Datos del rocodromo para pasarlo por props a Vias
+
+        console.log('Boulder:', boulder);
+        console.log('boulderData.boulder:', boulderData);
+
+        navigation.navigate('Vias', { boulder, routesData: boulderData });
+
+      } else {
         // Para otros roles, navega a la vista de Rocódromos
         navigation.navigate('Boulders', { boulderData });
       }
