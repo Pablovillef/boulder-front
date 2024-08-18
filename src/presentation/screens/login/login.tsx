@@ -14,6 +14,10 @@ const Login: React.FC = () => {
 
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
+  const handleCamera = () => {
+    navigation.navigate('ScanQr');
+  };
+
   const handleSignIn = async () => {
 
     try{
@@ -57,6 +61,12 @@ const Login: React.FC = () => {
         textStyle={styles.registerText}
         onPress={handleRegister}
       />
+      <Button
+        title="SCAN QR"
+        style={styles.scanButton}
+        textStyle={styles.scanButtonText}
+        onPress={handleCamera}
+      />
     </View>
   );
 };
@@ -85,6 +95,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF6C00',
   },
   registerText: {},
+  scanButton: {
+    width: '80%',
+    height: 100,
+    marginTop: 20,
+    backgroundColor: '#b3e0ff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scanButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default Login;
