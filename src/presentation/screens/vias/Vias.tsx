@@ -60,7 +60,7 @@ const Vias: React.FC = () => {
             <Text style={styles.routeText}>Tipo: {item.typeRoute}</Text>
             <Text style={styles.routeText}>Nivel: {item.num_nivel}</Text>
             <Text style={styles.routeText}>Presa: {item.presa}</Text>
-            <Text style={styles.routeText}>Fecha: {new Date(item.creationDate).toLocaleDateString()}</Text>
+            <Text style={styles.routeText}>Creación: {new Date(item.creationDate).toLocaleDateString()}</Text>
           </View>
         </TouchableOpacity>
         )}

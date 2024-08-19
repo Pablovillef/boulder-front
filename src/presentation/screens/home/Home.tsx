@@ -47,7 +47,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
   };
 
   const handleNewRoute = () => {
-    navigation.navigate('NewRoute');
+    navigation.navigate('NewRoute', { user } );
   };
 
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
