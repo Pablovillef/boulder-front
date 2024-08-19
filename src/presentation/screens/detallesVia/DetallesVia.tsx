@@ -54,30 +54,33 @@ const DetallesVia = () => {
     const [playingVideo, setPlayingVideo] = useState<string  | number | null>(null);
 
     const route = useRoute<DetallesViaScreenRouteProp>();
-    const { viaData } = route.params;
+    const { viaData, user } = route.params;
     const navigation = useNavigation<NavigationProp>();
     const data = viaData.videos || [];
 
     const handleBouldersPress = async () => {
-        try {
-            // TODO: Si es invitado (TypeUser = null -> Desactivar esta navegacion)
-            const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders');
-            const boulderData = response.data;
-            navigation.navigate('Boulders', { boulderData });
-        } catch (error) {
-            console.error(error);
+        console.log('User BouldersPress:', user);
+        if(user !== null && user?.role !== 'WORKER'){ // Los que no tengan usuario (invitados) o sean WORKERS, no podran acceder a esta funcionalidad.
+            try {
+                const response = await axios.get('http://192.168.62.215:8080/api/v1/boulders');
+                const boulderData = response.data;
+                navigation.navigate('Boulders', { boulderData });
+            } catch (error) {
+                console.error(error);
+            }
         }
     };
 
     const handleRoutesPress = async () => {
-        try {
-            // TODO: Si es invitado (TypeUser = null -> Desactivar esta navegacion)
-            //Alert.alert('Debug', `viaData.boulder.id: ${viaData.boulder.idBoulder}`);
-            const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
-            const routesData = response.data;
-            navigation.navigate('Vias', { boulder: viaData.boulder, routesData });
-        } catch (error) {
-            console.error(error);
+        console.log('User RoutesPress:', user);
+        if(user !== null){ // Los que no tengan usuario (invitados) no podran acceder a esta funcionalidad.
+            try {
+                const response = await axios.get(`http://192.168.62.215:8080/api/v1/boulder/${viaData.boulder.idBoulder}/routes`);
+                const routesData = response.data;
+                navigation.navigate('Vias', { boulder: viaData.boulder, routesData, user });
+            } catch (error) {
+                console.error(error);
+            }
         }
       };
 

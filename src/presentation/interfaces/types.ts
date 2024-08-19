@@ -8,9 +8,10 @@ export type RootStackParamList = {
   Home: { user: UserHomeDTO };
   Boulders: { boulderData: Boulder[] };
   NewUser: undefined;
-  ScanQr: undefined;
-  DetallesVia: { viaData: any };
-  Vias: { boulder: Boulder, routesData: Route[] };
+  NewRoute: { user: UserHomeDTO };
+  ScanQr: { user: UserHomeDTO | null }; // `user` puede ser UserHomeDTO o null
+  DetallesVia: { viaData: any, user?: UserHomeDTO | null}; // 'user' es opcional
+  Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // `user` es opcionak
 };
 
 // Tipos para las props de navegación
@@ -20,6 +21,8 @@ export type BouldersScreenRouteProp = RouteProp<RootStackParamList, 'Boulders'>;
 export type ScanQrScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ScanQr'>;
 export type ViasScreenRouteProp = RouteProp<RootStackParamList, 'Vias'>;
 export type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+export type ScanQrScreenRouteProp = RouteProp<RootStackParamList, 'ScanQr'>;
+export type NewRouteProp = RouteProp<RootStackParamList, 'NewRoute'>;
 
 
 // Definimos los tipos para los datos
@@ -53,6 +56,7 @@ export interface UserHomeDTO {
   surname: string;
   email: string;
   role: 'ADMIN' | 'USER' | 'WORKER';
+  boulder: Boulder;
 }
 
 export interface HomeProps {

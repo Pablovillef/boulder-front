@@ -10,26 +10,31 @@ type NavigationProp = StackNavigationProp<RootStackParamList, 'DetallesVia'>;
 
 const Vias: React.FC = () => {
   const route = useRoute<ViasScreenRouteProp>();
-  const {boulder, routesData} = route.params;
+  const {boulder, routesData, user} = route.params;
   const navigation = useNavigation<NavigationProp>();
+
+  console.log('Boulder:', boulder);
+  console.log('RoutesData:', routesData);
 
   const handleRoutePress = async (route: Route) => {
     try {
-      const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${boulder.name}/route/${route.idRoute}`);
+      const response = await axios.get(`http://192.168.62.215:8080/api/v1/boulder/${boulder.name}/route/${route.idRoute}`);
       const routeDetails = response.data;
-      navigation.navigate('DetallesVia', { viaData: routeDetails });
+      navigation.navigate('DetallesVia', { viaData: routeDetails, user }); // Se incluye el user para restringir la navegabilidad desde Vias en funcion del rol
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleBouldersPress = async () => {
-    try {
-        const response = await axios.get('http://192.168.7.174:8080/api/v1/boulders');
+    if(user?.role !== 'WORKER'){
+      try {
+        const response = await axios.get('http://192.168.62.215:8080/api/v1/boulders');
         const boulderData = response.data;
         navigation.navigate('Boulders', { boulderData });
-    } catch (error) {
+      } catch (error) {
         console.error(error);
+      }
     }
   };
 
@@ -55,7 +60,7 @@ const Vias: React.FC = () => {
             <Text style={styles.routeText}>Tipo: {item.typeRoute}</Text>
             <Text style={styles.routeText}>Nivel: {item.num_nivel}</Text>
             <Text style={styles.routeText}>Presa: {item.presa}</Text>
-            <Text style={styles.routeText}>Fecha: {new Date(item.creationDate).toLocaleDateString()}</Text>
+            <Text style={styles.routeText}>Creación: {new Date(item.creationDate).toLocaleDateString()}</Text>
           </View>
         </TouchableOpacity>
         )}
