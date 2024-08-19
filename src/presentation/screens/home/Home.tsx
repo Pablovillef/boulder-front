@@ -73,7 +73,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
       )}
       <TouchableOpacity style={styles.button} onPress={fetchBoulderData}>
         <Text style={styles.buttonText}>
-          {user.role === 'WORKER' ? 'Ver Rocódromo' : 'Ver Rocódromos'}
+          {user.role === 'WORKER' ? `${user.boulder.name}` : 'Ver Rocódromos'}
         </Text>
       </TouchableOpacity>
       {isAdminOrWorker && (
