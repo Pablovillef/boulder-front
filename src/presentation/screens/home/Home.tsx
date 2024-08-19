@@ -81,6 +81,19 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
           <Text style={styles.buttonText}>Crear Vía</Text>
         </TouchableOpacity>
       )}
+
+      {isUser && (
+      <>
+      <TouchableOpacity style={styles.button} onPress={handleCamera}>
+        <Text style={styles.buttonText}>Subir Video</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleCamera}>
+        <Text style={styles.buttonText}>Mis Videos</Text>
+      </TouchableOpacity>
+      </>
+      )}
+
       <TouchableOpacity style={styles.scanButton} onPress={handleCamera}>
         <Text style={styles.scanButtonText}>SCAN QR</Text>
       </TouchableOpacity>

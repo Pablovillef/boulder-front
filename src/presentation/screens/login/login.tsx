@@ -27,7 +27,6 @@ const Login: React.FC = () => {
         password,
       });
 
-      Alert.alert('Success', response.data.message);
       const userData = response.data;
       navigation.navigate('Home', { user: userData });
 
