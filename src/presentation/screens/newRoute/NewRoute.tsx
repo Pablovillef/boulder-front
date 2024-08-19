@@ -56,6 +56,25 @@ const NewRoute: React.FC = () => {
         }
     };
 
+    const [focusedField, setFocusedField] = useState<string | null>(null);
+
+    const renderHelpText = () => {
+        switch (focusedField) {
+            case 'qrRoute':
+                return 'Formato obligatorio: <Nombre Rocodromo>/<Numero Via> Ejemplo: Treparriscos/1';
+            case 'name':
+                return 'Debe contener entre 3 y 20 caracteres.';
+            case 'typeRoute':
+                return 'Valores esperados: BOULDER o WALL_ROUTE';
+            case 'num_nivel':
+                return 'Debe ser un número entero del 1 al 10.';
+            case 'presa':
+                return 'Especifica el color principal de las presas.';
+            default:
+                return null;
+        }
+    };
+
 
     return (
         <View style={styles.container}>
@@ -65,31 +84,48 @@ const NewRoute: React.FC = () => {
                 placeholder="Texto QR"
                 value={qrRoute}
                 onChangeText={setQrRoute}
+                onFocus={() => setFocusedField('qrRoute')}
+                onBlur={() => setFocusedField(null)}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Nombre de la ruta"
                 value={name}
                 onChangeText={setName}
+                onFocus={() => setFocusedField('name')}
+                onBlur={() => setFocusedField(null)}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Tipo de ruta"
                 value={typeRoute}
                 onChangeText={setTypeRoute}
+                onFocus={() => setFocusedField('typeRoute')}
+                onBlur={() => setFocusedField(null)}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Nivel de ruta"
                 value={num_nivel}
                 onChangeText={setNumNivel}
+                onFocus={() => setFocusedField('num_nivel')}
+                onBlur={() => setFocusedField(null)}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Color de las presas"
                 value={presa}
                 onChangeText={setPresa}
+                onFocus={() => setFocusedField('presa')}
+                onBlur={() => setFocusedField(null)}
             />
+
+            {focusedField && (
+                <Text style={styles.helpText}>
+                    {renderHelpText()}
+                </Text>
+            )}
+
             <TouchableOpacity style={styles.createButton} onPress={handleCreateRoute}>
                 <Text style={styles.createButtonText}>CREAR VIA</Text>
             </TouchableOpacity>
@@ -137,6 +173,11 @@ const styles = StyleSheet.create({
     cancelButtonText: {
       color: '#fff',
       fontSize: 16,
+    },
+    helpText: {
+        fontSize: 12,
+        color: '#777',
+        marginBottom: 20,
     },
 });
 

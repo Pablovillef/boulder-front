@@ -48,6 +48,21 @@ const NewUser: React.FC = () => {
     }
   };
 
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  const renderHelpText = () => {
+    switch (focusedField) {
+        case 'name':
+            return 'Debe contener entre 3 y 20 caracteres.';
+        case 'surname':
+            return 'Debe contener entre 3 y 20 caracteres.';
+        case 'password':
+            return 'Debe contener mínimo 8 caracteres alfanuméricos.';
+        default:
+            return null;
+    }
+};
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>REGISTRO USUARIO</Text>
@@ -56,12 +71,16 @@ const NewUser: React.FC = () => {
         placeholder="Nombre"
         value={name}
         onChangeText={setName}
+        onFocus={() => setFocusedField('name')}
+        onBlur={() => setFocusedField(null)}
       />
       <TextInput
         style={styles.input}
         placeholder="Apellido"
         value={surname}
         onChangeText={setSurname}
+        onFocus={() => setFocusedField('surname')}
+        onBlur={() => setFocusedField(null)}
       />
       <TextInput
         style={styles.input}
@@ -75,7 +94,16 @@ const NewUser: React.FC = () => {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
+        onFocus={() => setFocusedField('password')}
+        onBlur={() => setFocusedField(null)}
       />
+
+      {focusedField && (
+        <Text style={styles.helpText}>
+          {renderHelpText()}
+        </Text>
+      )}
+
       <TouchableOpacity style={styles.createButton} onPress={handleCreateAccount}>
         <Text style={styles.createButtonText}>CREAR</Text>
       </TouchableOpacity>
@@ -122,6 +150,11 @@ const styles = StyleSheet.create({
     cancelButtonText: {
       color: '#fff',
       fontSize: 16,
+    },
+    helpText: {
+      fontSize: 12,
+      color: '#777',
+      marginBottom: 20,
     },
   });
 
