@@ -51,7 +51,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
   };
 
   const handleNewVideo = () => {
-    navigation.navigate('NewVideo');
+    navigation.navigate('NewVideo', { user } );
   };
 
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';

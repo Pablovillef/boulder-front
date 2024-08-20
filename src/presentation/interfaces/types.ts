@@ -9,7 +9,7 @@ export type RootStackParamList = {
   Boulders: { boulderData: Boulder[] };
   NewUser: undefined;
   NewRoute: { user: UserHomeDTO };
-  NewVideo: undefined;
+  NewVideo: { user: UserHomeDTO };
   ScanQr: { user: UserHomeDTO | null }; // `user` puede ser UserHomeDTO o null
   DetallesVia: { viaData: any, user?: UserHomeDTO | null}; // 'user' es opcional
   Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // `user` es opcionak
