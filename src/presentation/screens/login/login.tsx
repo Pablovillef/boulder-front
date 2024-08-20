@@ -22,7 +22,7 @@ const Login: React.FC = () => {
 
     try{
 
-      const response = await axios.post('http://192.168.62.215:8080/api/v1/auth/login', {
+      const response = await axios.post('http://192.168.7.174:8080/api/v1/auth/login', {
         email,
         password,
       });

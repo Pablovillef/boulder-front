@@ -21,7 +21,7 @@ const ScanQr = () => {
     // 2º Peticion http get, con los datos del QR.
     try{
 
-      const response = await axios.get(`http://192.168.62.215:8080/api/v1/boulder/${name}/route/${id}`);
+      const response = await axios.get(`http://192.168.7.174:8080/api/v1/boulder/${name}/route/${id}`);
       const viaData = response.data;
 
       // 3º Ir al componente DetalleVia, pasandole los datos obtenidos de la petición como parámetros.

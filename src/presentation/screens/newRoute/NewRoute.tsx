@@ -41,7 +41,7 @@ const NewRoute: React.FC = () => {
         };
 
         try{
-            const response = await axios.post('http://192.168.62.215:8080/api/v1/boulder/via/enrollment', formData);
+            const response = await axios.post('http://192.168.7.174:8080/api/v1/boulder/via/enrollment', formData);
             console.log(response.data);
             if (response.status === 201) {
                 console.warn('Ruta creada exitosamente');
