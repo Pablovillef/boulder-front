@@ -6,13 +6,13 @@ import {RouteProp} from '@react-navigation/native';
 export type RootStackParamList = {
   Login: undefined;
   Home: { user: UserHomeDTO };
-  Boulders: { boulderData: Boulder[] };
+  Boulders: { boulderData: Boulder[], user: UserHomeDTO };
   NewUser: undefined;
   NewRoute: { user: UserHomeDTO };
   NewVideo: { user: UserHomeDTO };
   ScanQr: { user: UserHomeDTO | null }; // `user` puede ser UserHomeDTO o null
-  DetallesVia: { viaData: any, user?: UserHomeDTO | null}; // 'user' es opcional
-  Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // `user` es opcionak
+  DetallesVia: { viaData: any, user: UserHomeDTO | null}; // 'user' es opcional
+  Vias: { boulder: Boulder, routesData: Route[], user: UserHomeDTO }; // `user` es opcional
   Videos: { videos: any, user: UserHomeDTO };
 };
 

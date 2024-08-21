@@ -8,6 +8,7 @@ import { API_BASE_URL } from '../../../config/config';
 const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const { user } = route.params;
+  console.log('Route params:', route.params);
 
   const fetchBoulderData = async () => {
     try {
@@ -31,7 +32,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
       } else {
         // Para otros roles, navega a la vista de Rocódromos
-        navigation.navigate('Boulders', { boulderData });
+        navigation.navigate('Boulders', { boulderData, user });
       }
 
     } catch (error) {
