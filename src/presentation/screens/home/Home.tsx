@@ -55,6 +55,10 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
     navigation.navigate('NewVideo', { user } );
   };
 
+  const handleVideos = () => {
+    navigation.navigate('Videos');
+  };
+
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
   const isWorker = user.role === 'WORKER';
   const isUser = user.role === 'USER';
@@ -93,7 +97,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
         <Text style={styles.buttonText}>Subir Video</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleVideos}>
         <Text style={styles.buttonText}>Mis Videos</Text>
       </TouchableOpacity>
       </>

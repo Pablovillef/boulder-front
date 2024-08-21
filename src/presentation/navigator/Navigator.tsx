@@ -11,6 +11,7 @@ import DetallesVia from '../screens/detallesVia/DetallesVia';
 import Vias from '../screens/vias/Vias';
 import NewRoute from '../screens/newRoute/NewRoute';
 import NewVideo from '../screens/newVideo/NewVideo';
+import Videos from '../screens/videos/Videos';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -29,6 +30,7 @@ export const Navigator = () => {
         <Stack.Screen name="Vias" component={Vias} />
         <Stack.Screen name="NewRoute" component={NewRoute} />
         <Stack.Screen name="NewVideo" component={NewVideo} />
+        <Stack.Screen name="Videos" component={Videos} />
       </Stack.Navigator>
 
   );
