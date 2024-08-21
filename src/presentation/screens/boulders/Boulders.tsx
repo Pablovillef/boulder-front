@@ -15,19 +15,20 @@ const Boulders: React.FC = () => {
     const boulder = useRoute<BouldersScreenRouteProp>();
     const navigation = useNavigation<NavigationProp>();
 
-    const { boulderData } = boulder.params;
+    const { boulderData, user } = boulder.params;
 
     const handlePress = async (boulder: any) => {
         try {
           const response = await axios.get(`${API_BASE_URL}/boulder/${boulder.idBoulder}/routes`);
           const routesData = response.data;
-          navigation.navigate('Vias', { boulder, routesData });
+          navigation.navigate('Vias', { boulder, routesData, user });
         } catch (error) {
           console.error(error);
         }
       };
 
     return (
+      <>
         <FlatList
             data={boulderData}
             keyExtractor={(item) => item.idBoulder.toString()}
@@ -45,10 +46,24 @@ const Boulders: React.FC = () => {
                 </TouchableOpacity>
             )}
         />
+
+        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('Home', { user })}>
+          <Text style={styles.cancelButtonText}>VOLVER</Text>
+        </TouchableOpacity>
+      </>
     );
 };
 
 const styles = StyleSheet.create({
+  cancelButton: {
+    backgroundColor: '#FF6600',
+    padding: 10,
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
     boulderContainer: {
       padding: 10,
       marginVertical: 8,

@@ -32,7 +32,7 @@ const Vias: React.FC = () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/boulders`);
         const boulderData = response.data;
-        navigation.navigate('Boulders', { boulderData });
+        navigation.navigate('Boulders', { boulderData, user });
       } catch (error) {
         console.error(error);
       }
@@ -40,6 +40,7 @@ const Vias: React.FC = () => {
   };
 
   return (
+    <>
     <View style={styles.container}>
       <TouchableOpacity style={styles.header} onPress={() => handleBouldersPress()}>
         <Text style={styles.headerText}>Nombre: {boulder.name}</Text>
@@ -67,10 +68,23 @@ const Vias: React.FC = () => {
         )}
       />
     </View>
+    <TouchableOpacity style={styles.cancelButton} onPress={() => handleBouldersPress()}>
+      <Text style={styles.cancelButtonText}>VOLVER</Text>
+    </TouchableOpacity>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  cancelButton: {
+    backgroundColor: '#FF6600',
+    padding: 10,
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
     container: {
       flex: 1,
     },

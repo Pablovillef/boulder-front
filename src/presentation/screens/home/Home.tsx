@@ -8,6 +8,7 @@ import { API_BASE_URL } from '../../../config/config';
 const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const { user } = route.params;
+  console.log('Route params:', route.params);
 
   const fetchBoulderData = async () => {
     try {
@@ -31,7 +32,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
       } else {
         // Para otros roles, navega a la vista de Rocódromos
-        navigation.navigate('Boulders', { boulderData });
+        navigation.navigate('Boulders', { boulderData, user });
       }
 
     } catch (error) {
@@ -53,6 +54,16 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const handleNewVideo = () => {
     navigation.navigate('NewVideo', { user } );
+  };
+
+  const handleVideos = async () => {
+    try{
+      const response = await axios.get(`${API_BASE_URL}/videos`);
+      const videoDetails = response.data;
+      navigation.navigate('Videos', { videos: videoDetails, user } );
+    }catch(error){
+      console.error(error);
+    }
   };
 
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
@@ -93,7 +104,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
         <Text style={styles.buttonText}>Subir Video</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleVideos}>
         <Text style={styles.buttonText}>Mis Videos</Text>
       </TouchableOpacity>
       </>

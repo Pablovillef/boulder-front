@@ -65,7 +65,7 @@ const DetallesVia = () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/boulders`);
                 const boulderData = response.data;
-                navigation.navigate('Boulders', { boulderData });
+                navigation.navigate('Boulders', { boulderData, user });
             } catch (error) {
                 console.error(error);
             }
@@ -82,6 +82,14 @@ const DetallesVia = () => {
             } catch (error) {
                 console.error(error);
             }
+        }
+      };
+
+      const handleBack = () => {
+        if(user == null){
+            navigation.navigate('Login');
+        }else{
+            handleRoutesPress();
         }
       };
 
@@ -121,15 +129,27 @@ const DetallesVia = () => {
                         </View>
                     )}
                 />
+            <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
+                <Text style={styles.cancelButtonText}>VOLVER</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    cancelButton: {
+        backgroundColor: '#FF6600',
+        padding: 10,
+        alignItems: 'center',
+      },
+      cancelButtonText: {
+        color: '#fff',
+        fontSize: 16,
+      },
     container: {
         flex: 1,
         backgroundColor: '#f8f8f8',
-        marginBottom: 50,
+        //marginBottom: 50,
         // Para insertar botones de atras, etc
     },
     flatListContent: {
