@@ -13,7 +13,7 @@ export type RootStackParamList = {
   ScanQr: { user: UserHomeDTO | null }; // `user` puede ser UserHomeDTO o null
   DetallesVia: { viaData: any, user?: UserHomeDTO | null}; // 'user' es opcional
   Vias: { boulder: Boulder, routesData: Route[], user?: UserHomeDTO }; // `user` es opcionak
-  Videos: undefined;
+  Videos: { videos: any, user: UserHomeDTO };
 };
 
 // Tipos para las props de navegación
@@ -27,6 +27,11 @@ export type ScanQrScreenRouteProp = RouteProp<RootStackParamList, 'ScanQr'>;
 export type NewRouteProp = RouteProp<RootStackParamList, 'NewRoute'>;
 export type NewVideoProp = RouteProp<RootStackParamList, 'NewVideo'>;
 export type VideosProp = RouteProp<RootStackParamList, 'Videos'>;
+export type VideosScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+
+export type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
+export type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' | 'Vias'>;
+
 
 
 // Definimos los tipos para los datos

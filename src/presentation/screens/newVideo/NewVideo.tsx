@@ -146,11 +146,6 @@ const styles = StyleSheet.create({
       color: '#fff',
       fontSize: 16,
     },
-    helpText: {
-        fontSize: 12,
-        color: '#777',
-        marginBottom: 20,
-    },
 });
 
 export default NewVideo;

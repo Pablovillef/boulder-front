@@ -55,8 +55,14 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
     navigation.navigate('NewVideo', { user } );
   };
 
-  const handleVideos = () => {
-    navigation.navigate('Videos');
+  const handleVideos = async () => {
+    try{
+      const response = await axios.get(`${API_BASE_URL}/videos`);
+      const videoDetails = response.data;
+      navigation.navigate('Videos', { videos: videoDetails, user } );
+    }catch(error){
+      console.error(error);
+    }
   };
 
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
