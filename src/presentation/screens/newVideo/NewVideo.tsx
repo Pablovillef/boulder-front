@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { NewVideoProp, RootStackParamList } from '../../interfaces/types';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../config/config';
 
 
 type NewVideoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -25,7 +26,8 @@ const NewVideo: React.FC = () => {
     const [description, setDescription] = useState('');
     const [url, setUrl] = useState('');
     const [duration, setDuration] = useState('');
-    const [idRoute, setIdRoute] = useState('');
+    const [boulderName, setBoulderName] = useState('');
+    const [routeName, setRouteName] = useState('');
 
     const navigation = useNavigation<NewVideoScreenNavigationProp>();
 
@@ -36,11 +38,12 @@ const NewVideo: React.FC = () => {
             description,
             url,
             duration,
-            idRoute,
+            boulderName,
+            routeName,
         };
 
         try{
-            const response = await axios.post('http://192.168.7.174:8080/api/v1/boulder/via/video/add', formData);
+            const response = await axios.post(`${API_BASE_URL}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
             console.log(response.data);
             if (response.status === 201) {
                 console.warn('Video creado exitosamente');
@@ -84,9 +87,15 @@ const NewVideo: React.FC = () => {
             />
             <TextInput
                 style={styles.input}
-                placeholder="idRoute Retocar este campo"
-                value={idRoute}
-                onChangeText={setIdRoute}
+                placeholder="Rocodromo donde se desea insertar el video"
+                value={boulderName}
+                onChangeText={setBoulderName}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Via donde se desea insertar el video"
+                value={routeName}
+                onChangeText={setRouteName}
             />
 
             <TouchableOpacity style={styles.createButton} onPress={handleCreateVideo}>

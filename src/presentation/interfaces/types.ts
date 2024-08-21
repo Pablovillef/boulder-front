@@ -30,6 +30,9 @@ export type NewVideoProp = RouteProp<RootStackParamList, 'NewVideo'>;
 // Definimos los tipos para los datos
 export interface Video {
   title: string;
+  description?: string;
+  url: string;
+  duration: number;
 }
 
 export interface Route {

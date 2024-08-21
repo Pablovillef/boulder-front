@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { LoginScreenNavigationProp } from '../../interfaces/types';
+import { API_BASE_URL } from '../../../config/config';
 
 const Login: React.FC = () => {
 
@@ -22,10 +23,12 @@ const Login: React.FC = () => {
 
     try{
 
-      const response = await axios.post('http://192.168.7.174:8080/api/v1/auth/login', {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
         email,
         password,
       });
+
+      console.log(`${API_BASE_URL}/auth/login`);
 
       const userData = response.data;
       navigation.navigate('Home', { user: userData });

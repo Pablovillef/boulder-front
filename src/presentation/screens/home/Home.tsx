@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { HomeProps } from '../../interfaces/types';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../config/config';
 
 const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
@@ -13,8 +14,8 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
       // Si es worker, pasa directamente a la vista de las vias de su Rocodromo.
       const url = user.role === 'WORKER'
-      ? `http://192.168.7.174:8080/api/v1/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
-      : 'http://192.168.7.174:8080/api/v1/boulders'; // URL para otros roles
+      ? `${API_BASE_URL}/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
+      : `${API_BASE_URL}/boulders`; // URL para otros roles
 
       const response = await axios.get(url);
       const boulderData = response.data;
