@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { HomeProps } from '../../interfaces/types';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../config/config';
 
 const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
@@ -13,8 +14,8 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
       // Si es worker, pasa directamente a la vista de las vias de su Rocodromo.
       const url = user.role === 'WORKER'
-      ? `http://192.168.62.215:8080/api/v1/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
-      : 'http://192.168.62.215:8080/api/v1/boulders'; // URL para otros roles
+      ? `${API_BASE_URL}/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
+      : `${API_BASE_URL}/boulders`; // URL para otros roles
 
       const response = await axios.get(url);
       const boulderData = response.data;
@@ -50,6 +51,10 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
     navigation.navigate('NewRoute', { user } );
   };
 
+  const handleNewVideo = () => {
+    navigation.navigate('NewVideo', { user } );
+  };
+
   const isAdminOrWorker = user.role === 'ADMIN' || user.role === 'WORKER';
   const isWorker = user.role === 'WORKER';
   const isUser = user.role === 'USER';
@@ -73,7 +78,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
       )}
       <TouchableOpacity style={styles.button} onPress={fetchBoulderData}>
         <Text style={styles.buttonText}>
-          {user.role === 'WORKER' ? 'Ver Rocódromo' : 'Ver Rocódromos'}
+          {user.role === 'WORKER' ? `${user.boulder.name}` : 'Ver Rocódromos'}
         </Text>
       </TouchableOpacity>
       {isAdminOrWorker && (
@@ -81,6 +86,19 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
           <Text style={styles.buttonText}>Crear Vía</Text>
         </TouchableOpacity>
       )}
+
+      {isUser && (
+      <>
+      <TouchableOpacity style={styles.button} onPress={handleNewVideo}>
+        <Text style={styles.buttonText}>Subir Video</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Mis Videos</Text>
+      </TouchableOpacity>
+      </>
+      )}
+
       <TouchableOpacity style={styles.scanButton} onPress={handleCamera}>
         <Text style={styles.scanButtonText}>SCAN QR</Text>
       </TouchableOpacity>

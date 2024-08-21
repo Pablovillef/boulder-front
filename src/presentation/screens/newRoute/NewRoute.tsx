@@ -12,6 +12,7 @@ import {
 import { NewRouteProp, RootStackParamList } from '../../interfaces/types';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
+import { API_BASE_URL } from '../../../config/config';
 
 
 type NewRouteScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -41,7 +42,7 @@ const NewRoute: React.FC = () => {
         };
 
         try{
-            const response = await axios.post('http://192.168.62.215:8080/api/v1/boulder/via/enrollment', formData);
+            const response = await axios.post(`${API_BASE_URL}/api/v1/boulder/via/enrollment`, formData);
             console.log(response.data);
             if (response.status === 201) {
                 console.warn('Ruta creada exitosamente');

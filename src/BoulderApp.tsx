@@ -11,4 +11,4 @@ export const BoulderApp: React.FC = () => {
       <Navigator />
     </NavigationContainer>
   );
-}
+};

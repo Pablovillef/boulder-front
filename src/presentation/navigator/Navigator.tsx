@@ -10,6 +10,7 @@ import ScanQr from '../screens/scanQR/ScanQr';
 import DetallesVia from '../screens/detallesVia/DetallesVia';
 import Vias from '../screens/vias/Vias';
 import NewRoute from '../screens/newRoute/NewRoute';
+import NewVideo from '../screens/newVideo/NewVideo';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -27,6 +28,7 @@ export const Navigator = () => {
         <Stack.Screen name="DetallesVia" component={DetallesVia} />
         <Stack.Screen name="Vias" component={Vias} />
         <Stack.Screen name="NewRoute" component={NewRoute} />
+        <Stack.Screen name="NewVideo" component={NewVideo} />
       </Stack.Navigator>
 
   );
