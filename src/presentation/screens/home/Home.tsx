@@ -79,12 +79,12 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
       {isWorker && (
         <View style={styles.headerWorkerData}>
           <Text style={styles.subtitle}>Trabajador del rocódromo: {user.boulder.name}</Text>
-          <Text style={styles.subtitle}>Usuario: {user.name}</Text>
+          <Text style={styles.subtitle}>Usuario: {user.name + ' ' + user.surname}</Text>
         </View>
       )}
       {isUser && (
       <View style={styles.headerUserData}>
-        <Text style={styles.subtitle}>Usuario: {user.name}</Text>
+        <Text style={styles.subtitle}>Usuario: {user.name + ' ' + user.surname}</Text>
       </View>
       )}
       <TouchableOpacity style={styles.button} onPress={fetchBoulderData}>

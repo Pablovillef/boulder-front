@@ -50,7 +50,7 @@ const Videos: React.FC = () => {
         </View>
 
         <View style={styles.headerUserData}>
-            <Text style={styles.subtitle}>Usuario: {user.name + user.surname}</Text>
+            <Text style={styles.subtitle}>Usuario: {user.name + ' ' + user.surname}</Text>
             <Text style={styles.subtitle}>Correo electrónico: {user.email}</Text>
         </View>
 

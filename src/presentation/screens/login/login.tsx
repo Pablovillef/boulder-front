@@ -23,12 +23,14 @@ const Login: React.FC = () => {
 
     try{
 
+      console.log(`${API_BASE_URL}/auth/login`);
+
       const response = await axios.post(`${API_BASE_URL}/auth/login`, {
         email,
         password,
       });
 
-      console.log(`${API_BASE_URL}/auth/login`);
+
 
       const userData = response.data;
       navigation.navigate('Home', { user: userData });
