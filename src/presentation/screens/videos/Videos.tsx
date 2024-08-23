@@ -21,12 +21,17 @@ const Videos: React.FC = () => {
     const [playingVideo, setPlayingVideo] = useState<string | null>(null);
 
     const extractVideoId = (url: string) => {
-        const match = url.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-        return match ? match[1] : null;
-    };
+      const match = url.match(
+          /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})|(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
+      );
+      return match ? (match[1] || match[2]) : null;
+  };
+
+    console.log(videos);
 
     const renderVideo = (item: Video) => {
         const videoId = extractVideoId(item.url);
+        console.log('Video ID:', videoId);
         if (videoId) {
             return (
                 <YoutubePlayer
@@ -63,7 +68,7 @@ const Videos: React.FC = () => {
                         <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
                             {renderVideo(item)}
                         </TouchableOpacity>
-                        <Text style={styles.author}>Descripción: {item.description || 'No disponible'}</Text>
+                        <Text style={styles.author}>Descripción: {item.description || 'Sin descripción'}</Text>
                         <Text style={styles.time}>Duración: {item.duration} minutos</Text>
                     </View>
                 )}
