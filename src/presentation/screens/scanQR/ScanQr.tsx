@@ -6,6 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { ScanQrScreenNavigationProp, ScanQrScreenRouteProp } from '../../interfaces/types';
 import axios from 'axios';
 import { API_BASE_URL } from '../../../config/config';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const ScanQr = () => {
 
@@ -34,7 +35,17 @@ const ScanQr = () => {
 
   };
 
+  const handleCancelButton = () => {
+
+    if(user != null){
+      navigation.navigate('Home', { user });
+    }else{
+      navigation.navigate('Login');
+    }
+  };
+
   return (
+    <>
     <QRCodeScanner
         onRead={handleQrReaded}
         // flashMode={RNCamera.Constants.FlashMode.torch}
@@ -42,7 +53,25 @@ const ScanQr = () => {
         reactivate={true}
         reactivateTimeout={3000} //ms
     />
+
+    <TouchableOpacity style={styles.cancelButton} onPress={handleCancelButton}>
+      <Text style={styles.cancelButtonText}>CANCELAR</Text>
+    </TouchableOpacity>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  cancelButton: {
+    backgroundColor: '#FF6600',
+    padding: 10,
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+});
+
 
 export default ScanQr;
