@@ -39,6 +39,10 @@ const Vias: React.FC = () => {
     }
   };
 
+  const handleBackButton = async () => {
+    navigation.navigate('Home', { user });
+  };
+
   return (
     <>
     <View style={styles.container}>
@@ -68,7 +72,7 @@ const Vias: React.FC = () => {
         )}
       />
     </View>
-    <TouchableOpacity style={styles.cancelButton} onPress={() => handleBouldersPress()}>
+    <TouchableOpacity style={styles.cancelButton} onPress={() => handleBackButton()}>
       <Text style={styles.cancelButtonText}>VOLVER</Text>
     </TouchableOpacity>
     </>
