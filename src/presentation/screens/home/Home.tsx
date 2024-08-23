@@ -58,7 +58,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const handleVideos = async () => {
     try{
-      const response = await axios.get(`${API_BASE_URL}/videos`);
+      const response = await axios.get(`${API_BASE_URL}/user/${user.idUser}/videos`);
       const videoDetails = response.data;
       navigation.navigate('Videos', { videos: videoDetails, user } );
     }catch(error){
