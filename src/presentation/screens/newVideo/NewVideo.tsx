@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { NewVideoProp, RootStackParamList } from '../../interfaces/types';
 import axios from 'axios';
-import { API_BASE_URL } from '../../../config/config';
+import { API_BASE_URL_PRO } from '../../../config/config';
 
 
 type NewVideoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -43,7 +43,7 @@ const NewVideo: React.FC = () => {
         };
 
         try{
-            const response = await axios.post(`${API_BASE_URL}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
+            const response = await axios.post(`${API_BASE_URL_PRO}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
             console.log(response.data);
             if (response.status === 201) {
                 console.warn('Video creado exitosamente');
