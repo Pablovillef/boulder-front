@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { HomeProps } from '../../interfaces/types';
 import axios from 'axios';
-import { API_BASE_URL_PRO } from '../../../config/config';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
 
 const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
@@ -15,8 +15,8 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
       // Si es worker, pasa directamente a la vista de las vias de su Rocodromo.
       const url = user.role === 'WORKER'
-      ? `${API_BASE_URL_PRO}/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
-      : `${API_BASE_URL_PRO}/boulders`; // URL para otros roles
+      ? `${API_BASE_URL_LOCAL}/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
+      : `${API_BASE_URL_LOCAL}/boulders`; // URL para otros roles
 
       const response = await axios.get(url);
       const boulderData = response.data;
@@ -58,7 +58,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
   const handleVideos = async () => {
     try{
-      const response = await axios.get(`${API_BASE_URL_PRO}/user/${user.idUser}/videos`);
+      const response = await axios.get(`${API_BASE_URL_LOCAL}/user/${user.idUser}/videos`);
       const videoDetails = response.data;
       navigation.navigate('Videos', { videos: videoDetails, user } );
     }catch(error){

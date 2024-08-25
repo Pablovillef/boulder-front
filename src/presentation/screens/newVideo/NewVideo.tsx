@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import { NewVideoProp, RootStackParamList } from '../../interfaces/types';
 import axios from 'axios';
-import { API_BASE_URL_PRO } from '../../../config/config';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
+import { Picker } from '@react-native-picker/picker';
 
 
 type NewVideoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -25,7 +26,7 @@ const NewVideo: React.FC = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [url, setUrl] = useState('');
-    const [duration, setDuration] = useState('');
+    const [duration, setDuration] = useState('1');
     const [boulderName, setBoulderName] = useState('');
     const [routeName, setRouteName] = useState('');
 
@@ -43,7 +44,7 @@ const NewVideo: React.FC = () => {
         };
 
         try{
-            const response = await axios.post(`${API_BASE_URL_PRO}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
+            const response = await axios.post(`${API_BASE_URL_LOCAL}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
             console.log(response.data);
             if (response.status === 201) {
                 console.warn('Video creado exitosamente');
@@ -61,36 +62,49 @@ const NewVideo: React.FC = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>AÑADIR NUEVO VIDEO</Text>
+
+            <Text style={styles.label}>Título del vídeo</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Título del vídeo"
                 value={title}
                 onChangeText={setTitle}
             />
+            <Text style={styles.label}>Descripción del vídeo</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Breve descripcion del video"
                 value={description}
                 onChangeText={setDescription}
             />
+            <Text style={styles.label}>URL del vídeo</Text>
             <TextInput
                 style={styles.input}
                 placeholder="URL del video"
                 value={url}
                 onChangeText={setUrl}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Duracion del video en minutos"
-                value={duration}
-                onChangeText={setDuration}
-            />
+            <Text style={styles.label}>Duración del vídeo</Text>
+            <View style={styles.input}>
+                <Picker
+                    style={styles.picker}
+                    selectedValue={duration}
+                    onValueChange={(itemValue) => setDuration(itemValue)}
+                >
+                    {[...Array(10).keys()].map((value) => (
+                        <Picker.Item key={value + 1} label={`${value + 1} minutos`} value={`${value + 1}`} />
+                    ))}
+                </Picker>
+            </View>
+
+            <Text style={styles.label}>Nombre del rocódromo</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Rocodromo donde se desea insertar el video"
                 value={boulderName}
                 onChangeText={setBoulderName}
             />
+            <Text style={styles.label}>Nombre de la vía</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Via donde se desea insertar el video"
@@ -126,6 +140,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       marginBottom: 20,
       paddingHorizontal: 10,
+      justifyContent: 'center',
     },
     createButton: {
       backgroundColor: '#00CC00',
@@ -145,6 +160,15 @@ const styles = StyleSheet.create({
     cancelButtonText: {
       color: '#fff',
       fontSize: 16,
+    },
+    picker: {
+        width: '100%',
+        height: '100%', // Ocupa todo el espacio del View
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 5,
+        color: '#333',
     },
 });
 
