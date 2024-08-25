@@ -5,7 +5,7 @@ import { useRoute, useNavigation  } from '@react-navigation/native';
 import { RootStackParamList, Route, ViasScreenRouteProp } from '../../interfaces/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
-import { API_BASE_URL_PRO } from '../../../config/config';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'DetallesVia'>;
 
@@ -19,7 +19,7 @@ const Vias: React.FC = () => {
 
   const handleRoutePress = async (route: Route) => {
     try {
-      const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${boulder.name}/route/${route.idRoute}`);
+      const response = await axios.get(`${API_BASE_URL_LOCAL}/boulder/${boulder.name}/route/${route.idRoute}`);
       const routeDetails = response.data;
       navigation.navigate('DetallesVia', { viaData: routeDetails, user }); // Se incluye el user para restringir la navegabilidad desde Vias en funcion del rol
     } catch (error) {
@@ -30,7 +30,7 @@ const Vias: React.FC = () => {
   const handleBouldersPress = async () => {
     if(user?.role !== 'WORKER'){
       try {
-        const response = await axios.get(`${API_BASE_URL_PRO}/boulders`);
+        const response = await axios.get(`${API_BASE_URL_LOCAL}/boulders`);
         const boulderData = response.data;
         navigation.navigate('Boulders', { boulderData, user });
       } catch (error) {
