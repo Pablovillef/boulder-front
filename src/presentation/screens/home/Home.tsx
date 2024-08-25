@@ -52,8 +52,15 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
     navigation.navigate('NewRoute', { user } );
   };
 
-  const handleNewVideo = () => {
-    navigation.navigate('NewVideo', { user } );
+  const handleNewVideo = async () => {
+    try{
+      const response = await axios.get(`${API_BASE_URL_LOCAL}/boulders`);
+      const boulders = response.data;
+      console.log(boulders);
+      navigation.navigate('NewVideo', { user, boulders } );
+    }catch(error){
+      console.error(error);
+    }
   };
 
   const handleVideos = async () => {
