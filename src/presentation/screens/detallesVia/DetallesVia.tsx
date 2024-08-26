@@ -14,40 +14,6 @@ import { API_BASE_URL_LOCAL } from '../../../config/config';
 type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' | 'Vias'>;
 
-const HeaderInfo = ({ viaData, handleBouldersPress, handleRoutesPress }: { viaData: any, handleBouldersPress: () => void, handleRoutesPress: () => void }) => {
-    return (
-        <>
-        <View style={styles.headerContainer}>
-            <View style={styles.headerBoulderData}>
-                <TouchableOpacity style={styles.headerTextContainer} onPress={handleBouldersPress}>
-                    <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
-                    <Text style={styles.headerText}>{viaData.boulder.address}</Text>
-                    <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
-                    <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
-                    <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.editButton}>
-                  <Text style={styles.editButtonText}>✏️</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.headerBoulderData}>
-                <TouchableOpacity style={styles.headerTextContainer} onPress={handleRoutesPress}>
-                    <Text style={styles.infoTitle}>{viaData.name}</Text>
-                    <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
-                    <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
-                    <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
-                    <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.editButton}>
-                  <Text style={styles.editButtonText}>✏️</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-        </>
-    );
-};
-
 /**
  * Expresión regular que permite reconocer tanto URLs de Shorts como de videos, ambos en la plataforma de YT.
  * @param url url que redirige al contenido de youtube.
@@ -70,6 +36,8 @@ const DetallesVia = () => {
     const { viaData, user } = route.params;
     const navigation = useNavigation<NavigationProp>();
     const data = viaData.videos || [];
+
+    const isWorker = user && user.role === 'WORKER';
 
     const handleBouldersPress = async () => {
         console.log('User BouldersPress:', user);
@@ -123,37 +91,80 @@ const DetallesVia = () => {
         }
     };
 
-
     return (
-        <SafeAreaView style={styles.container}>
-            <HeaderInfo viaData={viaData} handleBouldersPress={handleBouldersPress} handleRoutesPress={handleRoutesPress} />
+        <>
+        <View style={styles.headerContainer}>
+        <View style={styles.headerBoulderData}>
+            <TouchableOpacity style={styles.headerTextContainer} onPress={handleBouldersPress}>
+                <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.address}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
+                <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
+            </TouchableOpacity>
+            {isWorker && (
+            <TouchableOpacity style={styles.editButton}>
+              <Text style={styles.editButtonText}>✏️</Text>
+            </TouchableOpacity>
+            )}
+        </View>
+
+        <View style={styles.headerBoulderData}>
+            <TouchableOpacity style={styles.headerTextContainer} onPress={handleRoutesPress}>
+                <Text style={styles.infoTitle}>{viaData.name}</Text>
+                <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
+                <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
+                <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
+                <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
+            </TouchableOpacity>
+            {isWorker && (
+            <TouchableOpacity style={styles.editButton}>
+              <Text style={styles.editButtonText}>✏️</Text>
+            </TouchableOpacity>
+            )}
+        </View>
+        </View>
+            <SafeAreaView style={styles.container}>
                 <FlatList
                     contentContainerStyle={styles.flatListContent}
                     data={data}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <>
-                        <View style={styles.itemContainer}>
-                            <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
-                                {renderVideo(item)}
-                            </TouchableOpacity>
-                            <Text style={styles.author}>Autor: {item.user.name}</Text>
-                            <Text style={styles.time}>Tiempo: {item.duration} minutos</Text>
-                        </View>
-                        <TouchableOpacity style={styles.editButton}>
-                            <Text style={styles.editButtonText}>✏️</Text>
+                    <>
+                    <View style={styles.itemContainer}>
+                        <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
+                            {renderVideo(item)}
                         </TouchableOpacity>
-                        </>
+                        <View style={styles.itemDataAndButton}>
+                            <Text style={styles.author}>Autor: {item.user.name}</Text>
+                            <Text style={styles.time}>Duración: {item.duration} minutos</Text>
+                            {isWorker && (
+                            <TouchableOpacity style={styles.editButton}>
+                                <Text style={styles.editButtonText}>🗑️</Text>
+                            </TouchableOpacity>
+                            )}
+                        </View>
+                    </View>
+                    </>
                     )}
                 />
-            <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
-                <Text style={styles.cancelButtonText}>VOLVER</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+                <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
+                    <Text style={styles.cancelButtonText}>VOLVER</Text>
+                </TouchableOpacity>
+            </SafeAreaView>
+        </>
     );
 };
 
 const styles = StyleSheet.create({
+    itemDataAndButton: {
+        flexDirection: 'row',
+        padding: 10,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     headerContainer: {
         width: '100%',
         padding: 10,
@@ -222,7 +233,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         width: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: '#c7eff0',
         padding: 15,
         marginVertical: 8,
         borderRadius: 5,

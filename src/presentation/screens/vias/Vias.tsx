@@ -79,9 +79,11 @@ const Vias: React.FC = () => {
                   <Text style={styles.routeText}>Presa: {item.presa}</Text>
                   <Text style={styles.routeText}>Creación: {new Date(item.creationDate).toLocaleDateString()}</Text>
                 </TouchableOpacity>
+                {isWorker && (
                 <TouchableOpacity style={styles.editButton}>
                   <Text style={styles.editButtonText}>✏️</Text>
                 </TouchableOpacity>
+                )}
               </View>
           </>
           )}
