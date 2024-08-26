@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbff00',
   },
   routeTextContainer: {
-    flex: 1, // Para que el texto ocupe todo el espacio disponible
+    flex: 1,
   },
   button: {
     width: '80%',
@@ -153,14 +153,14 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     routeContainer: {
-      flexDirection: 'row', // Añadir esta línea para alinear el texto y el botón de edición
+      flexDirection: 'row',
       padding: 10,
       marginVertical: 8,
       marginHorizontal: 16,
       borderRadius: 10,
       borderColor: '#000',
       borderWidth: 1,
-      justifyContent: 'space-between', // Distribuir espacio entre el texto y el botón de edición
+      justifyContent: 'space-between',
       alignItems: 'center',
     },
     routeText: {

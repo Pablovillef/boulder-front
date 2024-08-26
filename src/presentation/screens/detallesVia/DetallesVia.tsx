@@ -16,23 +16,35 @@ type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' | 'Vias
 
 const HeaderInfo = ({ viaData, handleBouldersPress, handleRoutesPress }: { viaData: any, handleBouldersPress: () => void, handleRoutesPress: () => void }) => {
     return (
+        <>
         <View style={styles.headerContainer}>
-            <TouchableOpacity style={styles.headerBox} onPress={handleBouldersPress}>
-                <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
-                <Text style={styles.headerText}>{viaData.boulder.address}</Text>
-                <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
-                <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
-                <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
+            <View style={styles.headerBoulderData}>
+                <TouchableOpacity style={styles.headerTextContainer} onPress={handleBouldersPress}>
+                    <Text style={styles.headerTitle}>{viaData.boulder.name}</Text>
+                    <Text style={styles.headerText}>{viaData.boulder.address}</Text>
+                    <Text style={styles.headerText}>{viaData.boulder.locality}</Text>
+                    <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
+                    <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.editButton}>
+                  <Text style={styles.editButtonText}>✏️</Text>
+                </TouchableOpacity>
+            </View>
 
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.infoBox} onPress={handleRoutesPress}>
-                <Text style={styles.infoTitle}>{viaData.name}</Text>
-                <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
-                <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
-                <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
-                <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
-            </TouchableOpacity>
+            <View style={styles.headerBoulderData}>
+                <TouchableOpacity style={styles.headerTextContainer} onPress={handleRoutesPress}>
+                    <Text style={styles.infoTitle}>{viaData.name}</Text>
+                    <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
+                    <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
+                    <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
+                    <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.editButton}>
+                  <Text style={styles.editButtonText}>✏️</Text>
+                </TouchableOpacity>
+            </View>
         </View>
+        </>
     );
 };
 
@@ -120,6 +132,7 @@ const DetallesVia = () => {
                     data={data}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
+                        <>
                         <View style={styles.itemContainer}>
                             <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
                                 {renderVideo(item)}
@@ -127,6 +140,10 @@ const DetallesVia = () => {
                             <Text style={styles.author}>Autor: {item.user.name}</Text>
                             <Text style={styles.time}>Tiempo: {item.duration} minutos</Text>
                         </View>
+                        <TouchableOpacity style={styles.editButton}>
+                            <Text style={styles.editButtonText}>✏️</Text>
+                        </TouchableOpacity>
+                        </>
                     )}
                 />
             <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
@@ -137,6 +154,52 @@ const DetallesVia = () => {
 };
 
 const styles = StyleSheet.create({
+    headerContainer: {
+        width: '100%',
+        padding: 10,
+        backgroundColor: '#17bd93', // Color de fondo del header
+        position: 'absolute',
+        top: 0,
+        zIndex: 1,
+    },
+    headerBoulderData: {
+        flexDirection: 'row',
+        padding: 10,
+        marginVertical: 8,
+        borderRadius: 10,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor:'#d0f0b3',
+        borderColor: '#000',
+        borderWidth: 1,
+    },
+    headerTextContainer: {
+        flex: 1, // Ocupa el espacio disponible para el texto
+    },
+    headerTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    headerText: {
+        fontSize: 14,
+    },
+    infoTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    infoText: {
+        fontSize: 14,
+    },
+    editButton: {
+        padding: 10,
+        backgroundColor: '#fbff00', // Color de fondo de los botones
+        borderRadius: 5,
+        borderColor: '#000',
+        borderWidth: 1,
+    },
+    editButtonText: {
+        fontSize: 18,
+    },
     cancelButton: {
         backgroundColor: '#FF6600',
         padding: 10,
@@ -153,44 +216,9 @@ const styles = StyleSheet.create({
         // Para insertar botones de atras, etc
     },
     flatListContent: {
-        marginTop: 90,
+        marginTop: 120,
         paddingTop: 180,
         paddingBottom: 100,
-    },
-    headerContainer: {
-        width: '100%',
-        padding: 10,
-        backgroundColor: '#fff',
-        position: 'absolute',
-        top: 0,
-        zIndex: 1,
-    },
-    headerBox: {
-        width: '100%',
-        borderWidth: 1,
-        borderColor: '#000',
-        padding: 10,
-        marginBottom: 10,
-    },
-    infoBox: {
-        width: '100%',
-        borderWidth: 1,
-        borderColor: '#000',
-        padding: 10,
-    },
-    headerTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    headerText: {
-        fontSize: 14,
-    },
-    infoTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    infoText: {
-        fontSize: 14,
     },
     itemContainer: {
         width: '100%',
