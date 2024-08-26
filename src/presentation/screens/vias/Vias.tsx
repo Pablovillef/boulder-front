@@ -80,9 +80,14 @@ const Vias: React.FC = () => {
                   <Text style={styles.routeText}>Creación: {new Date(item.creationDate).toLocaleDateString()}</Text>
                 </TouchableOpacity>
                 {isWorker && (
+                <>
                 <TouchableOpacity style={styles.editButton}>
                   <Text style={styles.editButtonText}>✏️</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.editButton}>
+                  <Text style={styles.editButtonText}>🗑️</Text>
+                </TouchableOpacity>
+                </>
                 )}
               </View>
           </>
@@ -102,6 +107,7 @@ const Vias: React.FC = () => {
 
 const styles = StyleSheet.create({
   editButton: {
+    marginRight: 2,
     padding: 10,
     backgroundColor: '#fbff00',
     borderRadius: 5,

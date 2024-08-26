@@ -118,9 +118,14 @@ const DetallesVia = () => {
                 <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
             </TouchableOpacity>
             {isWorker && (
+            <>
             <TouchableOpacity style={styles.editButton}>
               <Text style={styles.editButtonText}>✏️</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.editButton}>
+                <Text style={styles.editButtonText}>🗑️</Text>
+            </TouchableOpacity>
+            </>
             )}
         </View>
         </View>
@@ -202,6 +207,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     editButton: {
+        marginRight: 2,
         padding: 10,
         backgroundColor: '#fbff00', // Color de fondo de los botones
         borderRadius: 5,
