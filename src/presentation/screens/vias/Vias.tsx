@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
   },
     container: {
       flex: 1,
+      backgroundColor: '#ffffff',
     },
     header: {
       padding: 10,
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
       marginVertical: 8,
       marginHorizontal: 16,
       borderRadius: 10,
-      borderColor: '#ccc',
+      borderColor: '#000',
       borderWidth: 1,
       justifyContent: 'space-between', // Distribuir espacio entre el texto y el botón de edición
       alignItems: 'center',
