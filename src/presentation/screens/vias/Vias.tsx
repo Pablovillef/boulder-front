@@ -70,17 +70,23 @@ const Vias: React.FC = () => {
           data={routesData}
           keyExtractor={item => item.idRoute.toString()}
           renderItem={({item}) => (
-          <TouchableOpacity onPress={() => handleRoutePress(item)}>
-            <View style={styles.routeContainer}>
-              <Text style={styles.routeText}>Nombre: {item.name}</Text>
-              <Text style={styles.routeText}>Tipo: {item.typeRoute}</Text>
-              <Text style={styles.routeText}>Nivel: {item.num_nivel}</Text>
-              <Text style={styles.routeText}>Presa: {item.presa}</Text>
-              <Text style={styles.routeText}>Creación: {new Date(item.creationDate).toLocaleDateString()}</Text>
-            </View>
-          </TouchableOpacity>
+          <>
+              <View style={styles.routeContainer}>
+                <TouchableOpacity style={styles.routeTextContainer} onPress={() => handleRoutePress(item)}>
+                  <Text style={styles.routeText}>Nombre: {item.name}</Text>
+                  <Text style={styles.routeText}>Tipo: {item.typeRoute}</Text>
+                  <Text style={styles.routeText}>Nivel: {item.num_nivel}</Text>
+                  <Text style={styles.routeText}>Presa: {item.presa}</Text>
+                  <Text style={styles.routeText}>Creación: {new Date(item.creationDate).toLocaleDateString()}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.editButton}>
+                  <Text style={styles.editButtonText}>✏️</Text>
+                </TouchableOpacity>
+              </View>
+          </>
           )}
         />
+
       </View>
     </View>
 
@@ -93,6 +99,21 @@ const Vias: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  editButton: {
+    padding: 10,
+    backgroundColor: '#fbff00',
+    borderRadius: 5,
+    borderColor: '#000',
+    borderWidth: 1,
+
+  },
+  editButtonText: {
+    fontSize: 18,
+    backgroundColor: '#fbff00',
+  },
+  routeTextContainer: {
+    flex: 1, // Para que el texto ocupe todo el espacio disponible
+  },
   button: {
     width: '80%',
     padding: 15,
@@ -131,12 +152,15 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     routeContainer: {
+      flexDirection: 'row', // Añadir esta línea para alinear el texto y el botón de edición
       padding: 10,
       marginVertical: 8,
       marginHorizontal: 16,
       borderRadius: 10,
       borderColor: '#ccc',
       borderWidth: 1,
+      justifyContent: 'space-between', // Distribuir espacio entre el texto y el botón de edición
+      alignItems: 'center',
     },
     routeText: {
       fontSize: 16,
