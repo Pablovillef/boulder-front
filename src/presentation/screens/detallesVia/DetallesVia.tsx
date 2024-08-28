@@ -38,6 +38,8 @@ const DetallesVia = () => {
     const data = viaData.videos || [];
 
     const isWorker = user && user.role === 'WORKER';
+    const isUser = user && user.role === 'USER';
+
 
     const handleBouldersPress = async () => {
         console.log('User BouldersPress:', user);
@@ -91,6 +93,19 @@ const DetallesVia = () => {
         }
     };
 
+    const handleNewVideo = async () => {
+        try{
+            if(user){
+                const response = await axios.get(`${API_BASE_URL_LOCAL}/boulders`);
+                const boulders = response.data;
+                console.log(boulders);
+                navigation.navigate('NewVideo', { user, boulders } );
+            }
+        }catch(error){
+          console.error(error);
+        }
+      };
+
     return (
         <>
         <View style={styles.headerContainer}>
@@ -124,6 +139,13 @@ const DetallesVia = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.editButton}>
                 <Text style={styles.editButtonText}>🗑️</Text>
+            </TouchableOpacity>
+            </>
+            )}
+            {isUser && (
+            <>
+            <TouchableOpacity style={styles.editButton} onPress={handleNewVideo}>
+              <Text style={styles.editButtonText}>➕</Text>
             </TouchableOpacity>
             </>
             )}
