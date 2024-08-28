@@ -115,7 +115,7 @@ const DetallesVia = () => {
                 <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
                 <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
                 <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
-                <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
+                <Text style={styles.infoText}>Fecha de creación: {new Date(viaData.creationDate).toLocaleDateString()}</Text>
             </TouchableOpacity>
             {isWorker && (
             <>
