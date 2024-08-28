@@ -38,6 +38,8 @@ const DetallesVia = () => {
     const data = viaData.videos || [];
 
     const isWorker = user && user.role === 'WORKER';
+    const isUser = user && user.role === 'USER';
+
 
     const handleBouldersPress = async () => {
         console.log('User BouldersPress:', user);
@@ -91,6 +93,19 @@ const DetallesVia = () => {
         }
     };
 
+    const handleNewVideo = async () => {
+        try{
+            if(user){
+                const response = await axios.get(`${API_BASE_URL_LOCAL}/boulders`);
+                const boulders = response.data;
+                console.log(boulders);
+                navigation.navigate('NewVideo', { user, boulders } );
+            }
+        }catch(error){
+          console.error(error);
+        }
+      };
+
     return (
         <>
         <View style={styles.headerContainer}>
@@ -115,7 +130,7 @@ const DetallesVia = () => {
                 <Text style={styles.infoText}>Tipo: {viaData.typeRoute}</Text>
                 <Text style={styles.infoText}>Nivel: {viaData.num_nivel}</Text>
                 <Text style={styles.infoText}>Presa: {viaData.presa}</Text>
-                <Text style={styles.infoText}>Fecha de creación:{viaData.creationDate}</Text>
+                <Text style={styles.infoText}>Fecha de creación: {new Date(viaData.creationDate).toLocaleDateString()}</Text>
             </TouchableOpacity>
             {isWorker && (
             <>
@@ -124,6 +139,13 @@ const DetallesVia = () => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.editButton}>
                 <Text style={styles.editButtonText}>🗑️</Text>
+            </TouchableOpacity>
+            </>
+            )}
+            {isUser && (
+            <>
+            <TouchableOpacity style={styles.editButton} onPress={handleNewVideo}>
+              <Text style={styles.editButtonText}>➕</Text>
             </TouchableOpacity>
             </>
             )}
@@ -140,11 +162,11 @@ const DetallesVia = () => {
                         <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
                             {renderVideo(item)}
                         </TouchableOpacity>
-                        <View style={styles.itemDataAndButton}>
+                        <View style={styles.itemData}>
                             <Text style={styles.author}>Autor: {item.user.name}</Text>
                             <Text style={styles.time}>Duración: {item.duration} minutos</Text>
                             {isWorker && (
-                            <TouchableOpacity style={styles.editButton}>
+                            <TouchableOpacity style={styles.deleteButton}>
                                 <Text style={styles.editButtonText}>🗑️</Text>
                             </TouchableOpacity>
                             )}
@@ -162,18 +184,24 @@ const DetallesVia = () => {
 };
 
 const styles = StyleSheet.create({
-    itemDataAndButton: {
-        flexDirection: 'row',
-        padding: 10,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        justifyContent: 'space-between',
+    deleteButton: {
+        width: 40,
+        height: 40,
+        marginRight: 2,
+        backgroundColor: '#fbff00',
+        borderRadius: 5,
+        borderColor: '#000',
+        borderWidth: 1,
+        justifyContent: 'center',
         alignItems: 'center',
+    },
+    itemData: {
+        marginBottom: 10,
     },
     headerContainer: {
         width: '100%',
         padding: 10,
-        backgroundColor: '#17bd93', // Color de fondo del header
+        backgroundColor: '#17bd93',
         position: 'absolute',
         top: 0,
         zIndex: 1,
@@ -190,7 +218,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     headerTextContainer: {
-        flex: 1, // Ocupa el espacio disponible para el texto
+        flex: 1,
     },
     headerTitle: {
         fontSize: 18,
@@ -209,7 +237,7 @@ const styles = StyleSheet.create({
     editButton: {
         marginRight: 2,
         padding: 10,
-        backgroundColor: '#fbff00', // Color de fondo de los botones
+        backgroundColor: '#fbff00',
         borderRadius: 5,
         borderColor: '#000',
         borderWidth: 1,
@@ -257,6 +285,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#777',
         marginTop: 5,
+        marginBottom: 2,
     },
 });
 
