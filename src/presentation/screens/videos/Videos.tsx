@@ -68,8 +68,18 @@ const Videos: React.FC = () => {
                         <TouchableOpacity onPress={() => setPlayingVideo(item.url)}>
                             {renderVideo(item)}
                         </TouchableOpacity>
-                        <Text style={styles.author}>Descripción: {item.description || 'Sin descripción'}</Text>
-                        <Text style={styles.time}>Duración: {item.duration} minutos</Text>
+                        <View style={styles.infoContainer}>
+                          <Text style={styles.author}>Descripción: {item.description || 'Sin descripción'}</Text>
+                          <Text style={styles.time}>Duración: {item.duration} minutos</Text>
+                        </View>
+                        <View style={styles.buttonsContainer}>
+                          <TouchableOpacity style={styles.editButton}>
+                            <Text style={styles.editButtonText}>✏️</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={styles.editButton}>
+                            <Text style={styles.editButtonText}>🗑️</Text>
+                          </TouchableOpacity>
+                        </View>
                     </View>
                 )}
         />
@@ -83,6 +93,21 @@ const Videos: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  editButton: {
+    marginRight: 2,
+    backgroundColor: '#fbff00',
+    borderRadius: 5,
+    borderColor: '#000',
+    borderWidth: 1,
+    width: 40,
+    height: 40,
+            alignItems: 'center',
+        justifyContent: 'center',
+},
+editButtonText: {
+    fontSize: 18,
+    textAlign: 'center',
+},
   cancelButton: {
     backgroundColor: '#FF6600',
     padding: 10,
@@ -124,6 +149,13 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderRadius: 5,
   },
+  buttonsContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  infoContainer: {
+    marginBottom: 10,
+  },
   author: {
     fontSize: 16,
     color: '#555',
@@ -139,4 +171,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
   },
 });
+
 export default Videos;
