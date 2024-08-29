@@ -36,6 +36,7 @@ export type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' 
 
 // Definimos los tipos para los datos
 export interface Video {
+  id: string;
   title: string;
   description?: string;
   url: string;

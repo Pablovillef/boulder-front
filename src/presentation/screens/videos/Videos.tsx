@@ -7,10 +7,13 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import { Video, VideosProp, VideosScreenNavigationProp } from '../../interfaces/types';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import axios from 'axios';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
 
 const Videos: React.FC = () => {
 
@@ -19,6 +22,8 @@ const Videos: React.FC = () => {
     const navigation = useNavigation<VideosScreenNavigationProp>();
 
     const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+    const [videoList, setVideoList] = useState<Video[]>(videos); // Estado para la lista de videos
+
 
     const extractVideoId = (url: string) => {
       const match = url.match(
@@ -48,6 +53,34 @@ const Videos: React.FC = () => {
         return null;
     };
 
+    const handleDelete = (item: Video) => {
+      Alert.alert(
+          'Confirmación',
+          '¿Estás seguro que deseas eliminar este video?',
+          [
+              { text: 'Cancelar', style: 'cancel' },
+              { text: 'Eliminar', onPress: async () => {
+                  // Aquí iría la lógica para eliminar el video
+                  try{
+                    const videoId = item.id;
+                    console.log(item.id);
+
+                    console.log(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
+                    await axios.delete(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
+
+                    console.log(item);
+                    console.log('Video eliminado:', item.title);
+
+                    setVideoList(prevVideos => prevVideos.filter(video => video.id !== videoId));
+
+                  }catch(error){
+                    console.error(error);
+                  }
+              }
+          }
+      ]);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
         <View style={styles.header}>
@@ -61,7 +94,7 @@ const Videos: React.FC = () => {
 
         <FlatList
                 contentContainerStyle={styles.flatListContent}
-                data={videos}
+                data={videoList}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.itemContainer}>
@@ -76,7 +109,7 @@ const Videos: React.FC = () => {
                           <TouchableOpacity style={styles.editButton}>
                             <Text style={styles.editButtonText}>✏️</Text>
                           </TouchableOpacity>
-                          <TouchableOpacity style={styles.editButton}>
+                          <TouchableOpacity style={styles.editButton} onPress={() => handleDelete(item)}>
                             <Text style={styles.editButtonText}>🗑️</Text>
                           </TouchableOpacity>
                         </View>

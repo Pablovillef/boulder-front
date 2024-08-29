@@ -2,8 +2,8 @@
 /* eslint-disable prettier/prettier */
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { RootStackParamList } from '../../interfaces/types';
+import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
+import { RootStackParamList, Video } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 import axios from 'axios';
@@ -36,6 +36,8 @@ const DetallesVia = () => {
     const { viaData, user } = route.params;
     const navigation = useNavigation<NavigationProp>();
     const data = viaData.videos || [];
+    const [videoList, setVideoList] = useState<any[]>(data); // Estado para la lista de videos
+
 
     const isWorker = user && user.role === 'WORKER';
     const isUser = user && user.role === 'USER';
@@ -106,6 +108,34 @@ const DetallesVia = () => {
         }
       };
 
+      const handleDelete = (item: Video) => {
+        Alert.alert(
+            'Confirmación',
+            '¿Estás seguro que deseas eliminar este video?',
+            [
+                { text: 'Cancelar', style: 'cancel' },
+                { text: 'Eliminar', onPress: async () => {
+                    // Aquí iría la lógica para eliminar el video
+                    try{
+                      const videoId = item.id;
+                      console.log(item.id);
+  
+                      console.log(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
+                      await axios.delete(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
+  
+                      console.log(item);
+                      console.log('Video eliminado:', item.title);
+  
+                      setVideoList(prevVideos => prevVideos.filter(video => video.id !== videoId));
+  
+                    }catch(error){
+                      console.error(error);
+                    }
+                }
+            }
+        ]);
+      };
+
     return (
         <>
         <View style={styles.headerContainer}>
@@ -154,7 +184,7 @@ const DetallesVia = () => {
             <SafeAreaView style={styles.container}>
                 <FlatList
                     contentContainerStyle={styles.flatListContent}
-                    data={data}
+                    data={videoList}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                     <>
@@ -167,7 +197,7 @@ const DetallesVia = () => {
                             <Text style={styles.time}>Duración: {item.duration} minutos</Text>
                             {isWorker && (
                             <TouchableOpacity style={styles.deleteButton}>
-                                <Text style={styles.editButtonText}>🗑️</Text>
+                                <Text style={styles.editButtonText} onPress={() => handleDelete(item)}>🗑️</Text>
                             </TouchableOpacity>
                             )}
                         </View>
