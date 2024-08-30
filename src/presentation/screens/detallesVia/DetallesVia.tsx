@@ -4,7 +4,7 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 
 import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert, Modal, TextInput } from 'react-native';
-import { RootStackParamList, Video, UserHomeDTO, Route } from '../../interfaces/types';
+import { RootStackParamList, Video, Route } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 import axios from 'axios';
