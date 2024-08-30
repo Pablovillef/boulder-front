@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Modal  } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Modal, Alert  } from 'react-native';
 import { useRoute, useNavigation  } from '@react-navigation/native';
 import { RootStackParamList, Route, ViasScreenRouteProp } from '../../interfaces/types';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -88,6 +88,45 @@ const Vias: React.FC = () => {
     navigation.navigate('Home', { user });
   };
 
+  const canDeleteRoute = async (idRoute: number): Promise<boolean> => {
+    try {
+      const response = await axios.get(`${API_BASE_URL_LOCAL}/route/${idRoute}/videos`);
+      const videos = response.data;
+      console.log(videos);
+      return videos; // Si la longitud es 0, no hay videos asociados
+    } catch (error) {
+      console.error('Error al verificar videos asociados a la ruta:', error);
+      return false; // En caso de error, prevenir la eliminación por seguridad
+    }
+  };
+
+  const handleDelete = async (routeId: number) => {
+    const hasVideos = await canDeleteRoute(routeId);
+    console.log('hasVideos: ', hasVideos);
+    if (!hasVideos) {
+      Alert.alert(
+        'Confirmación',
+        '¿Estás seguro que deseas eliminar esta ruta?',
+        [
+          { text: 'Cancelar', style: 'cancel' },
+          {
+            text: 'Eliminar', 
+            onPress: async () => {
+              try {
+                await axios.delete(`${API_BASE_URL_LOCAL}/route/${routeId}`);
+                setRouteList(routeList.filter(route => route.idRoute !== routeId));
+              } catch (error) {
+                console.error('Error al eliminar la ruta:', error);
+              }
+            },
+          },
+        ]
+      );
+    } else {
+      Alert.alert('No se puede eliminar la ruta porque tiene videos asociados.');
+    }
+  };
+
   const isWorker = user.role === 'WORKER';
 
   return (
@@ -124,7 +163,7 @@ const Vias: React.FC = () => {
                 <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
                   <Text style={styles.editButtonText}>✏️</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.editButton}>
+                <TouchableOpacity style={styles.editButton} onPress={() => handleDelete(item.idRoute)}>
                   <Text style={styles.editButtonText}>🗑️</Text>
                 </TouchableOpacity>
                 </>
