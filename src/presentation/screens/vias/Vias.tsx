@@ -59,11 +59,6 @@ const Vias: React.FC = () => {
             <Text style={styles.headerText}>Teléfono 2: {boulder.phone2}</Text>
           )}
         </TouchableOpacity>
-        {isWorker && (
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Editar Rocódromo</Text>
-        </TouchableOpacity>
-        )}
       </View>
       <View>
         <FlatList
