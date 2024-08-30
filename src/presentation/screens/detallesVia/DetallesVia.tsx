@@ -146,11 +146,6 @@ const DetallesVia = () => {
                 <Text style={styles.headerText}>{viaData.boulder.mail}</Text>
                 <Text style={styles.headerText}>{viaData.boulder.phone}</Text>
             </TouchableOpacity>
-            {isWorker && (
-            <TouchableOpacity style={styles.editButton}>
-              <Text style={styles.editButtonText}>✏️</Text>
-            </TouchableOpacity>
-            )}
         </View>
 
         <View style={styles.headerBoulderData}>
