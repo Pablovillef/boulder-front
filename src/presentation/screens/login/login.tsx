@@ -6,7 +6,8 @@ import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { LoginScreenNavigationProp } from '../../interfaces/types';
-import { API_BASE_URL_LOCAL } from '../../../config/config';
+import { API_BASE_URL_PRO } from '../../../config/config';
+
 
 const Login: React.FC = () => {
 
@@ -22,10 +23,9 @@ const Login: React.FC = () => {
   const handleSignIn = async () => {
 
     try{
+      console.log(`${API_BASE_URL_PRO}/auth/login`);
+      const response = await axios.post(`${API_BASE_URL_PRO}/auth/login`, {
 
-      console.log(`${API_BASE_URL_LOCAL}/auth/login`);
-
-      const response = await axios.post(`${API_BASE_URL_LOCAL}/auth/login`, {
         email,
         password,
       });

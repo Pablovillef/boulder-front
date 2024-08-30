@@ -11,7 +11,9 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../interfaces/types';
-import { API_BASE_URL_LOCAL } from '../../../config/config';
+
+import { API_BASE_URL_PRO } from '../../../config/config';
+
 
 
 type NewUserScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
@@ -31,7 +33,7 @@ const NewUser: React.FC = () => {
         password,
     };
 
-    const apiURL = `${API_BASE_URL_LOCAL}/user/enrollment`;
+    const apiURL = `${API_BASE_URL_PRO}/user/enrollment`;
 
     try{
         const response = await axios.post(apiURL, formData);

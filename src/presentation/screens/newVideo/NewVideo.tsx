@@ -9,10 +9,11 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+
 import { NewVideoProp, RootStackParamList, Route } from '../../interfaces/types';
 import axios from 'axios';
-import { API_BASE_URL_LOCAL } from '../../../config/config';
 import { Picker } from '@react-native-picker/picker';
+import { API_BASE_URL_PRO } from '../../../config/config';
 
 
 type NewVideoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -21,6 +22,7 @@ type NewVideoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Hom
 const NewVideo: React.FC = () => {
 
     const route = useRoute<NewVideoProp>();
+
     const { user, boulders } = route.params;
     console.log('Route params:', route.params);
 
@@ -30,6 +32,7 @@ const NewVideo: React.FC = () => {
     const [duration, setDuration] = useState('');
     const [boulderName, setBoulderName] = useState('');
     const [routeName, setRouteName] = useState('');
+
     const [routes, setRoutes] = useState<Route[]>([]);
 
     // Crear un mapa para acceder al ID del rocódromo
@@ -47,7 +50,7 @@ const NewVideo: React.FC = () => {
             if(boulderId){
                 try{
                     // Obtener las vías del rocódromo seleccionado
-                    const response = await axios.get(`${API_BASE_URL_LOCAL}/boulder/${boulderId}/routes`);
+                    const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${boulderId}/routes`);
                     setRoutes(response.data);
                 }catch(error){
                     console.error(error);
@@ -58,7 +61,6 @@ const NewVideo: React.FC = () => {
             setRoutes([]);
         }
     };
-
 
     const handleCreateVideo = async () => {
         let formData = {
@@ -71,7 +73,8 @@ const NewVideo: React.FC = () => {
         };
 
         try{
-            const response = await axios.post(`${API_BASE_URL_LOCAL}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
+            const response = await axios.post(`${API_BASE_URL_PRO}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
+
             console.log(response.data);
             if (response.status === 201) {
                 console.warn('Video creado exitosamente');
@@ -90,21 +93,27 @@ const NewVideo: React.FC = () => {
         <View style={styles.container}>
             <Text style={styles.title}>AÑADIR NUEVO VIDEO</Text>
 
+
             <Text style={styles.label}>Título del vídeo</Text>
+
             <TextInput
                 style={styles.input}
                 placeholder="Título del vídeo"
                 value={title}
                 onChangeText={setTitle}
             />
+
             <Text style={styles.label}>Descripción del vídeo</Text>
+
             <TextInput
                 style={styles.input}
                 placeholder="Breve descripcion del video"
                 value={description}
                 onChangeText={setDescription}
             />
+
             <Text style={styles.label}>URL del vídeo</Text>
+
             <TextInput
                 style={styles.input}
                 placeholder="URL del video"
