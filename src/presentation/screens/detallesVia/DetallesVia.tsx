@@ -2,8 +2,8 @@
 /* eslint-disable prettier/prettier */
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
-import { RootStackParamList, Video, UserHomeDTO } from '../../interfaces/types';
+import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert, Modal, TextInput } from 'react-native';
+import { RootStackParamList, Video, UserHomeDTO, Route } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 import axios from 'axios';
@@ -38,6 +38,43 @@ const DetallesVia = () => {
     const data = viaData.videos || [];
     const [videoList, setVideoList] = useState<any[]>(data); // Estado para la lista de videos
 
+    const [editingRoute, setEditingRoute] = useState<Route | null>(null); // Video en edición
+    const [editModalVisible, setEditModalVisible] = useState<boolean>(false); // Estado para el modal
+    const [editQrRoute, setEditQrRoute] = useState<string>('');
+    const [editName, setEditName] = useState<string>('');
+    const [editTypeRoute, setEditTypeRoute] = useState<string>('');
+    const [editNum_nivel, setEditNum_nivel] = useState<number>(0);
+    const [editPresa, setEditPresa] = useState<string>('');
+  
+    const handleEdit = (item: Route) => {
+      setEditingRoute(item);
+      setEditQrRoute(item.qrRoute);
+      setEditName(item.name);
+      setEditTypeRoute(item.typeRoute);
+      setEditNum_nivel(item.num_nivel);
+      setEditPresa(item.presa);
+      setEditModalVisible(true);
+    };
+
+    const handleSaveEdit = async () => {
+        if (editingRoute) {
+          try {
+            const updatedRoute = {
+              qrRoute: editQrRoute,
+              name: editName,
+              typeRoute: editTypeRoute,
+              num_nivel: editNum_nivel,
+              presa: editPresa,
+            };
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const response = await axios.put(`${API_BASE_URL_LOCAL}/route/${editingRoute.idRoute}`, updatedRoute);
+            setEditModalVisible(false);
+            handleHome();
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      };
 
     const isWorker = user && user.role === 'WORKER';
     const isUser = user && user.role === 'USER';
@@ -201,7 +238,7 @@ const DetallesVia = () => {
             </TouchableOpacity>
             {isWorker && (
             <>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(viaData)}>
               <Text style={styles.editButtonText}>✏️</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.editButton} onPress={handleDeleteRoute}>
@@ -217,6 +254,69 @@ const DetallesVia = () => {
             </>
             )}
         </View>
+
+        <Modal
+        animationType= "none"
+        transparent={true}
+        visible={editModalVisible}
+        onRequestClose={() => setEditModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Editar Ruta</Text>
+
+            <Text style={styles.label}>QR de la ruta</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="QR"
+              value={editQrRoute}
+              onChangeText={setEditQrRoute}
+            />
+
+            <Text style={styles.label}>Nombre de la ruta</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nombre"
+              value={editName}
+              onChangeText={setEditName}
+            />
+
+            <Text style={styles.label}>Tipo de ruta</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Tipo"
+              value={editTypeRoute}
+              onChangeText={setEditTypeRoute}
+            />
+
+            <Text style={styles.label}>Nivel de la ruta</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nivel"
+              keyboardType="numeric"
+              value={editNum_nivel.toString()}
+              onChangeText={(text) => setEditNum_nivel(Number(text))}
+            />
+
+            <Text style={styles.label}>Color de las presas</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Duración"
+              value={editPresa}
+              onChangeText={setEditPresa}
+            />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.saveButton} onPress={handleSaveEdit}>
+                <Text style={styles.buttonText}>Guardar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelButtonModal} onPress={() => setEditModalVisible(false)}>
+                <Text style={styles.buttonText}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      
         </View>
             <SafeAreaView style={styles.container}>
                 <FlatList
@@ -251,6 +351,54 @@ const DetallesVia = () => {
 };
 
 const styles = StyleSheet.create({
+    buttonText: {
+        fontSize: 16,
+      },
+    cancelButtonModal: {
+      padding: 10,
+      backgroundColor: '#f44336', // Color para el botón de cancelar
+      borderRadius: 5,
+      flex: 1,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 20, // Separación entre los campos y los botones
+    },
+    saveButton: {
+      padding: 10,
+      backgroundColor: '#4CAF50', // Color para el botón de guardar
+      borderRadius: 5,
+      flex: 1,
+      marginRight: 10, // Separación entre los dos botones
+    },
+    input: {
+      borderBottomWidth: 1,
+      marginBottom: 20,
+      padding: 8,
+    },
+    label: {
+      fontSize: 16,
+      marginBottom: 5,
+      color: '#333',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  modalTitle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    color: '#000000',
+  },
     deleteButton: {
         width: 40,
         height: 40,
