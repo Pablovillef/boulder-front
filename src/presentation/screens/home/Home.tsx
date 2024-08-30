@@ -3,7 +3,9 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { HomeProps } from '../../interfaces/types';
 import axios from 'axios';
+
 import { API_BASE_URL_PRO } from '../../../config/config';
+
 
 const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
@@ -17,6 +19,7 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
       const url = user.role === 'WORKER'
       ? `${API_BASE_URL_PRO}/boulder/${user.boulder.idBoulder}/routes` // URL para rol WORKER
       : `${API_BASE_URL_PRO}/boulders`; // URL para otros roles
+
 
       const response = await axios.get(url);
       const boulderData = response.data;
@@ -52,8 +55,15 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
     navigation.navigate('NewRoute', { user } );
   };
 
-  const handleNewVideo = () => {
-    navigation.navigate('NewVideo', { user } );
+  const handleNewVideo = async () => {
+    try{
+      const response = await axios.get(`${API_BASE_URL_PRO}/boulders`);
+      const boulders = response.data;
+      console.log(boulders);
+      navigation.navigate('NewVideo', { user, boulders } );
+    }catch(error){
+      console.error(error);
+    }
   };
 
   const handleVideos = async () => {
@@ -126,7 +136,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     paddingTop: 50,
   },
   header: {

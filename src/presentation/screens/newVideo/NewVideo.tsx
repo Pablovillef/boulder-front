@@ -9,8 +9,10 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { NewVideoProp, RootStackParamList } from '../../interfaces/types';
+
+import { NewVideoProp, RootStackParamList, Route } from '../../interfaces/types';
 import axios from 'axios';
+import { Picker } from '@react-native-picker/picker';
 import { API_BASE_URL_PRO } from '../../../config/config';
 
 
@@ -20,7 +22,9 @@ type NewVideoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Hom
 const NewVideo: React.FC = () => {
 
     const route = useRoute<NewVideoProp>();
-    const { user } = route.params;
+
+    const { user, boulders } = route.params;
+    console.log('Route params:', route.params);
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -29,8 +33,34 @@ const NewVideo: React.FC = () => {
     const [boulderName, setBoulderName] = useState('');
     const [routeName, setRouteName] = useState('');
 
+    const [routes, setRoutes] = useState<Route[]>([]);
+
+    // Crear un mapa para acceder al ID del rocódromo
+    const boulderMap = new Map(boulders.map(boulder => [boulder.name, boulder.idBoulder]));
+
+
     const navigation = useNavigation<NewVideoScreenNavigationProp>();
 
+    const handleBoulderChange = async (selectedBoulderName: string) => {
+        setBoulderName(selectedBoulderName);
+        setRouteName('');
+
+        if(selectedBoulderName){
+            const boulderId = boulderMap.get(selectedBoulderName);
+            if(boulderId){
+                try{
+                    // Obtener las vías del rocódromo seleccionado
+                    const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${boulderId}/routes`);
+                    setRoutes(response.data);
+                }catch(error){
+                    console.error(error);
+                }
+            }
+
+        }else{
+            setRoutes([]);
+        }
+    };
 
     const handleCreateVideo = async () => {
         let formData = {
@@ -44,6 +74,7 @@ const NewVideo: React.FC = () => {
 
         try{
             const response = await axios.post(`${API_BASE_URL_PRO}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
+
             console.log(response.data);
             if (response.status === 201) {
                 console.warn('Video creado exitosamente');
@@ -61,42 +92,78 @@ const NewVideo: React.FC = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>AÑADIR NUEVO VIDEO</Text>
+
+
+            <Text style={styles.label}>Título del vídeo</Text>
+
             <TextInput
                 style={styles.input}
                 placeholder="Título del vídeo"
                 value={title}
                 onChangeText={setTitle}
             />
+
+            <Text style={styles.label}>Descripción del vídeo</Text>
+
             <TextInput
                 style={styles.input}
                 placeholder="Breve descripcion del video"
                 value={description}
                 onChangeText={setDescription}
             />
+
+            <Text style={styles.label}>URL del vídeo</Text>
+
             <TextInput
                 style={styles.input}
                 placeholder="URL del video"
                 value={url}
                 onChangeText={setUrl}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Duracion del video en minutos"
-                value={duration}
-                onChangeText={setDuration}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Rocodromo donde se desea insertar el video"
-                value={boulderName}
-                onChangeText={setBoulderName}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Via donde se desea insertar el video"
-                value={routeName}
-                onChangeText={setRouteName}
-            />
+            <Text style={styles.label}>Duración del vídeo</Text>
+            <View style={styles.input}>
+                <Picker
+                    style={styles.picker}
+                    selectedValue={duration}
+                    onValueChange={(itemValue) => setDuration(itemValue)}
+                >
+                    <Picker.Item label="Seleccione duración..." value="" enabled={false} />
+                    {[...Array(10).keys()].map((value) => (
+                        <Picker.Item key={value + 1} label={`${value + 1} minutos`} value={`${value + 1}`} />
+                    ))}
+                </Picker>
+            </View>
+
+            <Text style={styles.label}>Nombre del rocódromo</Text>
+            <View style={styles.input}>
+                <Picker
+                    style={styles.picker}
+                    selectedValue={boulderName}
+                    onValueChange={handleBoulderChange}
+                >
+                    <Picker.Item label="Seleccione rocódromo..." value="" enabled={false} />
+                    {boulders.map((boulder) => (
+                                    <Picker.Item key={boulder.idBoulder} label={boulder.name} value={boulder.name} />
+                    ))}
+
+                </Picker>
+            </View>
+
+            <Text style={styles.label}>Nombre de la vía</Text>
+            <View style={styles.input}>
+                <Picker
+                    style={styles.picker}
+                    selectedValue={routeName}
+                    onValueChange={(itemValue) => setRouteName(itemValue)}
+                    enabled={boulderName !== ''}
+                >
+                    <Picker.Item label="Seleccione vía..." value="" enabled={false} />
+                    {routes.map((route) => (
+                        <Picker.Item key={route.idRoute} label={route.name} value={route.name} />
+                    ))}
+
+                </Picker>
+            </View>
 
             <TouchableOpacity style={styles.createButton} onPress={handleCreateVideo}>
                 <Text style={styles.createButtonText}>CREAR VÍDEO</Text>
@@ -126,6 +193,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       marginBottom: 20,
       paddingHorizontal: 10,
+      justifyContent: 'center',
     },
     createButton: {
       backgroundColor: '#00CC00',
@@ -145,6 +213,16 @@ const styles = StyleSheet.create({
     cancelButtonText: {
       color: '#fff',
       fontSize: 16,
+    },
+    picker: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'flex-start',
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 5,
+        color: '#333',
     },
 });
 

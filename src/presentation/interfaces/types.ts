@@ -9,10 +9,10 @@ export type RootStackParamList = {
   Boulders: { boulderData: Boulder[], user: UserHomeDTO };
   NewUser: undefined;
   NewRoute: { user: UserHomeDTO };
-  NewVideo: { user: UserHomeDTO };
+  NewVideo: { user: UserHomeDTO, boulders: Boulder[] };
   ScanQr: { user: UserHomeDTO | null }; // `user` puede ser UserHomeDTO o null
-  DetallesVia: { viaData: any, user: UserHomeDTO | null}; // 'user' es opcional
-  Vias: { boulder: Boulder, routesData: Route[], user: UserHomeDTO }; // `user` es opcional
+  DetallesVia: { viaData: any, user: UserHomeDTO | null};
+  Vias: { boulder: Boulder, routesData: Route[], user: UserHomeDTO };
   Videos: { videos: any, user: UserHomeDTO };
 };
 
@@ -36,6 +36,7 @@ export type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' 
 
 // Definimos los tipos para los datos
 export interface Video {
+  id: string;
   title: string;
   description?: string;
   url: string;

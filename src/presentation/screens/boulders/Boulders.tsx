@@ -5,6 +5,7 @@ import { BouldersScreenRouteProp, RootStackParamList } from '../../interfaces/ty
 import { useRoute, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { StackNavigationProp } from '@react-navigation/stack';
+
 import { API_BASE_URL_PRO } from '../../../config/config';
 
 

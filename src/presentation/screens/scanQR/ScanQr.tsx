@@ -5,7 +5,9 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ScanQrScreenNavigationProp, ScanQrScreenRouteProp } from '../../interfaces/types';
 import axios from 'axios';
+
 import { API_BASE_URL_PRO } from '../../../config/config';
+
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const ScanQr = () => {
@@ -22,8 +24,8 @@ const ScanQr = () => {
 
     // 2º Peticion http get, con los datos del QR.
     try{
-
       const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${name}/route/${id}`);
+
       const viaData = response.data;
 
       // 3º Ir al componente DetalleVia, pasandole los datos obtenidos de la petición como parámetros.

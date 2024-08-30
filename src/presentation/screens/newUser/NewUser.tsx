@@ -11,7 +11,9 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../interfaces/types';
+
 import { API_BASE_URL_PRO } from '../../../config/config';
+
 
 
 type NewUserScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
