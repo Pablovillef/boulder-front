@@ -119,20 +119,19 @@ const DetallesVia = () => {
                     try{
                       const videoId = item.id;
                       console.log(item.id);
-  
+
                       console.log(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
                       await axios.delete(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
-  
                       console.log(item);
                       console.log('Video eliminado:', item.title);
-  
+
                       setVideoList(prevVideos => prevVideos.filter(video => video.id !== videoId));
-  
+
                     }catch(error){
                       console.error(error);
                     }
-                }
-            }
+                },
+            },
         ]);
       };
 
