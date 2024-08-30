@@ -3,7 +3,7 @@
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert } from 'react-native';
-import { RootStackParamList, Video } from '../../interfaces/types';
+import { RootStackParamList, Video, UserHomeDTO } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 import axios from 'axios';
@@ -135,6 +135,49 @@ const DetallesVia = () => {
         ]);
       };
 
+      const canDeleteRoute = async (idRoute: number): Promise<boolean> => {
+        try {
+            const response = await axios.get(`${API_BASE_URL_LOCAL}/route/${idRoute}/videos`);
+            const videos = response.data;
+            return videos;
+        } catch (error) {
+            console.error('Error al verificar videos asociados a la ruta:', error);
+            return false; // En caso de error, prevenir la eliminación por seguridad
+        }
+    };
+
+    const handleHome = async () => {
+        if(user){
+            navigation.navigate('Home', { user });
+        }
+      };
+
+    const handleDeleteRoute = async () => {
+        const hasVideos = await canDeleteRoute(viaData.idRoute);
+        if (!hasVideos) {
+            Alert.alert(
+                'Confirmación',
+                '¿Estás seguro que deseas eliminar esta ruta?',
+                [
+                    { text: 'Cancelar', style: 'cancel' },
+                    {
+                        text: 'Eliminar',
+                        onPress: async () => {
+                            try {
+                                await axios.delete(`${API_BASE_URL_LOCAL}/route/${viaData.idRoute}`);
+                                handleHome();
+                            } catch (error) {
+                                console.error('Error al eliminar la ruta:', error);
+                            }
+                        },
+                    },
+                ]
+            );
+        } else {
+            Alert.alert('No se puede eliminar la ruta porque tiene videos asociados.');
+        }
+    };
+
     return (
         <>
         <View style={styles.headerContainer}>
@@ -161,7 +204,7 @@ const DetallesVia = () => {
             <TouchableOpacity style={styles.editButton}>
               <Text style={styles.editButtonText}>✏️</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity style={styles.editButton} onPress={handleDeleteRoute}>
                 <Text style={styles.editButtonText}>🗑️</Text>
             </TouchableOpacity>
             </>

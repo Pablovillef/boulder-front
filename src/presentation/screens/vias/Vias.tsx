@@ -93,7 +93,7 @@ const Vias: React.FC = () => {
       const response = await axios.get(`${API_BASE_URL_LOCAL}/route/${idRoute}/videos`);
       const videos = response.data;
       console.log(videos);
-      return videos; // Si la longitud es 0, no hay videos asociados
+      return videos;
     } catch (error) {
       console.error('Error al verificar videos asociados a la ruta:', error);
       return false; // En caso de error, prevenir la eliminación por seguridad
@@ -110,7 +110,7 @@ const Vias: React.FC = () => {
         [
           { text: 'Cancelar', style: 'cancel' },
           {
-            text: 'Eliminar', 
+            text: 'Eliminar',
             onPress: async () => {
               try {
                 await axios.delete(`${API_BASE_URL_LOCAL}/route/${routeId}`);
