@@ -320,7 +320,7 @@ const DetallesVia = () => {
           </View>
         </View>
       </Modal>
-      
+
         </View>
             <SafeAreaView style={styles.container}>
                 <FlatList
