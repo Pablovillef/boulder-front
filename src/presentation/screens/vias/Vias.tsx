@@ -6,7 +6,7 @@ import { RootStackParamList, Route, ViasScreenRouteProp } from '../../interfaces
 import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
 
-import { API_BASE_URL_PRO } from '../../../config/config';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
 
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'DetallesVia'>;
@@ -47,7 +47,7 @@ const Vias: React.FC = () => {
           presa: editPresa,
         };
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const response = await axios.put(`${API_BASE_URL_PRO}/route/${editingRoute.idRoute}`, updatedRoute);
+        const response = await axios.put(`${API_BASE_URL_LOCAL}/route/${editingRoute.idRoute}`, updatedRoute);
         const updatedRouteList = routeList.map(route =>
           route.idRoute === editingRoute.idRoute ? { ...route, ...updatedRoute } : route
         );
@@ -64,7 +64,7 @@ const Vias: React.FC = () => {
 
   const handleRoutePress = async (route: Route) => {
     try {
-      const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${boulder.name}/route/${route.idRoute}`);
+      const response = await axios.get(`${API_BASE_URL_LOCAL}/boulder/${boulder.name}/route/${route.idRoute}`);
 
       const routeDetails = response.data;
       navigation.navigate('DetallesVia', { viaData: routeDetails, user }); // Se incluye el user para restringir la navegabilidad desde Vias en funcion del rol
@@ -76,7 +76,7 @@ const Vias: React.FC = () => {
   const handleBouldersPress = async () => {
     if(user?.role !== 'WORKER'){
       try {
-        const response = await axios.get(`${API_BASE_URL_PRO}/boulders`);
+        const response = await axios.get(`${API_BASE_URL_LOCAL}/boulders`);
 
         const boulderData = response.data;
         navigation.navigate('Boulders', { boulderData, user });
@@ -92,7 +92,7 @@ const Vias: React.FC = () => {
 
   const canDeleteRoute = async (idRoute: number): Promise<boolean> => {
     try {
-      const response = await axios.get(`${API_BASE_URL_PRO}/route/${idRoute}/videos`);
+      const response = await axios.get(`${API_BASE_URL_LOCAL}/route/${idRoute}/videos`);
       const videos = response.data;
       console.log(videos);
       return videos;
@@ -115,7 +115,7 @@ const Vias: React.FC = () => {
             text: 'Eliminar',
             onPress: async () => {
               try {
-                await axios.delete(`${API_BASE_URL_PRO}/route/${routeId}`);
+                await axios.delete(`${API_BASE_URL_LOCAL}/route/${routeId}`);
                 setRouteList(routeList.filter(route => route.idRoute !== routeId));
               } catch (error) {
                 console.error('Error al eliminar la ruta:', error);

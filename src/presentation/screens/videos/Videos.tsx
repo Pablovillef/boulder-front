@@ -16,7 +16,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 
-import { API_BASE_URL_PRO } from '../../../config/config';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
 
 
 const Videos: React.FC = () => {
@@ -76,8 +76,8 @@ const Videos: React.FC = () => {
                     const videoId = item.id;
                     console.log(item.id);
 
-                    console.log(`${API_BASE_URL_PRO}/videos/${videoId}`);
-                    await axios.delete(`${API_BASE_URL_PRO}/videos/${videoId}`);
+                    console.log(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
+                    await axios.delete(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
 
                     console.log(item);
                     console.log('Video eliminado:', item.title);
@@ -109,7 +109,7 @@ const Videos: React.FC = () => {
             duration: editDuration,
           };
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const response = await axios.put(`${API_BASE_URL_PRO}/videos/${editingVideo.id}`, updatedVideo);
+          const response = await axios.put(`${API_BASE_URL_LOCAL}/videos/${editingVideo.id}`, updatedVideo);
           const updatedVideoList = videoList.map(video =>
             video.id === editingVideo.id ? { ...video, ...updatedVideo } : video
           );

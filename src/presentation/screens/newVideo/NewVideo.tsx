@@ -13,7 +13,7 @@ import {
 import { NewVideoProp, RootStackParamList, Route } from '../../interfaces/types';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
-import { API_BASE_URL_PRO } from '../../../config/config';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
 
 
 type NewVideoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
@@ -50,7 +50,7 @@ const NewVideo: React.FC = () => {
             if(boulderId){
                 try{
                     // Obtener las vías del rocódromo seleccionado
-                    const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${boulderId}/routes`);
+                    const response = await axios.get(`${API_BASE_URL_LOCAL}/boulder/${boulderId}/routes`);
                     setRoutes(response.data);
                 }catch(error){
                     console.error(error);
@@ -73,7 +73,7 @@ const NewVideo: React.FC = () => {
         };
 
         try{
-            const response = await axios.post(`${API_BASE_URL_PRO}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
+            const response = await axios.post(`${API_BASE_URL_LOCAL}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
 
             console.log(response.data);
             if (response.status === 201) {

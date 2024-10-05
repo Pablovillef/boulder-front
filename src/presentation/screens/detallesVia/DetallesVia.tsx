@@ -10,7 +10,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import axios from 'axios';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API_BASE_URL_PRO } from '../../../config/config';
+import { API_BASE_URL_LOCAL } from '../../../config/config';
 
 
 
@@ -71,7 +71,7 @@ const DetallesVia = () => {
               presa: editPresa,
             };
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const response = await axios.put(`${API_BASE_URL_PRO}/route/${editingRoute.idRoute}`, updatedRoute);
+            const response = await axios.put(`${API_BASE_URL_LOCAL}/route/${editingRoute.idRoute}`, updatedRoute);
             setEditModalVisible(false);
             handleHome();
           } catch (error) {
@@ -88,7 +88,7 @@ const DetallesVia = () => {
         console.log('User BouldersPress:', user);
         if(user !== null && user?.role !== 'WORKER'){ // Los que no tengan usuario (invitados) o sean WORKERS, no podran acceder a esta funcionalidad.
             try {
-                const response = await axios.get(`${API_BASE_URL_PRO}/boulders`);
+                const response = await axios.get(`${API_BASE_URL_LOCAL}/boulders`);
                 const boulderData = response.data;
                 navigation.navigate('Boulders', { boulderData, user });
             } catch (error) {
@@ -101,7 +101,7 @@ const DetallesVia = () => {
         console.log('User RoutesPress:', user);
         if(user !== null){ // Los que no tengan usuario (invitados) no podran acceder a esta funcionalidad.
             try {
-                const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${viaData.boulder.idBoulder}/routes`);
+                const response = await axios.get(`${API_BASE_URL_LOCAL}/boulder/${viaData.boulder.idBoulder}/routes`);
                 const routesData = response.data;
                 navigation.navigate('Vias', { boulder: viaData.boulder, routesData, user });
             } catch (error) {
@@ -139,7 +139,7 @@ const DetallesVia = () => {
     const handleNewVideo = async () => {
         try{
             if(user){
-                const response = await axios.get(`${API_BASE_URL_PRO}/boulders`);
+                const response = await axios.get(`${API_BASE_URL_LOCAL}/boulders`);
                 const boulders = response.data;
                 console.log(boulders);
                 navigation.navigate('NewVideo', { user, boulders } );
@@ -161,8 +161,8 @@ const DetallesVia = () => {
                       const videoId = item.id;
                       console.log(item.id);
 
-                      console.log(`${API_BASE_URL_PRO}/videos/${videoId}`);
-                      await axios.delete(`${API_BASE_URL_PRO}/videos/${videoId}`);
+                      console.log(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
+                      await axios.delete(`${API_BASE_URL_LOCAL}/videos/${videoId}`);
                       console.log(item);
                       console.log('Video eliminado:', item.title);
 
@@ -178,7 +178,7 @@ const DetallesVia = () => {
 
       const canDeleteRoute = async (idRoute: number): Promise<boolean> => {
         try {
-            const response = await axios.get(`${API_BASE_URL_PRO}/route/${idRoute}/videos`);
+            const response = await axios.get(`${API_BASE_URL_LOCAL}/route/${idRoute}/videos`);
             const videos = response.data;
             return videos;
         } catch (error) {
@@ -205,7 +205,7 @@ const DetallesVia = () => {
                         text: 'Eliminar',
                         onPress: async () => {
                             try {
-                                await axios.delete(`${API_BASE_URL_PRO}/route/${viaData.idRoute}`);
+                                await axios.delete(`${API_BASE_URL_LOCAL}/route/${viaData.idRoute}`);
                                 handleHome();
                             } catch (error) {
                                 console.error('Error al eliminar la ruta:', error);
