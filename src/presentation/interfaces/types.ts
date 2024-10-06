@@ -40,7 +40,6 @@ export interface Video {
   title: string;
   description?: string;
   url: string;
-  duration: number;
 }
 
 export interface Route {

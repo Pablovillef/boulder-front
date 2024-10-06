@@ -224,7 +224,7 @@ const Vias: React.FC = () => {
             <Text style={styles.label}>Color de las presas</Text>
             <TextInput
               style={styles.input}
-              placeholder="Duración"
+              placeholder="Color"
               value={editPresa}
               onChangeText={setEditPresa}
             />

@@ -34,7 +34,6 @@ const Videos: React.FC = () => {
     const [editModalVisible, setEditModalVisible] = useState<boolean>(false); // Estado para el modal
     const [editTitle, setEditTitle] = useState<string>('');
     const [editDescription, setEditDescription] = useState<string>('');
-    const [editDuration, setEditDuration] = useState<number>(0);
 
     const extractVideoId = (url: string) => {
       const match = url.match(
@@ -96,7 +95,6 @@ const Videos: React.FC = () => {
       setEditingVideo(item);
       setEditTitle(item.title);
       setEditDescription(item.description || '');
-      setEditDuration(item.duration);
       setEditModalVisible(true);
     };
 
@@ -106,7 +104,6 @@ const Videos: React.FC = () => {
           const updatedVideo = {
             title: editTitle,
             description: editDescription,
-            duration: editDuration,
           };
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const response = await axios.put(`${API_BASE_URL_LOCAL}/videos/${editingVideo.id}`, updatedVideo);
@@ -143,7 +140,6 @@ const Videos: React.FC = () => {
             </TouchableOpacity>
             <View style={styles.infoContainer}>
               <Text style={styles.author}>Descripción: {item.description || 'Sin descripción'}</Text>
-              <Text style={styles.time}>Duración: {item.duration} minutos</Text>
             </View>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
@@ -183,14 +179,6 @@ const Videos: React.FC = () => {
               onChangeText={setEditDescription}
             />
 
-            <Text style={styles.label}>Duración del vídeo</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Duración"
-              keyboardType="numeric"
-              value={editDuration.toString()}
-              onChangeText={(text) => setEditDuration(Number(text))}
-            />
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.saveButton} onPress={handleSaveEdit}>
                 <Text style={styles.buttonText}>Guardar</Text>

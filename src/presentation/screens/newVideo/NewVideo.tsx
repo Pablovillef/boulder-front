@@ -29,7 +29,6 @@ const NewVideo: React.FC = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [url, setUrl] = useState('');
-    const [duration, setDuration] = useState('');
     const [boulderName, setBoulderName] = useState('');
     const [routeName, setRouteName] = useState('');
 
@@ -67,7 +66,6 @@ const NewVideo: React.FC = () => {
             title,
             description,
             url,
-            duration,
             boulderName,
             routeName,
         };
@@ -120,19 +118,6 @@ const NewVideo: React.FC = () => {
                 value={url}
                 onChangeText={setUrl}
             />
-            <Text style={styles.label}>Duración del vídeo</Text>
-            <View style={styles.input}>
-                <Picker
-                    style={styles.picker}
-                    selectedValue={duration}
-                    onValueChange={(itemValue) => setDuration(itemValue)}
-                >
-                    <Picker.Item label="Seleccione duración..." value="" enabled={false} />
-                    {[...Array(10).keys()].map((value) => (
-                        <Picker.Item key={value + 1} label={`${value + 1} minutos`} value={`${value + 1}`} />
-                    ))}
-                </Picker>
-            </View>
 
             <Text style={styles.label}>Nombre del rocódromo</Text>
             <View style={styles.input}>

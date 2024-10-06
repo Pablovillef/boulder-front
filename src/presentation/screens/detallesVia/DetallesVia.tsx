@@ -305,7 +305,7 @@ const DetallesVia = () => {
             <Text style={styles.label}>Color de las presas</Text>
             <TextInput
               style={styles.input}
-              placeholder="Duración"
+              placeholder="Color"
               value={editPresa}
               onChangeText={setEditPresa}
             />
@@ -334,7 +334,6 @@ const DetallesVia = () => {
                         </TouchableOpacity>
                         <View style={styles.itemData}>
                             <Text style={styles.author}>Autor: {item.user.name}</Text>
-                            <Text style={styles.time}>Duración: {item.duration} minutos</Text>
                             {isWorker && (
                             <TouchableOpacity style={styles.deleteButton}>
                                 <Text style={styles.editButtonText} onPress={() => handleDelete(item)}>🗑️</Text>
