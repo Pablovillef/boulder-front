@@ -1,0 +1,11 @@
+/* eslint-disable prettier/prettier */
+// src/declarations.d.ts
+declare module '*.jpg' {
+    const value: any;
+    export default value;
+  }
+
+  declare module '*.png' {
+    const value: any;
+    export default value;
+  }

@@ -1,10 +1,12 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import { HomeProps } from '../../interfaces/types';
 import axios from 'axios';
 
 import { API_BASE_URL_LOCAL } from '../../../config/config';
+
+import background from '../../../assets/img/background.jpg';
 
 
 const Home: React.FC<HomeProps> = ({ navigation, route }) => {
@@ -82,6 +84,8 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
 
 
   return (
+    <>
+    <ImageBackground source={background} style={styles.background}>
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>HOME</Text>
@@ -127,16 +131,21 @@ const Home: React.FC<HomeProps> = ({ navigation, route }) => {
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logOutButtonText}>Cerrar Sesión</Text>
       </TouchableOpacity>
+
     </View>
+    </ImageBackground>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
     paddingTop: 50,
   },
   header: {

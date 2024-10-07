@@ -3,7 +3,7 @@
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 
-import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert, Modal, TextInput } from 'react-native';
+import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert, Modal, TextInput, ImageBackground } from 'react-native';
 import { RootStackParamList, Video, Route } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
@@ -12,7 +12,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { API_BASE_URL_LOCAL } from '../../../config/config';
 
-
+import background from '../../../assets/img/background.jpg';
 
 type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' | 'Vias'>;
@@ -221,6 +221,7 @@ const DetallesVia = () => {
 
     return (
         <>
+        <ImageBackground source={background} style={styles.background}>
         <View style={styles.headerContainer}>
         <View style={styles.headerBoulderData}>
             <TouchableOpacity style={styles.headerTextContainer} onPress={handleBouldersPress}>
@@ -348,11 +349,15 @@ const DetallesVia = () => {
                     <Text style={styles.cancelButtonText}>VOLVER</Text>
                 </TouchableOpacity>
             </SafeAreaView>
+            </ImageBackground>
         </>
     );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
     buttonText: {
         fontSize: 16,
       },
@@ -418,10 +423,10 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '100%',
         padding: 10,
-        backgroundColor: '#4CAF50',
         position: 'absolute',
         top: 0,
         zIndex: 1,
+        backgroundColor: '#e2e2e2',
     },
     headerBoulderData: {
         flexDirection: 'row',
@@ -440,6 +445,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: '#000',
     },
     headerText: {
         fontSize: 14,
@@ -447,6 +453,7 @@ const styles = StyleSheet.create({
     infoTitle: {
         fontSize: 16,
         fontWeight: 'bold',
+        color: '#000',
     },
     infoText: {
         fontSize: 14,
@@ -473,7 +480,6 @@ const styles = StyleSheet.create({
       },
     container: {
         flex: 1,
-        backgroundColor: '#f8f8f8',
         //marginBottom: 50,
         // Para insertar botones de atras, etc
     },
@@ -481,6 +487,7 @@ const styles = StyleSheet.create({
         marginTop: 120,
         paddingTop: 180,
         paddingBottom: 100,
+        opacity: 0.9,
     },
     itemContainer: {
         width: '100%',
@@ -495,14 +502,8 @@ const styles = StyleSheet.create({
     },
     author: {
         fontSize: 16,
-        color: '#555',
+        color: '#000000',
         marginTop: 5,
-    },
-    time: {
-        fontSize: 14,
-        color: '#777',
-        marginTop: 5,
-        marginBottom: 2,
     },
 });
 

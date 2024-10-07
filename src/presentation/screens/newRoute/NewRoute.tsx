@@ -2,6 +2,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import {
+    ImageBackground,
     StyleSheet,
     Text,
     TextInput,
@@ -14,6 +15,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
 import { API_BASE_URL_LOCAL } from '../../../config/config';
+
+import background from '../../../assets/img/background.jpg';
 
 
 
@@ -82,6 +85,7 @@ const NewRoute: React.FC = () => {
 
 
     return (
+        <ImageBackground source={background} style={styles.background}>
         <View style={styles.container}>
             <Text style={styles.title}>REGISTRO VIA</Text>
             <TextInput
@@ -138,11 +142,15 @@ const NewRoute: React.FC = () => {
                 <Text style={styles.cancelButtonText}>CANCELAR</Text>
             </TouchableOpacity>
         </View>
+        </ImageBackground>
     );
 
 };
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+      },
     container: {
       flex: 1,
       padding: 20,
