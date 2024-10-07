@@ -1,12 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Modal, Alert  } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, Modal, Alert, ImageBackground  } from 'react-native';
 import { useRoute, useNavigation  } from '@react-navigation/native';
 import { RootStackParamList, Route, ViasScreenRouteProp } from '../../interfaces/types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import axios from 'axios';
 
 import { API_BASE_URL_LOCAL } from '../../../config/config';
+
+import background from '../../../assets/img/background.jpg';
 
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'DetallesVia'>;
@@ -133,6 +135,8 @@ const Vias: React.FC = () => {
 
   return (
     <>
+    <ImageBackground source={background} style={styles.background}>
+
     <View style={styles.container}>
       <View style={styles.headerBoulderData}>
         <TouchableOpacity style={styles.header} onPress={() => handleBouldersPress()}>
@@ -146,6 +150,11 @@ const Vias: React.FC = () => {
           )}
         </TouchableOpacity>
       </View>
+
+      <View style={styles.headerSubtitle}>
+        <Text style={styles.headerSubtitleText}>VÍAS</Text>
+      </View>
+
       <View>
         <FlatList
           data={routeList}
@@ -239,32 +248,52 @@ const Vias: React.FC = () => {
           </View>
         </View>
       </Modal>
-      
+
     <TouchableOpacity style={styles.cancelButton} onPress={() => handleBackButton()}>
       <Text style={styles.cancelButtonText}>VOLVER</Text>
     </TouchableOpacity>
+    </ImageBackground>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  headerSubtitleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+
+  headerSubtitle: {
+    width: '100%',
+    backgroundColor: '#42A5F5',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#000',
+    borderWidth: 1,
+  },
+
+  background: {
+    flex: 1,
+  },
   cancelButtonModal: {
     padding: 10,
-    backgroundColor: '#f44336', // Color para el botón de cancelar
+    backgroundColor: '#F44336',
     borderRadius: 5,
     flex: 1,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20, // Separación entre los campos y los botones
+    marginTop: 20,
   },
   saveButton: {
     padding: 10,
-    backgroundColor: '#4CAF50', // Color para el botón de guardar
+    backgroundColor: '#4CAF50',
     borderRadius: 5,
     flex: 1,
-    marginRight: 10, // Separación entre los dos botones
+    marginRight: 10,
   },
   input: {
     borderBottomWidth: 1,
@@ -296,7 +325,7 @@ modalTitle: {
   editButton: {
     marginRight: 2,
     padding: 10,
-    backgroundColor: '#fbff00',
+    backgroundColor: '#FFEB3B',
     borderRadius: 5,
     borderColor: '#000',
     borderWidth: 1,
@@ -304,7 +333,7 @@ modalTitle: {
   },
   editButtonText: {
     fontSize: 18,
-    backgroundColor: '#fbff00',
+    backgroundColor: '#FFEB3B',
   },
   routeTextContainer: {
     flex: 1,
@@ -324,7 +353,7 @@ modalTitle: {
     fontSize: 16,
   },
   cancelButton: {
-    backgroundColor: '#FF6600',
+    backgroundColor: '#F44336',
     padding: 10,
     alignItems: 'center',
   },
@@ -334,11 +363,10 @@ modalTitle: {
   },
     container: {
       flex: 1,
-      backgroundColor: '#ffffff',
     },
     header: {
       padding: 10,
-      backgroundColor: '#d0f0b3',
+      backgroundColor: '#42A5F5',
       borderRadius: 10,
       borderColor: '#000',
       borderWidth: 1,
@@ -357,13 +385,13 @@ modalTitle: {
       borderWidth: 1,
       justifyContent: 'space-between',
       alignItems: 'center',
+      backgroundColor: '#e2e2e2',
     },
     routeText: {
       fontSize: 16,
     },
     headerBoulderData: {
       width: '100%',
-      backgroundColor: '#17bd93',
       padding: 10,
       alignItems: 'center',
       justifyContent: 'center',

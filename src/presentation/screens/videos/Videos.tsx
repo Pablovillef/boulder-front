@@ -10,6 +10,7 @@ import {
   Alert,
   Modal,
   TextInput,
+  ImageBackground,
 } from 'react-native';
 import { Video, VideosProp, VideosScreenNavigationProp } from '../../interfaces/types';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -18,6 +19,7 @@ import axios from 'axios';
 
 import { API_BASE_URL_LOCAL } from '../../../config/config';
 
+import background from '../../../assets/img/background.jpg';
 
 const Videos: React.FC = () => {
 
@@ -119,6 +121,7 @@ const Videos: React.FC = () => {
     };
 
   return (
+    <ImageBackground source={background} style={styles.background}>
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
          <Text style={styles.headerText}>Mis videos</Text>
@@ -194,11 +197,14 @@ const Videos: React.FC = () => {
                 <Text style={styles.cancelButtonText}>VOLVER</Text>
         </TouchableOpacity>
     </SafeAreaView>
-
+    </ImageBackground>
   ); // return
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
   label: {
     fontSize: 16,
     marginBottom: 5,
@@ -206,7 +212,7 @@ const styles = StyleSheet.create({
 },
   editButton: {
     marginRight: 2,
-    backgroundColor: '#fbff00',
+    backgroundColor: '#FFEB3B',
     borderRadius: 5,
     borderColor: '#000',
     borderWidth: 1,
@@ -220,7 +226,7 @@ editButtonText: {
     textAlign: 'center',
 },
   cancelButton: {
-    backgroundColor: '#FF6600',
+    backgroundColor: '#F44336',
     padding: 10,
     alignItems: 'center',
   },
@@ -230,14 +236,14 @@ editButtonText: {
   },
   header: {
     width: '100%',
-    backgroundColor: '#ccff00',
+    backgroundColor: '#42A5F5',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   headerUserData: {
     width: '100%',
-    backgroundColor: '#17bd93',
+    backgroundColor: '#42A5F5',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -245,6 +251,7 @@ editButtonText: {
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#000',
   },
   subtitle: {
     color: '#000',
@@ -255,10 +262,11 @@ editButtonText: {
   },
   itemContainer: {
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#42A5F5',
     padding: 15,
     marginVertical: 8,
     borderRadius: 5,
+    opacity: 0.9,
   },
   buttonsContainer: {
     flexDirection: 'row',
@@ -279,7 +287,6 @@ editButtonText: {
   },
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
   },
   modalContainer: {
     flex: 1,
@@ -306,18 +313,18 @@ editButtonText: {
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20, // Separación entre los campos y los botones
+    marginTop: 20,
   },
   saveButton: {
     padding: 10,
-    backgroundColor: '#4CAF50', // Color para el botón de guardar
+    backgroundColor: '#4CAF50',
     borderRadius: 5,
     flex: 1,
-    marginRight: 10, // Separación entre los dos botones
+    marginRight: 10,
   },
   cancelButtonModal: {
     padding: 10,
-    backgroundColor: '#f44336', // Color para el botón de cancelar
+    backgroundColor: '#f44336',
     borderRadius: 5,
     flex: 1,
   },

@@ -2,6 +2,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import {
+    ImageBackground,
     StyleSheet,
     Text,
     TextInput,
@@ -14,6 +15,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
 import { API_BASE_URL_LOCAL } from '../../../config/config';
+
+import background from '../../../assets/img/background.jpg';
 
 
 
@@ -66,15 +69,15 @@ const NewRoute: React.FC = () => {
     const renderHelpText = () => {
         switch (focusedField) {
             case 'qrRoute':
-                return 'Formato obligatorio: <Nombre Rocodromo>/<Numero Via> Ejemplo: Treparriscos/1';
+                return '(*) Formato obligatorio: <Nombre Rocodromo>/<Numero Via> Ejemplo: Treparriscos/1';
             case 'name':
-                return 'Debe contener entre 3 y 20 caracteres.';
+                return '(*) Debe contener entre 3 y 20 caracteres.';
             case 'typeRoute':
-                return 'Valores esperados: BOULDER o WALL_ROUTE';
+                return '(*) Valores esperados: BOULDER o WALL_ROUTE';
             case 'num_nivel':
-                return 'Debe ser un número entero del 1 al 10.';
+                return '(*) Debe ser un número del 1 al 10.';
             case 'presa':
-                return 'Especifica el color principal de las presas.';
+                return '(*) Especifica el color principal de las presas.';
             default:
                 return null;
         }
@@ -82,8 +85,12 @@ const NewRoute: React.FC = () => {
 
 
     return (
+        <ImageBackground source={background} style={styles.background}>
         <View style={styles.container}>
-            <Text style={styles.title}>REGISTRO VIA</Text>
+            <View style={styles.header}>
+                <Text style={styles.headerText}>REGISTRO VIA</Text>
+            </View>
+            <Text style={styles.label}>Texto del QR</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Texto QR"
@@ -92,6 +99,7 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('qrRoute')}
                 onBlur={() => setFocusedField(null)}
             />
+            <Text style={styles.label}>Nombre de la ruta</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Nombre de la ruta"
@@ -100,6 +108,7 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('name')}
                 onBlur={() => setFocusedField(null)}
             />
+            <Text style={styles.label}>Tipo de ruta: 'BOULDER' o 'WALL ROUTE'</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Tipo de ruta"
@@ -108,6 +117,7 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('typeRoute')}
                 onBlur={() => setFocusedField(null)}
             />
+            <Text style={styles.label}>Nivel de la ruta (1 - 10)</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Nivel de ruta"
@@ -116,6 +126,7 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('num_nivel')}
                 onBlur={() => setFocusedField(null)}
             />
+            <Text style={styles.label}>Color de las presas</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Color de las presas"
@@ -138,20 +149,22 @@ const NewRoute: React.FC = () => {
                 <Text style={styles.cancelButtonText}>CANCELAR</Text>
             </TouchableOpacity>
         </View>
+        </ImageBackground>
     );
 
 };
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+      },
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: '#fff',
     },
     title: {
       fontSize: 24,
-      marginBottom: 20,
-      color: '#00CC00',
+      color: '#42A5F5',
     },
     input: {
       height: 40,
@@ -159,19 +172,26 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       marginBottom: 20,
       paddingHorizontal: 10,
+      backgroundColor: '#e2e2e2',
     },
     createButton: {
-      backgroundColor: '#00CC00',
+      marginTop: 30,
+      backgroundColor: '#4CAF50',
       padding: 10,
       alignItems: 'center',
       marginBottom: 10,
+    },
+    label: {
+        fontSize: 16,
+        marginBottom: 5,
+        color: '#333',
     },
     createButtonText: {
       color: '#fff',
       fontSize: 16,
     },
     cancelButton: {
-      backgroundColor: '#FF6600',
+      backgroundColor: '#F44336',
       padding: 10,
       alignItems: 'center',
     },
@@ -181,9 +201,23 @@ const styles = StyleSheet.create({
     },
     helpText: {
         fontSize: 12,
-        color: '#777',
+        color: '#000000',
         marginBottom: 20,
+        backgroundColor: '#F44336',
     },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000',
+    },
+    header: {
+        marginBottom: 20,
+        width: '100%',
+        backgroundColor: '#42A5F5',
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
 });
 
 export default NewRoute;
