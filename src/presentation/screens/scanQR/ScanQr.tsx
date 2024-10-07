@@ -65,7 +65,7 @@ const ScanQr = () => {
 
 const styles = StyleSheet.create({
   cancelButton: {
-    backgroundColor: '#FF6600',
+    backgroundColor: '#F44336',
     padding: 10,
     alignItems: 'center',
   },

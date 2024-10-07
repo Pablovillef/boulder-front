@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 24,
       marginBottom: 20,
-      color: '#00CC00',
+      color: '#42A5F5',
     },
     input: {
       height: 40,
@@ -181,7 +181,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     createButton: {
-      backgroundColor: '#00CC00',
+      marginTop: 100,
+      backgroundColor: '#4CAF50',
       padding: 10,
       alignItems: 'center',
       marginBottom: 10,
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
     },
     cancelButton: {
-      backgroundColor: '#FF6600',
+      backgroundColor: '#F44336',
       padding: 10,
       alignItems: 'center',
     },
@@ -203,6 +204,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         justifyContent: 'flex-start',
+        fontSize: 12,
     },
     label: {
         fontSize: 16,

@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    backgroundColor: '#ccff00',
+    backgroundColor: '#42A5F5',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   headerWorkerData: {
     marginTop: 5,
     width: '100%',
-    backgroundColor: '#17bd93',
+    backgroundColor: '#42A5F5',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   headerUserData: {
     marginTop: 5,
     width: '100%',
-    backgroundColor: '#17bd93',
+    backgroundColor: '#42A5F5',
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
@@ -165,30 +165,36 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#000',
   },
   button: {
     width: '80%',
     padding: 15,
     margin: 10,
     borderColor: '#000',
+    backgroundColor: '#4CAF50',
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
     fontSize: 16,
+    color: '#fff',
   },
   scanButton: {
     width: '80%',
     padding: 20,
-    marginTop: 20,
-    backgroundColor: '#b3e0ff',
+    marginTop: 130,
+    backgroundColor: '#42A5F5',
     alignItems: 'center',
     justifyContent: 'center',
+    borderColor: '#000',
+    borderWidth: 1,
   },
   scanButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#fff',
   },
   subtitle: {
     paddingTop: 20,
@@ -199,13 +205,16 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 60,
     marginTop: 20,
-    backgroundColor: '#f55252',
+    backgroundColor: '#F44336',
     alignItems: 'center',
     justifyContent: 'center',
+    borderColor: '#000',
+    borderWidth: 1,
   },
   logOutButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#fff',
   },
 });
 

@@ -80,36 +80,42 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#000',
   },
   forgot: {
-    color: '#000',
+    color: '#cacaca',
     marginBottom: 20,
   },
   signInButton: {
-    backgroundColor: '#B9FF00',
+    backgroundColor: '#4CAF50',
   },
-  signInText: {},
+  signInText: {
+    color: '#fff',
+  },
   registerButton: {
-    backgroundColor: '#FF6C00',
+    backgroundColor: '#4CAF50',
   },
-  registerText: {},
+  registerText: {
+    color: '#fff',
+  },
   scanButton: {
     width: '80%',
     height: 100,
     marginTop: 20,
-    backgroundColor: '#b3e0ff',
+    backgroundColor: '#42A5F5',
     alignItems: 'center',
     justifyContent: 'center',
   },
   scanButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: '#fff',
   },
 });
 

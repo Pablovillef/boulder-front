@@ -358,21 +358,21 @@ const styles = StyleSheet.create({
       },
     cancelButtonModal: {
       padding: 10,
-      backgroundColor: '#f44336', // Color para el botón de cancelar
+      backgroundColor: '#f44336',
       borderRadius: 5,
       flex: 1,
     },
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginTop: 20, // Separación entre los campos y los botones
+      marginTop: 20,
     },
     saveButton: {
       padding: 10,
-      backgroundColor: '#4CAF50', // Color para el botón de guardar
+      backgroundColor: '#4CAF50',
       borderRadius: 5,
       flex: 1,
-      marginRight: 10, // Separación entre los dos botones
+      marginRight: 10,
     },
     input: {
       borderBottomWidth: 1,
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         marginRight: 2,
-        backgroundColor: '#fbff00',
+        backgroundColor: '#FFEB3B',
         borderRadius: 5,
         borderColor: '#000',
         borderWidth: 1,
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '100%',
         padding: 10,
-        backgroundColor: '#17bd93',
+        backgroundColor: '#4CAF50',
         position: 'absolute',
         top: 0,
         zIndex: 1,
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor:'#d0f0b3',
+        backgroundColor:'#42A5F5',
         borderColor: '#000',
         borderWidth: 1,
     },
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
     editButton: {
         marginRight: 2,
         padding: 10,
-        backgroundColor: '#fbff00',
+        backgroundColor: '#FFEB3B',
         borderRadius: 5,
         borderColor: '#000',
         borderWidth: 1,
@@ -463,7 +463,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     cancelButton: {
-        backgroundColor: '#FF6600',
+        backgroundColor: '#F44336',
         padding: 10,
         alignItems: 'center',
       },
@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         width: '100%',
-        backgroundColor: '#c7eff0',
+        backgroundColor: '#42A5F5',
         padding: 15,
         marginVertical: 8,
         borderRadius: 5,

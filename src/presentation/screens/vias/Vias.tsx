@@ -239,7 +239,7 @@ const Vias: React.FC = () => {
           </View>
         </View>
       </Modal>
-      
+
     <TouchableOpacity style={styles.cancelButton} onPress={() => handleBackButton()}>
       <Text style={styles.cancelButtonText}>VOLVER</Text>
     </TouchableOpacity>
@@ -250,21 +250,21 @@ const Vias: React.FC = () => {
 const styles = StyleSheet.create({
   cancelButtonModal: {
     padding: 10,
-    backgroundColor: '#f44336', // Color para el botón de cancelar
+    backgroundColor: '#F44336',
     borderRadius: 5,
     flex: 1,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20, // Separación entre los campos y los botones
+    marginTop: 20,
   },
   saveButton: {
     padding: 10,
-    backgroundColor: '#4CAF50', // Color para el botón de guardar
+    backgroundColor: '#4CAF50',
     borderRadius: 5,
     flex: 1,
-    marginRight: 10, // Separación entre los dos botones
+    marginRight: 10,
   },
   input: {
     borderBottomWidth: 1,
@@ -296,7 +296,7 @@ modalTitle: {
   editButton: {
     marginRight: 2,
     padding: 10,
-    backgroundColor: '#fbff00',
+    backgroundColor: '#FFEB3B',
     borderRadius: 5,
     borderColor: '#000',
     borderWidth: 1,
@@ -304,7 +304,7 @@ modalTitle: {
   },
   editButtonText: {
     fontSize: 18,
-    backgroundColor: '#fbff00',
+    backgroundColor: '#FFEB3B',
   },
   routeTextContainer: {
     flex: 1,
@@ -324,7 +324,7 @@ modalTitle: {
     fontSize: 16,
   },
   cancelButton: {
-    backgroundColor: '#FF6600',
+    backgroundColor: '#F44336',
     padding: 10,
     alignItems: 'center',
   },
@@ -338,7 +338,7 @@ modalTitle: {
     },
     header: {
       padding: 10,
-      backgroundColor: '#d0f0b3',
+      backgroundColor: '#42A5F5',
       borderRadius: 10,
       borderColor: '#000',
       borderWidth: 1,
@@ -363,7 +363,7 @@ modalTitle: {
     },
     headerBoulderData: {
       width: '100%',
-      backgroundColor: '#17bd93',
+      backgroundColor: '#4CAF50',
       padding: 10,
       alignItems: 'center',
       justifyContent: 'center',
