@@ -4,5 +4,5 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/declarations.d.ts"
-  ]
+, "src/jest.config.js"  ]
 }
