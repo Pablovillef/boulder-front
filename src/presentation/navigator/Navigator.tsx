@@ -12,6 +12,7 @@ import Vias from '../screens/vias/Vias';
 import NewRoute from '../screens/newRoute/NewRoute';
 import NewVideo from '../screens/newVideo/NewVideo';
 import Videos from '../screens/videos/Videos';
+import React from 'react';
 
 const Stack = createStackNavigator<RootStackParamList>();
 

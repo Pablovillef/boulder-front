@@ -1,3 +1,10 @@
+/* eslint-disable prettier/prettier */
 module.exports = {
-  presets: ['module:@react-native/babel-preset'],
+  presets: [
+    'module:metro-react-native-babel-preset',
+    '@babel/preset-typescript',
+    '@babel/preset-env',
+    '@babel/preset-react',
+  ],
+
 };
