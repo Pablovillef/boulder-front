@@ -26,18 +26,30 @@ const Login: React.FC = () => {
     try{
       console.log(`${API_BASE_URL_LOCAL}/auth/login`);
       const response = await axios.post(`${API_BASE_URL_LOCAL}/auth/login`, {
-
         email,
         password,
-      });
-
-
-
+      }, { timeout: 3000 });
       const userData = response.data;
-      navigation.navigate('Home', { user: userData });
+      navigation.navigate('Home', { user: userData});
 
-    } catch (error) {
-      Alert.alert('Error', 'An error occurred. Please try again.');
+    } catch (error: any) {
+      // Manejo de errores de conexión
+      if (error.code === 'ERR_NETWORK') {
+        Alert.alert('Error de Red', 'Verifica tu conexión a Internet e inténtalo nuevamente.');
+      } else if (error.response) {
+        // Manejo de errores de autenticación
+        if (error.response.status === 404) {
+          Alert.alert('Error', 'Usuario no encontrado. Verifica tus credenciales.');
+        } else if (error.response.status === 401) {
+          Alert.alert('Error', 'Credenciales inválidas. Intenta de nuevo.');
+        } else {
+          const message = error.response.data || 'Ocurrió un error. Intenta de nuevo.';
+          Alert.alert('Error', message);
+        }
+      } else {
+        console.error('PATATA ' + error.response.status);
+        Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+      }
     }
 
   };

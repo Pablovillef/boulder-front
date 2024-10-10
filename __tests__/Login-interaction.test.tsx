@@ -9,7 +9,7 @@ jest.mock('@react-navigation/native', () => {
     return {
       ...jest.requireActual('@react-navigation/native'),
       useNavigation: () => ({
-        navigate: jest.fn(), // Mock de la función navigate
+        navigate: jest.fn(),
       }),
     };
 });
@@ -24,7 +24,7 @@ test('Permite al usuario ingresar email y contraseña', () => {
         <NavigationContainer>
           <Login />
         </NavigationContainer>
-      );
+    );
 
     const emailInput = getByPlaceholderText('Email');
     const passwordInput = getByPlaceholderText('Password');
