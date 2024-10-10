@@ -5,6 +5,7 @@ import { render, fireEvent } from '@testing-library/react-native';
 import React from 'react';
 import Login from '../src/presentation/screens/login/login';
 import { NavigationContainer } from '@react-navigation/native';
+import { Alert } from 'react-native';
 
 jest.mock('axios');
 
@@ -15,16 +16,20 @@ jest.mock('@react-navigation/native', () => {
     return {
       ...jest.requireActual('@react-navigation/native'),
       useNavigation: () => ({
-        navigate: mockNavigate, // Mock de la función navigate
+        navigate: mockNavigate,
       }),
     };
 });
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+/*
+En este test se comprueba que tras una navegación exitosa, verifica
+que la app navegue correctamente a la pantalla "Home", y que los datos
+del usuario se pasen de forma correcta.
+*/
 test('Llamada exitosa de inicio de sesión navega a la pantalla Home', async () => {
 
-    // Set up the mock response for axios post
     mockedAxios.post.mockResolvedValueOnce({
         data: { user: { id: 1, name: 'Test User' } },
     });
@@ -46,3 +51,28 @@ test('Llamada exitosa de inicio de sesión navega a la pantalla Home', async () 
 
     expect(mockNavigate).toHaveBeenCalledWith('Home', { user: { id: 1, name: 'Test User' } });
 });
+
+/*
+En este test se comprueba que tras una navegación fallida, se
+muestra una Alerta con el error.
+*/
+test('Muestra una alerta cuando la llamada de inicio de sesión falla', async () => {
+    mockedAxios.post.mockResolvedValueOnce(new Error('Error en la API'));
+
+    jest.spyOn(Alert, 'alert');
+
+    const { getByText, getByPlaceholderText } = render(
+        <NavigationContainer>
+            <Login />
+        </NavigationContainer>
+    );
+
+    fireEvent.changeText(getByPlaceholderText('Email'), 'usuario@example.com');
+    fireEvent.changeText(getByPlaceholderText('Password'), '123456');
+
+    await act(async () => {
+      fireEvent.press(getByText('SIGN IN'));
+    });
+
+    expect(Alert.alert).toHaveBeenCalledWith('Error', 'An error occurred. Please try again.');
+  });
