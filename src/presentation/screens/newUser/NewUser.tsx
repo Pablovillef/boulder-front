@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
@@ -39,7 +40,7 @@ const NewUser: React.FC = () => {
     const apiURL = `${API_BASE_URL_LOCAL}/user/enrollment`;
 
     try{
-        const response = await axios.post(apiURL, formData);
+        const response = await axios.post(apiURL, formData, { timeout: 4000 });
         console.log(response.data);
         console.warn(response.status);
         if (response.status === 201) { // Suponiendo que el código de respuesta 201 es para creación exitosa
@@ -49,8 +50,32 @@ const NewUser: React.FC = () => {
             console.warn('Error al crear el usuario');
         }
     }catch(error){
-        console.log(error);
-        console.warn('Error al crear el usuario');
+      console.log(error);
+
+      // Manejo de errores
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // Manejo de errores de la API
+          if (error.response.status === 400) { // Bad Request: Campos obligatorios vacíos
+            Alert.alert('Error', 'Todos los campos que son requeridos. Por favor, complete el formulario.');
+          }else if (error.response.status === 409) { // Conflicto: Email ya existe
+            Alert.alert('Error', 'El correo electrónico ya está en uso. Por favor, elige otro.');
+          } else if (error.response.status === 500) { // Error interno del servidor
+            Alert.alert('Error', 'Ocurrió un error en el servidor. Intenta nuevamente más tarde.');
+          } else {
+            Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+          }
+        } else if (error.code === 'ERR_NETWORK') {
+          // Manejo de error de red
+          Alert.alert('Error de Red', 'Verifica tu conexión a Internet e inténtalo nuevamente.');
+        } else {
+          // Otros errores
+          Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+        }
+      } else {
+        // Errores no relacionados con Axios
+        Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+      }
     }
   };
 
