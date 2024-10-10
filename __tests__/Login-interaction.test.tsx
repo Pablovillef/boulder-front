@@ -24,7 +24,7 @@ test('Permite al usuario ingresar email y contraseña', () => {
         <NavigationContainer>
           <Login />
         </NavigationContainer>
-      );
+    );
 
     const emailInput = getByPlaceholderText('Email');
     const passwordInput = getByPlaceholderText('Password');

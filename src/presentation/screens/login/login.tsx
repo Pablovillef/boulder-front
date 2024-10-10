@@ -26,7 +26,6 @@ const Login: React.FC = () => {
     try{
       console.log(`${API_BASE_URL_LOCAL}/auth/login`);
       const response = await axios.post(`${API_BASE_URL_LOCAL}/auth/login`, {
-
         email,
         password,
       });
@@ -34,7 +33,7 @@ const Login: React.FC = () => {
 
 
       const userData = response.data;
-      navigation.navigate('Home', { user: userData });
+      navigation.navigate('Home', { user: userData.user });
 
     } catch (error) {
       Alert.alert('Error', 'An error occurred. Please try again.');
