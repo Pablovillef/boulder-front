@@ -9,6 +9,10 @@ import Login from '../src/presentation/screens/login/login';
 
 import { NavigationContainer } from '@react-navigation/native';
 
+/*
+Verifica que la pantalla de inicio de sesión (Login) se renderice correctamente
+y que todos los elementos esenciales de la interfaz estén presentes
+*/
 test('La pantalla de Login se renderiza correctamente', () => {
   const { getByPlaceholderText, getByText } = render(
     <NavigationContainer>
