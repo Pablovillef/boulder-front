@@ -22,14 +22,19 @@ jest.mock('@react-navigation/native', () => {
 });
 
 // Mockeamos Alert.alert para poder verificar si fue llamada
-jest.spyOn(Alert, 'alert');
+jest.spyOn(Alert, 'alert').mockImplementation(() => {});
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+// Resetea todos los mocks después de cada prueba
+afterEach(() => {
+    jest.clearAllMocks();
+});
 
 
 
 /*
-En este test se comprueba que tras una navegación exitosa, verifica
+Test con navegación exitosa. Verifica
 que la app navegue correctamente a la pantalla "Home", y que los datos
 del usuario se pasen de forma correcta.
 */
@@ -57,14 +62,9 @@ test('Llamada exitosa de inicio de sesión navega a la pantalla Home', async () 
     expect(mockNavigate).toHaveBeenCalledWith('Home', { user: { id: 1, name: 'Test User' } });
 });
 
-/*
-En este test se comprueba que tras una navegación fallida, se
-muestra una Alerta con el error.
-*/
-test('Muestra una alerta cuando la llamada de inicio de sesión falla', async () => {
-    mockedAxios.post.mockRejectedValueOnce(new Error('Error en la API'));
-
-    jest.spyOn(Alert, 'alert');
+// Test para manejar un error de conexión
+test('Muestra alerta de error de red cuando no hay conexión', async () => {
+    mockedAxios.post.mockRejectedValueOnce({ code: 'ERR_NETWORK' });
 
     const { getByText, getByPlaceholderText } = render(
         <NavigationContainer>
@@ -76,11 +76,76 @@ test('Muestra una alerta cuando la llamada de inicio de sesión falla', async ()
     fireEvent.changeText(getByPlaceholderText('Password'), '123456');
 
     await act(async () => {
-      fireEvent.press(getByText('SIGN IN'));
+        fireEvent.press(getByText('SIGN IN'));
     });
 
-    // Esperar un momento para que el Alert pueda ser llamado
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    expect(Alert.alert).toHaveBeenCalledWith('Error de Red', 'Verifica tu conexión a Internet e inténtalo nuevamente.');
+});
 
-    expect(Alert.alert).toHaveBeenCalledWith('Error', 'An error occurred. Please try again.');
-  });
+// Test para manejar usuario no encontrado (404)
+test('Muestra alerta de usuario no encontrado', async () => {
+    mockedAxios.post.mockRejectedValueOnce({
+        response: { status: 404, data: 'User not found' },
+    });
+
+    const { getByText, getByPlaceholderText } = render(
+        <NavigationContainer>
+            <Login />
+        </NavigationContainer>
+    );
+
+    fireEvent.changeText(getByPlaceholderText('Email'), 'usuario@example.com');
+    fireEvent.changeText(getByPlaceholderText('Password'), '123456');
+
+    await act(async () => {
+        fireEvent.press(getByText('SIGN IN'));
+    });
+
+    expect(Alert.alert).toHaveBeenCalledWith('Error', 'Usuario no encontrado. Verifica tus credenciales.');
+});
+
+
+// Test para manejar credenciales inválidas (401)
+test('Muestra alerta de credenciales inválidas', async () => {
+    mockedAxios.post.mockRejectedValueOnce({
+        response: { status: 401, data: 'Invalid credentials' },
+    });
+
+    const { getByText, getByPlaceholderText } = render(
+        <NavigationContainer>
+            <Login />
+        </NavigationContainer>
+    );
+
+    fireEvent.changeText(getByPlaceholderText('Email'), 'usuario@example.com');
+    fireEvent.changeText(getByPlaceholderText('Password'), '123456');
+
+    await act(async () => {
+        fireEvent.press(getByText('SIGN IN'));
+    });
+
+    expect(Alert.alert).toHaveBeenCalledWith('Error', 'Credenciales inválidas. Intenta de nuevo.');
+});
+
+
+// Test para manejar un error general
+test('Muestra alerta de error general', async () => {
+    mockedAxios.post.mockRejectedValueOnce({
+        response: { data: 'An unexpected error occurred' },
+    });
+
+    const { getByText, getByPlaceholderText } = render(
+        <NavigationContainer>
+            <Login />
+        </NavigationContainer>
+    );
+
+    fireEvent.changeText(getByPlaceholderText('Email'), 'usuario@example.com');
+    fireEvent.changeText(getByPlaceholderText('Password'), '123456');
+
+    await act(async () => {
+        fireEvent.press(getByText('SIGN IN'));
+    });
+
+    expect(Alert.alert).toHaveBeenCalledWith('Error', 'An unexpected error occurred');
+});
