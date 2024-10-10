@@ -21,7 +21,12 @@ jest.mock('@react-navigation/native', () => {
     };
 });
 
+// Mockeamos Alert.alert para poder verificar si fue llamada
+jest.spyOn(Alert, 'alert');
+
 const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+
 
 /*
 En este test se comprueba que tras una navegación exitosa, verifica
@@ -31,7 +36,7 @@ del usuario se pasen de forma correcta.
 test('Llamada exitosa de inicio de sesión navega a la pantalla Home', async () => {
 
     mockedAxios.post.mockResolvedValueOnce({
-        data: { user: { id: 1, name: 'Test User' } },
+        data: { id: 1, name: 'Test User' },
     });
 
     const { getByText, getByPlaceholderText } = render(
@@ -57,7 +62,7 @@ En este test se comprueba que tras una navegación fallida, se
 muestra una Alerta con el error.
 */
 test('Muestra una alerta cuando la llamada de inicio de sesión falla', async () => {
-    mockedAxios.post.mockResolvedValueOnce(new Error('Error en la API'));
+    mockedAxios.post.mockRejectedValueOnce(new Error('Error en la API'));
 
     jest.spyOn(Alert, 'alert');
 
@@ -73,6 +78,9 @@ test('Muestra una alerta cuando la llamada de inicio de sesión falla', async ()
     await act(async () => {
       fireEvent.press(getByText('SIGN IN'));
     });
+
+    // Esperar un momento para que el Alert pueda ser llamado
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(Alert.alert).toHaveBeenCalledWith('Error', 'An error occurred. Please try again.');
   });

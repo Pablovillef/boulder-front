@@ -33,7 +33,7 @@ const Login: React.FC = () => {
 
 
       const userData = response.data;
-      navigation.navigate('Home', { user: userData.user });
+      navigation.navigate('Home', { user: userData});
 
     } catch (error) {
       Alert.alert('Error', 'An error occurred. Please try again.');
