@@ -2,6 +2,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import {
+    Alert,
     ImageBackground,
     StyleSheet,
     Text,
@@ -46,21 +47,59 @@ const NewRoute: React.FC = () => {
             presa,
         };
 
+        const qrPattern = /^[^/]+\/\d+$/;
+        if (!qrPattern.test(qrRoute)) {
+            Alert.alert('Error', 'El texto del QR debe seguir el formato <Nombre Rocodromo>/<Numero Via>. Ejemplo: Treparriscos/1');
+            return;
+        }
+
+        if (presa.trim() === '' || !isNaN(Number(presa))) {
+            Alert.alert('Error', 'El color de las presas es incorrecto.');
+            return;
+        }
+
+        const nivel = parseInt(num_nivel, 10);
+        if (isNaN(nivel) || nivel < 1 || nivel > 10) {
+            Alert.alert('Error', 'El nivel de la ruta debe ser un número entre 1 y 10.');
+            return;
+        }
+
         try{
 
-            const response = await axios.post(`${API_BASE_URL_LOCAL}/boulder/via/enrollment`, formData);
+            const response = await axios.post(`${API_BASE_URL_LOCAL}/boulder/via/enrollment`, formData, { timeout: 4000 });
 
             console.log(response.data);
             if (response.status === 201) {
-                console.warn('Ruta creada exitosamente');
-                navigation.navigate('Home', {user} );
+                Alert.alert('Éxito','La ruta ha sido creada.');
+                navigation.navigate('Home', { user } );
             } else {
                 console.warn('Error al crear la ruta');
             }
 
-        }catch(error){
+        }catch(error: any){
             console.log(error);
-            console.warn('Error al crear la ruta');
+            if(axios.isAxiosError(error)){
+                if(error.response){
+                    if(error.response.status === 400){
+                        Alert.alert('Error', 'Algunos campos han sido rellenados incorrectamente. Por favor, revise los datos del formulario.');
+                    }else if(error.response.status === 409){
+                        Alert.alert('Error', 'El QR o el nombre de la ruta ya está en uso. Por favor, elige otro.');
+                    }else if(error.response.status === 500){
+                        Alert.alert('Error', 'Ocurrió un error en el servidor. Intenta nuevamente más tarde.');
+                    }else{
+                        Alert.alert('Error', 'Por favor, seleccione un rocódromo y una vía.');
+                    }
+                } else if (error.code === 'ERR_NETWORK') {
+                    // Manejo de error de red
+                    Alert.alert('Error de Red', 'Verifica tu conexión a Internet e inténtalo nuevamente.');
+                } else {
+                    // Otros errores
+                    Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+                }
+            } else {
+                // Errores no relacionados con Axios
+                Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+            }
         }
     };
 
@@ -86,10 +125,10 @@ const NewRoute: React.FC = () => {
 
     return (
         <ImageBackground source={background} style={styles.background}>
+        <View style={styles.header}>
+            <Text style={styles.headerText}>REGISTRO VIA</Text>
+        </View>
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>REGISTRO VIA</Text>
-            </View>
             <Text style={styles.label}>Texto del QR</Text>
             <TextInput
                 style={styles.input}
@@ -99,6 +138,9 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('qrRoute')}
                 onBlur={() => setFocusedField(null)}
             />
+            {focusedField === 'qrRoute' && (
+                <Text style={styles.helpText}>{renderHelpText()}</Text>
+            )}
             <Text style={styles.label}>Nombre de la ruta</Text>
             <TextInput
                 style={styles.input}
@@ -108,6 +150,10 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('name')}
                 onBlur={() => setFocusedField(null)}
             />
+            {focusedField === 'name' && (
+                <Text style={styles.helpText}>{renderHelpText()}</Text>
+            )}
+
             <Text style={styles.label}>Tipo de ruta: 'BOULDER' o 'WALL ROUTE'</Text>
             <TextInput
                 style={styles.input}
@@ -117,6 +163,10 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('typeRoute')}
                 onBlur={() => setFocusedField(null)}
             />
+            {focusedField === 'typeRoute' && (
+                <Text style={styles.helpText}>{renderHelpText()}</Text>
+            )}
+
             <Text style={styles.label}>Nivel de la ruta (1 - 10)</Text>
             <TextInput
                 style={styles.input}
@@ -126,6 +176,10 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('num_nivel')}
                 onBlur={() => setFocusedField(null)}
             />
+            {focusedField === 'num_nivel' && (
+                <Text style={styles.helpText}>{renderHelpText()}</Text>
+            )}
+
             <Text style={styles.label}>Color de las presas</Text>
             <TextInput
                 style={styles.input}
@@ -135,11 +189,8 @@ const NewRoute: React.FC = () => {
                 onFocus={() => setFocusedField('presa')}
                 onBlur={() => setFocusedField(null)}
             />
-
-            {focusedField && (
-                <Text style={styles.helpText}>
-                    {renderHelpText()}
-                </Text>
+            {focusedField === 'presa' && (
+                <Text style={styles.helpText}>{renderHelpText()}</Text>
             )}
 
             <TouchableOpacity style={styles.createButton} onPress={handleCreateRoute}>
@@ -203,7 +254,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: '#000000',
         marginBottom: 20,
-        backgroundColor: '#F44336',
+        backgroundColor: '#42A5F5',
     },
     headerText: {
         fontSize: 20,
