@@ -323,6 +323,11 @@ const DetallesVia = () => {
       </Modal>
         </View>
             <SafeAreaView style={styles.container}>
+            {videoList.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No hay videos para mostrar.</Text>
+              </View>
+            ) : (
                 <FlatList
                     contentContainerStyle={styles.flatListContent}
                     data={videoList}
@@ -345,6 +350,7 @@ const DetallesVia = () => {
                     </>
                     )}
                 />
+            )}
                 <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
                     <Text style={styles.cancelButtonText}>VOLVER</Text>
                 </TouchableOpacity>
@@ -355,6 +361,16 @@ const DetallesVia = () => {
 };
 
 const styles = StyleSheet.create({
+
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+emptyText: {
+    fontSize: 18,
+    color: '#555',
+},
   background: {
     flex: 1,
   },
