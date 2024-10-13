@@ -97,8 +97,12 @@ const NewUser: React.FC = () => {
   return (
     <ImageBackground source={background} style={styles.background}>
       <View style={styles.overlay} />
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>REGISTRAR USUARIO</Text>
+      </View>
     <View style={styles.container}>
-      <Text style={styles.title}>REGISTRO USUARIO</Text>
+      <Text style={styles.label}>Nombre</Text>
       <TextInput
         style={styles.input}
         placeholder="Nombre"
@@ -107,6 +111,8 @@ const NewUser: React.FC = () => {
         onFocus={() => setFocusedField('name')}
         onBlur={() => setFocusedField(null)}
       />
+
+      <Text style={styles.label}>Apellido</Text>
       <TextInput
         style={styles.input}
         placeholder="Apellido"
@@ -115,12 +121,16 @@ const NewUser: React.FC = () => {
         onFocus={() => setFocusedField('surname')}
         onBlur={() => setFocusedField(null)}
       />
+
+      <Text style={styles.label}>Correo electrónico</Text>
       <TextInput
         style={styles.input}
         placeholder="Correo electronico"
         value={email}
         onChangeText={setEmail}
       />
+
+      <Text style={styles.label}>Contraseña</Text>
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
@@ -164,11 +174,6 @@ const styles = StyleSheet.create({
       flex: 1,
       padding: 20,
     },
-    title: {
-      fontSize: 24,
-      marginBottom: 20,
-      color: '#42A5F5',
-    },
     input: {
       height: 40,
       borderColor: '#000',
@@ -202,6 +207,23 @@ const styles = StyleSheet.create({
       color: '#777',
       marginBottom: 20,
     },
+    titleContainer: {
+      width: '100%',
+      backgroundColor: '#42A5F5',
+      padding: 5,
+      alignItems: 'center',
+      marginBottom: 10,
+  },
+  title: {
+    fontSize: 24,
+    color: '#000000',
+    fontWeight: 'bold',
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+  },
   });
 
 export default NewUser;
