@@ -3,6 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import {
+    Alert,
     ImageBackground,
     StyleSheet,
     Text,
@@ -65,6 +66,14 @@ const NewVideo: React.FC = () => {
     };
 
     const handleCreateVideo = async () => {
+
+        const youtubeUrlPattern = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})|(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/;
+
+        if (!youtubeUrlPattern.test(url)) {
+            Alert.alert('Error', 'La URL del video no es válida. Debe ser una URL de YouTube o YouTube Shorts.');
+            return;
+        }
+
         let formData = {
             title,
             description,
@@ -74,19 +83,40 @@ const NewVideo: React.FC = () => {
         };
 
         try{
-            const response = await axios.post(`${API_BASE_URL_LOCAL}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData);
+            const response = await axios.post(`${API_BASE_URL_LOCAL}/user/${user.idUser}/boulder/${boulderName}/via/${routeName}/video/add`, formData, { timeout: 4000 });
 
             console.log(response.data);
             if (response.status === 201) {
-                console.warn('Video creado exitosamente');
+                Alert.alert('Éxito','El vídeo ha sido añadido.');
                 navigation.navigate('Home', { user } );
             } else {
                 console.warn('Error al crear el video');
             }
 
-        }catch(error){
+        }catch(error: any){
             console.log(error);
-            console.warn('Error al crear el video');
+            if(axios.isAxiosError(error)){
+                if(error.response){
+                    if(error.response.status === 400){
+                        Alert.alert('Error', 'Algunos campos no han sido rellenados. Por favor, complete el formulario.');
+                    }else if(error.response.status === 409){
+                        Alert.alert('Error', 'Ese video ya está en uso. Por favor, elige otro.');
+                    }else if(error.response.status === 500){
+                        Alert.alert('Error', 'Ocurrió un error en el servidor. Intenta nuevamente más tarde.');
+                    }else{
+                        Alert.alert('Error', 'Por favor, seleccione un rocódromo y una vía.');
+                    }
+                } else if (error.code === 'ERR_NETWORK') {
+                    // Manejo de error de red
+                    Alert.alert('Error de Red', 'Verifica tu conexión a Internet e inténtalo nuevamente.');
+                } else {
+                    // Otros errores
+                    Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+                }
+            } else {
+                // Errores no relacionados con Axios
+                Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+            }
         }
     };
 
@@ -107,7 +137,7 @@ const NewVideo: React.FC = () => {
                 onChangeText={setTitle}
             />
 
-            <Text style={styles.label}>Descripción del vídeo</Text>
+            <Text style={styles.label}>Descripción del vídeo (Opcional)</Text>
 
             <TextInput
                 style={styles.input}
