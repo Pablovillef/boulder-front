@@ -1,12 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { BouldersScreenRouteProp, RootStackParamList } from '../../interfaces/types';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { API_BASE_URL_PRO } from '../../../config/config';
+
+import background from '../../../assets/img/background.jpg';
 
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Vias'>;
@@ -30,6 +32,12 @@ const Boulders: React.FC = () => {
 
     return (
       <>
+      <ImageBackground source={background} style={styles.background}>
+
+      <View style={styles.header}>
+        <Text style={styles.headerText}>ROCÓDROMOS</Text>
+      </View>
+
         <FlatList
             data={boulderData}
             keyExtractor={(item) => item.idBoulder.toString()}
@@ -51,13 +59,30 @@ const Boulders: React.FC = () => {
         <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('Home', { user })}>
           <Text style={styles.cancelButtonText}>VOLVER</Text>
         </TouchableOpacity>
+        </ImageBackground>
       </>
     );
 };
 
 const styles = StyleSheet.create({
+
+  header: {
+    width: '100%',
+    backgroundColor: '#42A5F5',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  background: {
+    flex: 1,
+  },
   cancelButton: {
-    backgroundColor: '#FF6600',
+    backgroundColor: '#F44336',
     padding: 10,
     alignItems: 'center',
   },
@@ -70,8 +95,9 @@ const styles = StyleSheet.create({
       marginVertical: 8,
       marginHorizontal: 16,
       borderRadius: 10,
-      borderColor: '#ccc',
+      borderColor:  '#000',
       borderWidth: 1,
+      backgroundColor: '#e2e2e2',
     },
     boulderText: {
       fontSize: 16,

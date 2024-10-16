@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ImageBackground,
+  Alert,
 } from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
@@ -13,6 +15,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../interfaces/types';
 
 import { API_BASE_URL_PRO } from '../../../config/config';
+
+import background from '../../../assets/img/background.jpg';
 
 
 
@@ -36,7 +40,7 @@ const NewUser: React.FC = () => {
     const apiURL = `${API_BASE_URL_PRO}/user/enrollment`;
 
     try{
-        const response = await axios.post(apiURL, formData);
+        const response = await axios.post(apiURL, formData, { timeout: 4000 });
         console.log(response.data);
         console.warn(response.status);
         if (response.status === 201) { // Suponiendo que el código de respuesta 201 es para creación exitosa
@@ -46,8 +50,32 @@ const NewUser: React.FC = () => {
             console.warn('Error al crear el usuario');
         }
     }catch(error){
-        console.log(error);
-        console.warn('Error al crear el usuario');
+      console.log(error);
+
+      // Manejo de errores
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // Manejo de errores de la API
+          if (error.response.status === 400) { // Bad Request: Campos obligatorios vacíos
+            Alert.alert('Error', 'Todos los campos que son requeridos. Por favor, complete el formulario.');
+          }else if (error.response.status === 409) { // Conflicto: Email ya existe
+            Alert.alert('Error', 'El correo electrónico ya está en uso. Por favor, elige otro.');
+          } else if (error.response.status === 500) { // Error interno del servidor
+            Alert.alert('Error', 'Ocurrió un error en el servidor. Intenta nuevamente más tarde.');
+          } else {
+            Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+          }
+        } else if (error.code === 'ERR_NETWORK') {
+          // Manejo de error de red
+          Alert.alert('Error de Red', 'Verifica tu conexión a Internet e inténtalo nuevamente.');
+        } else {
+          // Otros errores
+          Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+        }
+      } else {
+        // Errores no relacionados con Axios
+        Alert.alert('Error', 'Ocurrió un error inesperado. Intenta de nuevo.');
+      }
     }
   };
 
@@ -67,8 +95,14 @@ const NewUser: React.FC = () => {
 };
 
   return (
+    <ImageBackground source={background} style={styles.background}>
+      <View style={styles.overlay} />
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>REGISTRAR USUARIO</Text>
+      </View>
     <View style={styles.container}>
-      <Text style={styles.title}>REGISTRO USUARIO</Text>
+      <Text style={styles.label}>Nombre</Text>
       <TextInput
         style={styles.input}
         placeholder="Nombre"
@@ -77,6 +111,8 @@ const NewUser: React.FC = () => {
         onFocus={() => setFocusedField('name')}
         onBlur={() => setFocusedField(null)}
       />
+
+      <Text style={styles.label}>Apellido</Text>
       <TextInput
         style={styles.input}
         placeholder="Apellido"
@@ -85,12 +121,16 @@ const NewUser: React.FC = () => {
         onFocus={() => setFocusedField('surname')}
         onBlur={() => setFocusedField(null)}
       />
+
+      <Text style={styles.label}>Correo electrónico</Text>
       <TextInput
         style={styles.input}
         placeholder="Correo electronico"
         value={email}
         onChangeText={setEmail}
       />
+
+      <Text style={styles.label}>Contraseña</Text>
       <TextInput
         style={styles.input}
         placeholder="Contraseña"
@@ -114,19 +154,25 @@ const NewUser: React.FC = () => {
         <Text style={styles.cancelButtonText}>CANCELAR</Text>
       </TouchableOpacity>
     </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.6)', // Ajusta la opacidad aquí
+  },
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: '#fff',
-    },
-    title: {
-      fontSize: 24,
-      marginBottom: 20,
-      color: '#00CC00',
     },
     input: {
       height: 40,
@@ -134,9 +180,11 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       marginBottom: 20,
       paddingHorizontal: 10,
+      backgroundColor: '#f2f2f2',
     },
     createButton: {
-      backgroundColor: '#00CC00',
+      marginTop: 200,
+      backgroundColor: '#4CAF50',
       padding: 10,
       alignItems: 'center',
       marginBottom: 10,
@@ -146,7 +194,7 @@ const styles = StyleSheet.create({
       fontSize: 16,
     },
     cancelButton: {
-      backgroundColor: '#FF6600',
+      backgroundColor: '#F44336',
       padding: 10,
       alignItems: 'center',
     },
@@ -159,6 +207,23 @@ const styles = StyleSheet.create({
       color: '#777',
       marginBottom: 20,
     },
+    titleContainer: {
+      width: '100%',
+      backgroundColor: '#42A5F5',
+      padding: 5,
+      alignItems: 'center',
+      marginBottom: 10,
+  },
+  title: {
+    fontSize: 24,
+    color: '#000000',
+    fontWeight: 'bold',
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+  },
   });
 
 export default NewUser;

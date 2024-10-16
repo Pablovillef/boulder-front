@@ -3,7 +3,7 @@
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 
-import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert, Modal, TextInput } from 'react-native';
+import { Text, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Alert, Modal, TextInput, ImageBackground } from 'react-native';
 import { RootStackParamList, Video, Route } from '../../interfaces/types';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
@@ -12,7 +12,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { API_BASE_URL_PRO } from '../../../config/config';
 
-
+import background from '../../../assets/img/background.jpg';
 
 type DetallesViaScreenRouteProp = RouteProp<RootStackParamList, 'DetallesVia'>;
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Boulders' | 'Vias'>;
@@ -221,6 +221,7 @@ const DetallesVia = () => {
 
     return (
         <>
+        <ImageBackground source={background} style={styles.background}>
         <View style={styles.headerContainer}>
         <View style={styles.headerBoulderData}>
             <TouchableOpacity style={styles.headerTextContainer} onPress={handleBouldersPress}>
@@ -305,7 +306,7 @@ const DetallesVia = () => {
             <Text style={styles.label}>Color de las presas</Text>
             <TextInput
               style={styles.input}
-              placeholder="Duración"
+              placeholder="Color"
               value={editPresa}
               onChangeText={setEditPresa}
             />
@@ -322,6 +323,11 @@ const DetallesVia = () => {
       </Modal>
         </View>
             <SafeAreaView style={styles.container}>
+            {videoList.length === 0 ? (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No hay videos para mostrar.</Text>
+              </View>
+            ) : (
                 <FlatList
                     contentContainerStyle={styles.flatListContent}
                     data={videoList}
@@ -334,7 +340,6 @@ const DetallesVia = () => {
                         </TouchableOpacity>
                         <View style={styles.itemData}>
                             <Text style={styles.author}>Autor: {item.user.name}</Text>
-                            <Text style={styles.time}>Duración: {item.duration} minutos</Text>
                             {isWorker && (
                             <TouchableOpacity style={styles.deleteButton}>
                                 <Text style={styles.editButtonText} onPress={() => handleDelete(item)}>🗑️</Text>
@@ -345,35 +350,50 @@ const DetallesVia = () => {
                     </>
                     )}
                 />
+            )}
                 <TouchableOpacity style={styles.cancelButton} onPress={handleBack}>
                     <Text style={styles.cancelButtonText}>VOLVER</Text>
                 </TouchableOpacity>
             </SafeAreaView>
+            </ImageBackground>
         </>
     );
 };
 
 const styles = StyleSheet.create({
+
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+emptyText: {
+    fontSize: 18,
+    color: '#555',
+},
+  background: {
+    flex: 1,
+  },
     buttonText: {
         fontSize: 16,
       },
     cancelButtonModal: {
       padding: 10,
-      backgroundColor: '#f44336', // Color para el botón de cancelar
+      backgroundColor: '#f44336',
       borderRadius: 5,
       flex: 1,
     },
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginTop: 20, // Separación entre los campos y los botones
+      marginTop: 20,
     },
     saveButton: {
       padding: 10,
-      backgroundColor: '#4CAF50', // Color para el botón de guardar
+      backgroundColor: '#4CAF50',
       borderRadius: 5,
       flex: 1,
-      marginRight: 10, // Separación entre los dos botones
+      marginRight: 10,
     },
     input: {
       borderBottomWidth: 1,
@@ -406,7 +426,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         marginRight: 2,
-        backgroundColor: '#fbff00',
+        backgroundColor: '#FFEB3B',
         borderRadius: 5,
         borderColor: '#000',
         borderWidth: 1,
@@ -419,10 +439,10 @@ const styles = StyleSheet.create({
     headerContainer: {
         width: '100%',
         padding: 10,
-        backgroundColor: '#17bd93',
         position: 'absolute',
         top: 0,
         zIndex: 1,
+        backgroundColor: '#e2e2e2',
     },
     headerBoulderData: {
         flexDirection: 'row',
@@ -431,7 +451,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor:'#d0f0b3',
+        backgroundColor:'#42A5F5',
         borderColor: '#000',
         borderWidth: 1,
     },
@@ -441,6 +461,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: '#000',
     },
     headerText: {
         fontSize: 14,
@@ -448,6 +469,7 @@ const styles = StyleSheet.create({
     infoTitle: {
         fontSize: 16,
         fontWeight: 'bold',
+        color: '#000',
     },
     infoText: {
         fontSize: 14,
@@ -455,7 +477,7 @@ const styles = StyleSheet.create({
     editButton: {
         marginRight: 2,
         padding: 10,
-        backgroundColor: '#fbff00',
+        backgroundColor: '#FFEB3B',
         borderRadius: 5,
         borderColor: '#000',
         borderWidth: 1,
@@ -464,7 +486,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     cancelButton: {
-        backgroundColor: '#FF6600',
+        backgroundColor: '#F44336',
         padding: 10,
         alignItems: 'center',
       },
@@ -474,7 +496,6 @@ const styles = StyleSheet.create({
       },
     container: {
         flex: 1,
-        backgroundColor: '#f8f8f8',
         //marginBottom: 50,
         // Para insertar botones de atras, etc
     },
@@ -482,10 +503,11 @@ const styles = StyleSheet.create({
         marginTop: 120,
         paddingTop: 180,
         paddingBottom: 100,
+        opacity: 0.9,
     },
     itemContainer: {
         width: '100%',
-        backgroundColor: '#c7eff0',
+        backgroundColor: '#42A5F5',
         padding: 15,
         marginVertical: 8,
         borderRadius: 5,
@@ -496,14 +518,8 @@ const styles = StyleSheet.create({
     },
     author: {
         fontSize: 16,
-        color: '#555',
+        color: '#000000',
         marginTop: 5,
-    },
-    time: {
-        fontSize: 14,
-        color: '#777',
-        marginTop: 5,
-        marginBottom: 2,
     },
 });
 

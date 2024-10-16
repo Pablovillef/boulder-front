@@ -8,7 +8,9 @@ import axios from 'axios';
 
 import { API_BASE_URL_PRO } from '../../../config/config';
 
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity } from 'react-native';
+
+import background from '../../../assets/img/background.jpg';
 
 const ScanQr = () => {
 
@@ -48,6 +50,7 @@ const ScanQr = () => {
 
   return (
     <>
+    <ImageBackground source={background} style={styles.background}>
     <QRCodeScanner
         onRead={handleQrReaded}
         // flashMode={RNCamera.Constants.FlashMode.torch}
@@ -59,13 +62,17 @@ const ScanQr = () => {
     <TouchableOpacity style={styles.cancelButton} onPress={handleCancelButton}>
       <Text style={styles.cancelButtonText}>CANCELAR</Text>
     </TouchableOpacity>
+    </ImageBackground>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
   cancelButton: {
-    backgroundColor: '#FF6600',
+    backgroundColor: '#F44336',
     padding: 10,
     alignItems: 'center',
   },
