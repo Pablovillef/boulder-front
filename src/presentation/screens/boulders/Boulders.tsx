@@ -6,7 +6,7 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { API_BASE_URL_LOCAL } from '../../../config/config';
+import { API_BASE_URL_PRO } from '../../../config/config';
 
 import background from '../../../assets/img/background.jpg';
 
@@ -22,7 +22,7 @@ const Boulders: React.FC = () => {
 
     const handlePress = async (boulder: any) => {
         try {
-          const response = await axios.get(`${API_BASE_URL_LOCAL}/boulder/${boulder.idBoulder}/routes`);
+          const response = await axios.get(`${API_BASE_URL_PRO}/boulder/${boulder.idBoulder}/routes`);
           const routesData = response.data;
           navigation.navigate('Vias', { boulder, routesData, user });
         } catch (error) {

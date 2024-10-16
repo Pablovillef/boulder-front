@@ -15,7 +15,7 @@ import { NewRouteProp, RootStackParamList } from '../../interfaces/types';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 
-import { API_BASE_URL_LOCAL } from '../../../config/config';
+import { API_BASE_URL_PRO } from '../../../config/config';
 
 import background from '../../../assets/img/background.jpg';
 
@@ -66,7 +66,7 @@ const NewRoute: React.FC = () => {
 
         try{
 
-            const response = await axios.post(`${API_BASE_URL_LOCAL}/boulder/via/enrollment`, formData, { timeout: 4000 });
+            const response = await axios.post(`${API_BASE_URL_PRO}/boulder/via/enrollment`, formData, { timeout: 4000 });
 
             console.log(response.data);
             if (response.status === 201) {
